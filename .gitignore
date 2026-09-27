@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Firebase
+serviceAccountKey.json
+firebase-adminsdk-*.json
+
+# IDE
+.idea
+.vscode
+*.suo
+*.swp
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# TypeScript / build artifacts
+*.tsbuildinfo
+out
+dist
+
+# Vercel CLI
+.vercel
+
+# OS
+Thumbs.db
+desktop.ini

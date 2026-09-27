@@ -1,0 +1,194 @@
+"use client";
+
+import { useFormContext } from "react-hook-form";
+import { cn } from "@/lib/utils";
+
+type AnyErrors = Record<string, any>;
+
+/** Walk a dotted path ("members.0.email") into a react-hook-form errors object. */
+function getError(errors: AnyErrors, path: string): string | undefined {
+  let current: any = errors;
+  for (const part of path.split(".")) {
+    if (!current) return undefined;
+    current = current[part];
+  }
+  if (!current) return undefined;
+  return (current.root?.message as string) ?? (current.message as string) ?? undefined;
+}
+
+/**
+ * Shared input styling so every form in the site (registration, contact)
+ * renders identical fields. Exported for the rare case a field needs to be
+ * composed by hand.
+ */
+export const inputClassName =
+  "w-full rounded-lg border bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/40";
+
+const errorClassName = "border-red-500/50 focus:border-red-500/60 focus:ring-red-500/30";
+const normalClassName = "border-white/[0.1] focus:border-cyan-500/50";
+
+function FieldShell({
+  name,
+  label,
+  hint,
+  error,
+  children,
+}: {
+  name: string;
+  label: string;
+  hint?: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label
+        htmlFor={name}
+        className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-400"
+      >
+        {label}
+      </label>
+      {children}
+      {hint && !error && <p className="mt-1.5 text-xs text-gray-500">{hint}</p>}
+      {error && (
+        <p id={`${name}-error`} role="alert" className="mt-1.5 text-xs text-red-400">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Text / email / tel input bound to a react-hook-form field name.
+ * Form-agnostic: the surrounding <FormProvider> supplies the form context.
+ */
+export function TextField({
+  name,
+  label,
+  type = "text",
+  placeholder,
+  autoComplete,
+  inputMode,
+  hint,
+  maxLength,
+}: {
+  name: string;
+  label: string;
+  type?: string;
+  placeholder?: string;
+  autoComplete?: string;
+  inputMode?: "text" | "tel" | "email" | "numeric";
+  hint?: string;
+  maxLength?: number;
+}) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const error = getError(errors as AnyErrors, name);
+
+  return (
+    <FieldShell name={name} label={label} hint={hint} error={error}>
+      <input
+        id={name}
+        {...register(name as any)}
+        type={type}
+        placeholder={placeholder}
+        autoComplete={autoComplete}
+        inputMode={inputMode}
+        maxLength={maxLength}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={cn(inputClassName, error ? errorClassName : normalClassName)}
+      />
+    </FieldShell>
+  );
+}
+
+/** Native select bound to a react-hook-form field name. */
+export function SelectField({
+  name,
+  label,
+  options,
+  placeholder = "Select an option",
+  hint,
+}: {
+  name: string;
+  label: string;
+  options: readonly string[];
+  placeholder?: string;
+  hint?: string;
+}) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const error = getError(errors as AnyErrors, name);
+
+  return (
+    <FieldShell name={name} label={label} hint={hint} error={error}>
+      <select
+        id={name}
+        {...register(name as any)}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={cn(
+          inputClassName,
+          "appearance-none bg-[#0f172a]",
+          error ? errorClassName : normalClassName
+        )}
+      >
+        <option value="">{placeholder}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </FieldShell>
+  );
+}
+
+/** Multi-line textarea bound to a react-hook-form field name. */
+export function TextareaField({
+  name,
+  label,
+  placeholder,
+  rows = 5,
+  hint,
+  maxLength,
+}: {
+  name: string;
+  label: string;
+  placeholder?: string;
+  rows?: number;
+  hint?: string;
+  maxLength?: number;
+}) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const error = getError(errors as AnyErrors, name);
+
+  return (
+    <FieldShell name={name} label={label} hint={hint} error={error}>
+      <textarea
+        id={name}
+        {...register(name as any)}
+        rows={rows}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={cn(inputClassName, "resize-y", error ? errorClassName : normalClassName)}
+      />
+    </FieldShell>
+  );
+}
+
+export { getError };
