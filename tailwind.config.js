@@ -1,56 +1,104 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: "#f0f9ff",
-          100: "#e0f2fe",
-          200: "#bae6fd",
-          300: "#7dd3fc",
-          400: "#38bdf8",
-          500: "#06b6d4",
-          600: "#0284c7",
-          700: "#0369a1",
-          800: "#075985",
-          900: "#0c4a6e",
-          950: "#082f49",
+        // A2Z Academy brand palette (mirrors the a2zacademy.co.in design tokens)
+        brand: {
+          green: "#71bf43",
+          "green-hover": "#5fa536",
+          "green-soft": "#eaf6e1",
+          cyan: "#71bf43",
+          "cyan-hover": "#5fa536",
+          navy: "#1a335a",
+          "navy-deep": "#0f2340",
+          "navy-soft": "#eaf6e1",
+          red: "#d92d20",
+          "red-hover": "#b91c1c",
+          ink: "#333333",
+          "ink-strong": "#1a1a1a",
+          muted: "#666666",
+          surface: "#f7f7f7",
+          white: "#ffffff",
         },
-        navy: {
-          900: "#0a0f24",
-          800: "#0f172a",
-          700: "#1e293b",
+        // shadcn/ui semantic tokens (HSL channel triplets from globals.css).
+        // The reference site maps primary -> brand green and accent -> brand ink.
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          blue: "#3b82f6",
-          cyan: "#06b6d4",
-          electric: "#60a5fa",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["Fira Code", "monospace"],
+        sans: [
+          "var(--font-puvi)",
+          "Puvi",
+          "Inter",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif",
+        ],
+        display: ["var(--font-puvi)", "Puvi", "Inter", "system-ui", "sans-serif"],
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(ellipse at top, var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at var(--tw-angle), var(--tw-gradient-stops))",
-        "hero-gradient": "linear-gradient(135deg, #0a0f24 0%, #1e293b 50%, #0f172a 100%)",
-        "card-gradient": "linear-gradient(135deg, rgba(15, 23, 42, 0.45), rgba(10, 15, 36, 0.45))",
+        "hero-gradient": "linear-gradient(135deg, #ffffff 0%, #f7f7f7 55%, #eaf6e1 100%)",
+        "brand-gradient": "linear-gradient(135deg, #71bf43 0%, #5fa536 100%)",
+        "navy-gradient": "linear-gradient(135deg, #1a335a 0%, #0f2340 100%)",
+        "card-gradient": "linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(247, 247, 247, 0.95))",
       },
       boxShadow: {
-        "glass-sm": "0 4px 12px rgba(6, 172, 212, 0.12)",
-        glass: "0 8px 32px 0 rgba(6, 172, 212, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.05)",
-        "glass-lg": "0 16px 40px 0 rgba(6, 172, 212, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.07)",
+        "brand-sm": "0 4px 12px rgba(113, 191, 67, 0.15)",
+        brand: "0 8px 24px rgba(113, 191, 67, 0.22)",
+        "brand-lg": "0 16px 40px rgba(113, 191, 67, 0.28)",
+        "glass-sm": "0 4px 12px rgba(15, 35, 64, 0.08)",
+        card: "0 4px 24px rgba(15, 35, 64, 0.08)",
+        "card-hover": "0 12px 36px rgba(15, 35, 64, 0.14)",
+        navy: "0 10px 30px rgba(15, 35, 64, 0.25)",
       },
       backdropBlur: {
         xs: "2px",
+      },
+      borderRadius: {
+        brand: "0.5rem",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       animation: {
         "pulse-slow": "pulse 3s ease-in-out infinite",
@@ -65,5 +113,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
