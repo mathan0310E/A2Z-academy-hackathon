@@ -180,10 +180,10 @@ export default function RegistrationForm() {
                   className={cn(
                     "flex h-8 w-8 items-center justify-center rounded-full border text-xs font-bold transition-colors",
                     isDone
-                      ? "border-cyan-400/60 bg-cyan-500/20 text-cyan-300"
+                      ? "border-brand-green/60 bg-brand-green/20 text-brand-green-hover"
                       : isActive
-                        ? "border-cyan-400 bg-gradient-to-br from-cyan-500 to-blue-600 text-white"
-                        : "border-white/[0.12] bg-white/[0.03] text-gray-500"
+                        ? "border-brand-green bg-brand-green text-brand-ink"
+                        : "border-brand-navy/15 bg-brand-surface text-brand-muted"
                   )}
                 >
                   {isDone ? <Check className="h-4 w-4" /> : index + 1}
@@ -192,17 +192,17 @@ export default function RegistrationForm() {
                   <p
                     className={cn(
                       "text-sm font-semibold",
-                      isActive ? "text-white" : "text-gray-500"
+                      isActive ? "text-brand-navy" : "text-brand-muted"
                     )}
                   >
                     {item.title}
                   </p>
-                  <p className="text-xs text-gray-500">{item.description}</p>
+                  <p className="text-xs text-brand-muted">{item.description}</p>
                 </div>
               </div>
               {index < STEPS.length - 1 && (
                 <span
-                  className={cn("h-px w-6 sm:w-12", isDone ? "bg-cyan-400/60" : "bg-white/[0.12]")}
+                  className={cn("h-px w-6 sm:w-12", isDone ? "bg-brand-green/60" : "bg-brand-navy/15")}
                 />
               )}
             </div>
@@ -211,25 +211,28 @@ export default function RegistrationForm() {
       </div>
 
       <GlassCard>
-        {step === 0 && <StepTeam />}
+        {/* Keying by step replays the slide-in animation on every step change. */}
+        <div key={step} className="step-enter">
+          {step === 0 && <StepTeam />}
 
-        {step === 1 && <StepMembers />}
+          {step === 1 && <StepMembers />}
 
-        {step === 2 && (
-          <StepReview
-            confirmed={confirmed}
-            onConfirmedChange={(value) => {
-              setConfirmed(value);
-              setConfirmError(undefined);
-            }}
-            confirmError={confirmError}
-          />
-        )}
+          {step === 2 && (
+            <StepReview
+              confirmed={confirmed}
+              onConfirmedChange={(value) => {
+                setConfirmed(value);
+                setConfirmError(undefined);
+              }}
+              confirmError={confirmError}
+            />
+          )}
+        </div>
 
         {serverError && (
           <div
             role="alert"
-            className="mt-6 flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm text-red-400"
+            className="mt-6 flex items-start gap-2 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-brand-red"
           >
             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
             <span>{serverError}</span>
@@ -237,14 +240,14 @@ export default function RegistrationForm() {
         )}
 
         {/* Navigation */}
-        <div className="mt-8 flex items-center justify-between gap-3 border-t border-white/[0.06] pt-6">
+        <div className="mt-8 flex items-center justify-between gap-3 border-t border-brand-navy/10 pt-6">
           <button
             type="button"
             onClick={() => setStep((current) => Math.max(0, current - 1))}
             disabled={step === 0 || isSubmitting}
             className={cn(
-              "inline-flex items-center gap-2 rounded-lg border border-white/[0.15] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-gray-200 transition-colors hover:border-cyan-500/40 hover:text-white",
-              (step === 0 || isSubmitting) && "cursor-not-allowed opacity-40 hover:border-white/[0.15]"
+              "inline-flex items-center gap-2 rounded-lg border-2 border-brand-green bg-white px-5 py-2.5 text-sm font-medium text-brand-ink transition-colors hover:bg-brand-green-soft",
+              (step === 0 || isSubmitting) && "cursor-not-allowed opacity-40 hover:border-brand-navy/15"
             )}
           >
             <ArrowLeft className="h-4 w-4" />
@@ -256,7 +259,7 @@ export default function RegistrationForm() {
             onClick={handlePrimary}
             disabled={isSubmitting}
             className={cn(
-              "inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition-transform",
+              "inline-flex items-center gap-2 rounded-lg bg-brand-green hover:bg-brand-green-hover px-6 py-2.5 text-sm font-semibold text-brand-ink-strong shadow-brand transition-transform",
               isSubmitting ? "cursor-wait opacity-70" : "hover:scale-105"
             )}
           >

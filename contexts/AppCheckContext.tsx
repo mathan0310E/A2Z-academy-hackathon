@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from "firebase/app-check";
 import { getFirebaseApp } from "@/firebase/client";
 
 const AppCheckContext = createContext<{ initialized: boolean; error: string | null } | undefined>(undefined);
@@ -20,18 +19,25 @@ export function AppCheckProvider({ children }: { children: ReactNode }) {
       setState({ initialized: false, error: "reCAPTCHA site key not configured" });
       return;
     }
-    try {
-      const app = getFirebaseApp();
-      const appCheck: AppCheck = initializeAppCheck(app, {
-        provider: new ReCaptchaV3Provider(siteKey),
-        isTokenAutoRefreshEnabled: true,
+    let cancelled = false;
+    // Deferred import keeps firebase/app-check out of the initial bundle.
+    import("firebase/app-check")
+      .then(async ({ initializeAppCheck, ReCaptchaV3Provider }) => {
+        if (cancelled) return;
+        const app = await getFirebaseApp();
+        initializeAppCheck(app, {
+          provider: new ReCaptchaV3Provider(siteKey),
+          isTokenAutoRefreshEnabled: true,
+        });
+        setState({ initialized: true, error: null });
+      })
+      .catch((error: any) => {
+        console.warn("App Check initialization failed:", error?.message);
+        if (!cancelled) setState({ initialized: false, error: error?.message || "Failed to init App Check" });
       });
-      void appCheck;
-      setState({ initialized: true, error: null });
-    } catch (error: any) {
-      console.warn("App Check initialization failed:", error?.message);
-      setState({ initialized: false, error: error?.message || "Failed to init App Check" });
-    }
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return <AppCheckContext.Provider value={state}>{children}</AppCheckContext.Provider>;

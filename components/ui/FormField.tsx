@@ -22,10 +22,10 @@ function getError(errors: AnyErrors, path: string): string | undefined {
  * composed by hand.
  */
 export const inputClassName =
-  "w-full rounded-lg border bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/40";
+  "w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-brand-navy placeholder:text-brand-muted/60 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-green/40";
 
-const errorClassName = "border-red-500/50 focus:border-red-500/60 focus:ring-red-500/30";
-const normalClassName = "border-white/[0.1] focus:border-cyan-500/50";
+const errorClassName = "border-red-500/60 focus:border-red-500 focus:ring-red-500/30";
+const normalClassName = "border-brand-navy/15 focus:border-brand-green focus:ring-brand-green/30";
 
 function FieldShell({
   name,
@@ -44,12 +44,12 @@ function FieldShell({
     <div>
       <label
         htmlFor={name}
-        className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-400"
+        className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-brand-muted"
       >
         {label}
       </label>
       {children}
-      {hint && !error && <p className="mt-1.5 text-xs text-gray-500">{hint}</p>}
+      {hint && !error && <p className="mt-1.5 text-xs text-brand-muted/80">{hint}</p>}
       {error && (
         <p id={`${name}-error`} role="alert" className="mt-1.5 text-xs text-red-400">
           {error}
@@ -137,7 +137,7 @@ export function SelectField({
         aria-describedby={error ? `${name}-error` : undefined}
         className={cn(
           inputClassName,
-          "appearance-none bg-[#0f172a]",
+          "appearance-none bg-white",
           error ? errorClassName : normalClassName
         )}
       >

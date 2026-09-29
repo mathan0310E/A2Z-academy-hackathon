@@ -15,6 +15,7 @@ import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/content";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/hackathon" },
   title: "Hackathon",
   description:
     "A2Z Academy Tech-Based Hackathon overview — team size, team types, rounds, venue, and participation fee.",
@@ -63,12 +64,12 @@ export default function HackathonPage() {
               {details.map(({ Icon, label, value }) => (
                 <RevealItem key={label}>
                   <div className="flex items-start gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-green-soft text-brand-green">
                       <Icon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-gray-500">{label}</p>
-                      <p className="font-medium text-white">{value}</p>
+                      <p className="text-xs uppercase tracking-wider text-brand-muted">{label}</p>
+                      <p className="font-medium text-brand-navy">{value}</p>
                     </div>
                   </div>
                 </RevealItem>
@@ -82,11 +83,11 @@ export default function HackathonPage() {
           {ROUNDS_SUMMARY.map((round, index) => (
             <RevealItem key={round.title} className="h-full">
               <GlassCard className="h-full p-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+                <span className="text-xs font-semibold uppercase tracking-wider text-brand-green">
                   Round {index + 1}
                 </span>
-                <h3 className="mt-2 mb-2 text-base font-semibold text-white">{round.title}</h3>
-                <p className="text-sm text-gray-400">{round.detail}</p>
+                <h3 className="mt-2 mb-2 text-base font-semibold text-brand-navy">{round.title}</h3>
+                <p className="text-sm text-brand-muted">{round.detail}</p>
               </GlassCard>
             </RevealItem>
           ))}
@@ -94,11 +95,11 @@ export default function HackathonPage() {
 
         {/* Notice */}
         <Reveal>
-          <GlassCard className="border-amber-500/20 bg-amber-500/5 p-6">
+          <GlassCard className="border-amber-300 bg-amber-50 p-6">
             <div className="flex items-start gap-3">
-              <Info className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
-              <div className="text-sm text-amber-100">
-                <p className="mb-2 font-semibold text-amber-300">
+              <Info className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+              <div className="text-sm text-amber-900">
+                <p className="mb-2 font-semibold text-amber-700">
                   Dates &amp; timings are communicated via WhatsApp
                 </p>
                 <p className="mb-3">
@@ -120,7 +121,7 @@ export default function HackathonPage() {
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-cyan-500/25 transition-transform hover:scale-105"
+            className="inline-flex items-center gap-2 rounded-lg bg-brand-green hover:bg-brand-green-hover px-6 py-3 font-semibold text-brand-ink-strong shadow-brand transition-transform hover:scale-105"
           >
             Start Registration
             <ArrowRight className="h-4 w-4" />
@@ -129,7 +130,7 @@ export default function HackathonPage() {
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-3 font-semibold text-white shadow-lg shadow-green-500/25 transition-transform hover:scale-105"
+            className="inline-flex items-center gap-2 rounded-lg bg-brand-green hover:bg-brand-green-hover px-6 py-3 font-semibold text-brand-ink-strong shadow-brand transition-transform hover:scale-105"
           >
             <MessageCircle className="h-4 w-4" />
             Join Official WhatsApp Group

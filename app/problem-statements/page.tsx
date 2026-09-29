@@ -4,6 +4,7 @@ import ImportantNotice from "@/components/ImportantNotice";
 import ProblemStatementsList from "@/components/ProblemStatementsList";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/problem-statements" },
   title: "Problem Statements",
   description:
     "Problem statements for the A2Z Academy Tech-Based Hackathon. Browse the published themes and domains — no selection is required during registration.",

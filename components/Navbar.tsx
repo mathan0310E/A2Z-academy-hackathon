@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Zap } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BrandLogo from "@/components/BrandLogo";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -21,6 +21,8 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
   const pathname = usePathname();
 
   // Close mobile menu on route change
@@ -28,109 +30,114 @@ export default function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(window.scrollY / max, 1) : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   };
 
   return (
-    <nav className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-[#0a0f24]/70 backdrop-blur-xl">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+    <nav
+      className={cn(
+        "sticky top-0 z-40 w-full border-b border-brand-navy/10 bg-white/95 backdrop-blur-md transition-shadow",
+        scrolled && "shadow-card"
+      )}
+    >
+      {/* Reading progress indicator */}
+      <span
+        aria-hidden="true"
+        className="absolute bottom-0 left-0 h-0.5 origin-left bg-brand-green transition-transform duration-150 ease-out"
+        style={{ width: "100%", transform: `scaleX(${progress})` }}
+      />
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:h-18 md:px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <motion.div
-            initial={{ rotate: 0 }}
-            animate={{ rotate: [0, -10, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 8 }}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500"
-          >
-            <Zap className="h-5 w-5 text-white" />
-          </motion.div>
-          <span className="text-xl font-bold text-white">
-            A2Z <span className="text-cyan-400">Academy</span>
-          </span>
+        <Link href="/" className="flex items-center" aria-label="A2Z Academy home">
+          <BrandLogo wordmarkClassName="text-brand-navy" />
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-0.5 lg:flex">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                "relative rounded-md px-3.5 py-2 text-sm font-medium transition-colors",
-                isActive(href)
-                  ? "text-cyan-300"
-                  : "text-gray-300 hover:text-white"
+                "relative rounded-md px-3 py-2 text-sm font-semibold transition-colors",
+                isActive(href) ? "text-brand-green" : "text-brand-ink hover:text-brand-green"
               )}
             >
               {label}
               {isActive(href) && (
-                <motion.div
-                  layoutId="navbar-indicator"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500"
-                />
+                <span className="absolute -bottom-0.5 left-2 right-2 h-0.5 rounded-full bg-brand-green" />
               )}
             </Link>
           ))}
-          <Link
-            href="/register"
-            className="ml-2 rounded-md bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition-transform hover:scale-105"
-          >
+          <Link href="/register" className="btn-pill-primary ml-3 !px-5 !py-2.5">
             Register Now
           </Link>
         </div>
 
         {/* Mobile menu button */}
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <button
             type="button"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-md p-2 text-gray-300 hover:bg-white/5 hover:text-white"
+            className="rounded-md p-2 text-brand-navy hover:bg-brand-green-soft"
           >
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-white/[0.06] bg-[#0a0f24]/90 backdrop-blur-xl"
-          >
-            <div className="container mx-auto flex flex-col gap-1 px-4 py-3">
-              {navLinks.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setMobileOpen(false)}
-                  className={cn(
-                    "rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive(href)
-                      ? "bg-cyan-500/10 text-cyan-300"
-                      : "text-gray-300 hover:bg-white/5 hover:text-white"
-                  )}
-                >
-                  {label}
-                </Link>
-              ))}
-              <Link
-                href="/register"
-                onClick={() => setMobileOpen(false)}
-                className="mt-1 rounded-md bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-2.5 text-center text-sm font-semibold text-white"
-              >
-                Register Now
-              </Link>
-            </div>
-          </motion.div>
+      {/* Mobile Menu — CSS grid-rows transition keeps this server-renderable markup */}
+      <div
+        className={cn(
+          "grid overflow-hidden border-brand-navy/10 bg-white transition-all duration-200 lg:hidden",
+          mobileOpen ? "grid-rows-[1fr] border-t opacity-100" : "grid-rows-[0fr] opacity-0"
         )}
-      </AnimatePresence>
+      >
+        <div className="min-h-0">
+          <div className="container mx-auto flex flex-col gap-1 px-4 py-3">
+            {navLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  "rounded-md px-3 py-2.5 text-sm font-semibold transition-colors",
+                  isActive(href)
+                    ? "bg-brand-green-soft text-brand-green"
+                    : "text-brand-ink hover:bg-brand-green-soft hover:text-brand-green"
+                )}
+              >
+                {label}
+              </Link>
+            ))}
+            <Link
+              href="/register"
+              onClick={() => setMobileOpen(false)}
+              className="btn-pill-primary mt-2 w-full"
+            >
+              Register Now
+            </Link>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 }

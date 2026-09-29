@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface FaqItem {
@@ -12,7 +11,7 @@ interface FaqItem {
 
 /**
  * Accessible single-open accordion for the FAQ list.
- * Kept as a client component so the FAQ page itself can stay a Server Component.
+ * Expanded state drives a CSS grid-rows transition (no animation runtime).
  */
 export default function FaqAccordion({ items }: { items: FaqItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -27,7 +26,7 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
         return (
           <div
             key={item.question}
-            className="glass-card overflow-hidden rounded-xl border border-white/[0.06]"
+            className="glass-card overflow-hidden rounded-xl border border-brand-navy/10"
           >
             <button
               id={buttonId}
@@ -35,41 +34,39 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
               aria-expanded={isOpen}
               aria-controls={panelId}
               onClick={() => setOpenIndex(isOpen ? null : index)}
-              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/[0.03]"
+              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-brand-green-soft"
             >
               <span
                 className={cn(
                   "text-sm font-semibold sm:text-base",
-                  isOpen ? "text-cyan-300" : "text-white"
+                  isOpen ? "text-brand-green-hover" : "text-brand-navy"
                 )}
               >
                 {item.question}
               </span>
               <ChevronDown
                 className={cn(
-                  "h-5 w-5 shrink-0 text-cyan-400 transition-transform duration-300",
+                  "h-5 w-5 shrink-0 text-brand-green transition-transform duration-300",
                   isOpen && "rotate-180"
                 )}
               />
             </button>
 
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                >
-                  <p className="border-t border-white/[0.06] px-5 py-4 text-sm leading-relaxed text-gray-400">
-                    {item.answer}
-                  </p>
-                </motion.div>
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              className={cn(
+                "grid transition-all duration-300 ease-out",
+                isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
               )}
-            </AnimatePresence>
+            >
+              <div className="min-h-0 overflow-hidden">
+                <p className="border-t border-brand-navy/10 px-5 py-4 text-sm leading-relaxed text-brand-muted">
+                  {item.answer}
+                </p>
+              </div>
+            </div>
           </div>
         );
       })}

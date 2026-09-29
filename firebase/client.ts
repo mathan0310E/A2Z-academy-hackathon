@@ -1,11 +1,21 @@
-import { initializeApp, getApps, FirebaseApp } from "firebase/app";
-import { getFirestore, Firestore } from "firebase/firestore";
+import type { FirebaseApp } from "firebase/app";
+import type { Firestore } from "firebase/firestore";
 
 let firebaseApp: FirebaseApp | undefined;
 let db: Firestore | undefined;
 
-export function getFirebaseApp(): FirebaseApp {
+/**
+ * Firebase is very heavy (~200 kB), so the SDK is imported dynamically and only
+ * when a caller actually needs it. That keeps Firestore and App Check out of
+ * every page's initial JavaScript payload.
+ */
+async function loadSdk() {
+  return import("firebase/app");
+}
+
+export async function getFirebaseApp(): Promise<FirebaseApp> {
   if (!firebaseApp) {
+    const { initializeApp, getApps } = await loadSdk();
     const config = {
       apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
       authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -17,16 +27,15 @@ export function getFirebaseApp(): FirebaseApp {
     if (!config.apiKey) {
       throw new Error("Firebase API key is not configured");
     }
-    firebaseApp = getApps().length
-      ? getApps()[0]
-      : initializeApp(config);
+    firebaseApp = getApps().length ? getApps()[0] : initializeApp(config);
   }
   return firebaseApp;
 }
 
-export function getDb(): Firestore {
+export async function getDb(): Promise<Firestore> {
   if (!db) {
-    db = getFirestore(getFirebaseApp());
+    const { getFirestore } = await import("firebase/firestore");
+    db = getFirestore(await getFirebaseApp());
   }
   return db;
 }

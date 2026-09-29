@@ -9,6 +9,7 @@ export const metadata = {
   title: "A2Z Academy | Empowering Institutes with Tech-Based Training",
   description:
     "A2Z Academy Tech-Based Hackathon — explore problem statements, register your team of 2–4 members, and build innovative solutions.",
+  alternates: { canonical: "/" },
 };
 
 const PROVIDE_ICONS: Record<string, any> = { Laptop, Code, Award, Lightbulb, Trophy, Globe };
@@ -32,8 +33,8 @@ const JOURNEY = [
 function InfoItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-xs uppercase tracking-wider text-gray-500">{label}</span>
-      <span className="font-medium text-white">{value}</span>
+      <span className="text-xs uppercase tracking-wider text-brand-muted">{label}</span>
+      <span className="font-medium text-brand-navy">{value}</span>
     </div>
   );
 }
@@ -45,24 +46,24 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <div className="border-t border-white/[0.06]">
+      <div className="border-t border-brand-navy/10">
         <ImportantNotice />
       </div>
 
       {/* What A2Z Academy Provides */}
-      <SectionWrapper id="provides" className="bg-[#0a0f24]/50">
+      <SectionWrapper id="provides" className="bg-white">
         <SectionTitle title="What A2Z Academy Provides" subtitle="End-to-end technology education and innovation programs for institutes and students." />
         <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {siteConfig.provides.map(({ title, description, icon }) => {
             const Icon = PROVIDE_ICONS[icon] ?? ShieldCheck;
             return (
               <RevealItem key={title}>
-                <GlassCard className="group flex h-full flex-col items-center text-center transition-all duration-300 hover:border-cyan-500/30">
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 text-cyan-400 transition-colors group-hover:from-cyan-500/20">
+                <GlassCard className="group flex h-full flex-col items-center text-center transition-all duration-300 hover:border-brand-green/40">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green transition-colors group-hover:from-brand-green/20">
                     <Icon className="h-7 w-7" />
                   </div>
-                  <h3 className="mb-2 text-lg font-semibold text-white">{title}</h3>
-                  <p className="flex-1 text-sm text-gray-400">{description}</p>
+                  <h3 className="mb-2 text-lg font-semibold text-brand-navy">{title}</h3>
+                  <p className="flex-1 text-sm text-brand-muted">{description}</p>
                 </GlassCard>
               </RevealItem>
             );
@@ -71,23 +72,23 @@ export default function Home() {
       </SectionWrapper>
 
       {/* Why Participate */}
-      <SectionWrapper className="border-t border-white/[0.06]">
+      <SectionWrapper className="border-t border-brand-navy/10">
         <SectionTitle title="Why Participate" subtitle="More than a competition — it's a launchpad for your career in technology." />
         <RevealGroup className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {WHY_PARTICIPATE.map(({ title, description, Icon }) => (
             <RevealItem key={title} className="text-center">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 text-cyan-400">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green">
                 <Icon className="h-6 w-6" />
               </div>
-              <h4 className="mb-1 font-semibold text-white">{title}</h4>
-              <p className="text-xs text-gray-400">{description}</p>
+              <h4 className="mb-1 font-semibold text-brand-navy">{title}</h4>
+              <p className="text-xs text-brand-muted">{description}</p>
             </RevealItem>
           ))}
         </RevealGroup>
       </SectionWrapper>
 
       {/* Hackathon Overview */}
-      <SectionWrapper id="hackathon" className="border-t border-white/[0.06]">
+      <SectionWrapper id="hackathon" className="border-t border-brand-navy/10">
         <SectionTitle title="A2Z Academy Tech-Based Hackathon" subtitle="Empowering Institutes with Tech-Based Training" />
         <Reveal className="mx-auto max-w-3xl">
           <GlassCard className="p-6 sm:p-8">
@@ -100,18 +101,18 @@ export default function Home() {
               <InfoItem label="Shortlisting" value={info.shortlisting} />
               <InfoItem label="Communication" value={info.communication} />
             </div>
-            <div className="mt-6 rounded-lg border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
-              <strong className="font-semibold text-amber-300">Note:</strong> Round dates, timings, and exact instructions are communicated through the official WhatsApp group.
+            <div className="mt-6 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+              <strong className="font-semibold text-amber-700">Note:</strong> Round dates, timings, and exact instructions are communicated through the official WhatsApp group.
             </div>
           </GlassCard>
         </Reveal>
       </SectionWrapper>
 
       {/* Hackathon Journey */}
-      <SectionWrapper className="border-t border-white/[0.06]">
+      <SectionWrapper className="border-t border-brand-navy/10">
         <SectionTitle title="Hackathon Journey" subtitle="Your path from registration to victory" />
         <div className="relative mx-auto max-w-3xl">
-          <div className="absolute left-1/2 -ml-px h-full w-0.5 -translate-x-1/2 -translate-y-6 bg-gradient-to-b from-cyan-500 to-blue-600" />
+          <div className="absolute left-1/2 -ml-px h-full w-0.5 -translate-x-1/2 -translate-y-6 bg-gradient-to-b from-brand-green to-brand-green-hover" />
           <div className="space-y-10">
             {JOURNEY.map((step, idx) => (
               <Reveal key={step.label} direction={idx % 2 === 0 ? "left" : "right"} delay={idx * 0.05}>
@@ -119,17 +120,17 @@ export default function Home() {
                   <div className="w-full pl-16 md:ml-8 md:w-5/12 md:pl-0">
                     <GlassCard className="p-5">
                       <div className="mb-2 flex items-center gap-2">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-xs font-bold text-white">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-xs font-bold text-brand-ink">
                           {idx + 1}
                         </div>
-                        <span className="font-semibold text-cyan-400">{step.label}</span>
+                        <span className="font-semibold text-brand-green">{step.label}</span>
                       </div>
-                      <p className="text-sm text-gray-400">{step.detail}</p>
+                      <p className="text-sm text-brand-muted">{step.detail}</p>
                     </GlassCard>
                   </div>
                   <div className="absolute left-4 -ml-6 md:left-1/2 md:ml-0 md:-translate-x-1/2">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-cyan-500/30 bg-[#0a0f24]">
-                      <div className="h-3 w-3 rounded-full bg-cyan-400" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-brand-green/40 bg-brand-surface">
+                      <div className="h-3 w-3 rounded-full bg-brand-green" />
                     </div>
                   </div>
                 </div>

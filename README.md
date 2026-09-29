@@ -17,7 +17,7 @@ confirmation emails, published problem statements, and a contact channel.
 | Framework | Next.js 14 (App Router, Server Components by default) |
 | Language | TypeScript (strict) |
 | Styling | Tailwind CSS + glassmorphism utilities in `app/globals.css` |
-| Animation | Framer Motion **only inside client components** (see §7) |
+| Animation | CSS keyframes + IntersectionObserver reveals (no animation runtime) |
 | Forms | react-hook-form + zod (`@hookform/resolvers/zod`) |
 | Icons | lucide-react |
 | Database | Firestore — client SDK for public reads, Admin SDK for writes |
@@ -85,7 +85,7 @@ degrade to empty lists, and email failures never invalidate a registration. Only
 |   |-- icon.svg               favicon (served natively by the App Router)
 |   |-- globals.css
 |-- components/
-|   |-- ui/                    Reveal.tsx (framer-motion client wrapper), Section.tsx, FormField.tsx
+|   |-- ui/                    Reveal.tsx (IntersectionObserver reveal helpers), Section.tsx, FormField.tsx
 |   |-- register/              RegistrationForm + StepTeam/StepMembers/StepReview/SuccessPanel/Field
 |   |-- contact/               ContactForm.tsx (client)
 |   |-- Navbar.tsx, Hero.tsx, Footer.tsx, FaqAccordion.tsx, ImportantNotice.tsx,
@@ -167,13 +167,16 @@ publicContent/{about|hackathon|rounds|guidelines|faq}
 
 ## 8. Conventions & gotchas
 
-* **Framer Motion must never be imported by a Server Component.** `motion.div` in a file without
-  `"use client"` breaks the React Client Manifest at build time with
-  `Could not find the module ".../framer-motion/dist/es/index.mjs#motion#div"`.
-  Wrap animated content in the client helper `components/ui/Reveal`
-  (`Reveal`, `RevealGroup`, `RevealItem`) so pages stay Server Components and keep `metadata`.
+* **Animation is CSS-only — do not add an animation runtime.** Entrance, stagger, hover, and
+  route transitions come from plain CSS keyframes in `app/globals.css` (`reveal-item`,
+  `hero-enter-item`, `hover-lift`, `animate-float*`, `page-enter`). Scroll-triggered reveals use
+  the `IntersectionObserver` client helpers `Reveal` / `RevealGroup` / `RevealItem`
+  (`components/ui/Reveal.tsx`), which only toggle a `data-revealed` attribute — no `framer-motion`
+  import anywhere, so pages stay Server Components and keep `metadata`.
 * **Client boundary:** interactive/animated components start with `"use client"`; everything else
   stays a Server Component for SEO and payload size.
+* **Respect reduced motion:** every CSS animation has a `prefers-reduced-motion: reduce` branch —
+  add one when you introduce new motion.
 * **Shared form fields** live in `components/ui/FormField.tsx`; `components/register/Field.tsx`
   re-exports them so the registration flow is unchanged.
 * **Class names:** compose with `cn()` from `lib/utils` — no per-component `cn` helpers.

@@ -5,6 +5,7 @@ import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/content";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/what-we-provide" },
   title: "What We Provide",
   description:
     "Technology training, workshops, skill development, project development, hackathons, and institutional programs from A2Z Academy.",
@@ -35,12 +36,12 @@ export default function WhatWeProvidePage() {
 
           return (
             <RevealItem key={item.title} className="h-full">
-              <GlassCard className="group flex h-full flex-col text-center transition-all duration-300 hover:border-cyan-500/30">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 text-cyan-400 transition-colors group-hover:from-cyan-500/20">
+              <GlassCard className="group flex h-full flex-col text-center transition-all duration-300 hover:border-brand-green/40">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green transition-colors group-hover:from-brand-green/20">
                   <Icon className="h-7 w-7" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-white">{item.title}</h3>
-                <p className="flex-1 text-sm text-gray-400">{item.description}</p>
+                <h3 className="mb-2 text-lg font-semibold text-brand-navy">{item.title}</h3>
+                <p className="flex-1 text-sm text-brand-muted">{item.description}</p>
               </GlassCard>
             </RevealItem>
           );

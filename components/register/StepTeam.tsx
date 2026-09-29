@@ -27,7 +27,7 @@ export default function StepTeam() {
       />
 
       <div>
-        <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-400">
+        <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-brand-muted">
           Team Type *
         </span>
         <div className="grid gap-3 sm:grid-cols-3" role="radiogroup" aria-label="Team type">
@@ -39,8 +39,8 @@ export default function StepTeam() {
                 className={cn(
                   "cursor-pointer rounded-xl border p-4 transition-all",
                   selected
-                    ? "border-cyan-500/50 bg-cyan-500/10 shadow-lg shadow-cyan-500/10"
-                    : "border-white/[0.1] bg-white/[0.02] hover:border-cyan-500/30"
+                    ? "border-brand-green bg-brand-green-soft shadow-brand-sm"
+                    : "border-brand-navy/15 bg-brand-surface hover:border-brand-green/40"
                 )}
               >
                 <input
@@ -53,7 +53,7 @@ export default function StepTeam() {
                   <span
                     className={cn(
                       "text-base font-bold",
-                      selected ? "text-cyan-300" : "text-white"
+                      selected ? "text-brand-green-hover" : "text-brand-navy"
                     )}
                   >
                     {option.value.charAt(0).toUpperCase() + option.value.slice(1)}
@@ -62,29 +62,29 @@ export default function StepTeam() {
                     className={cn(
                       "rounded-full px-2.5 py-0.5 text-xs font-semibold",
                       selected
-                        ? "bg-cyan-500/20 text-cyan-200"
-                        : "bg-white/[0.06] text-gray-400"
+                        ? "bg-brand-green/20 text-brand-green-hover"
+                        : "bg-brand-surface text-brand-muted"
                     )}
                   >
                     {option.members} members
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-gray-400">{option.label}</p>
+                <p className="mt-2 text-xs text-brand-muted">{option.label}</p>
               </label>
             );
           })}
         </div>
         {typeError && (
-          <p role="alert" className="mt-2 text-xs text-red-400">
+          <p role="alert" className="mt-2 text-xs text-brand-red">
             {typeError}
           </p>
         )}
       </div>
 
-      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 text-sm text-gray-400">
+      <div className="rounded-xl border border-brand-navy/10 bg-brand-surface p-4 text-sm text-brand-muted">
         <p>
           You will fill in the details for{" "}
-          <span className="font-semibold text-cyan-300">
+          <span className="font-semibold text-brand-green-hover">
             {teamType ? TEAM_TYPE_OPTIONS.find((o) => o.value === teamType)?.members : 2} members
           </span>{" "}
           in the next step. The member forms appear automatically based on your team type.

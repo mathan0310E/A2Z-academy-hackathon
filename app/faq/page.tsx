@@ -11,11 +11,27 @@ export const metadata: Metadata = {
   title: "FAQ",
   description:
     "Frequently asked questions about the A2Z Academy Tech-Based Hackathon — registration, team size, rounds, and communication.",
+  alternates: { canonical: "/faq" },
+};
+
+/** FAQPage structured data so search engines can surface the Q&A directly. */
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: siteConfig.faqs.map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
 };
 
 export default function FaqPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <SectionWrapper className="pt-12 md:pt-16">
         <SectionTitle
           title="Frequently Asked Questions"
@@ -29,14 +45,14 @@ export default function FaqPage() {
         <RevealGroup className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">
           <RevealItem>
             <GlassCard className="h-full">
-              <h3 className="mb-2 text-lg font-semibold text-white">Ready to compete?</h3>
-              <p className="mb-4 text-sm text-gray-400">
+              <h3 className="mb-2 text-lg font-semibold text-brand-navy">Ready to compete?</h3>
+              <p className="mb-4 text-sm text-brand-muted">
                 Registration takes about two minutes. You will receive a unique Registration ID on
                 success.
               </p>
               <Link
                 href="/register"
-                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition-transform hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-lg bg-brand-green hover:bg-brand-green-hover px-5 py-2.5 text-sm font-semibold text-brand-ink-strong shadow-brand transition-transform hover:scale-105"
               >
                 Register your team
                 <ArrowRight className="h-4 w-4" />
@@ -46,14 +62,14 @@ export default function FaqPage() {
 
           <RevealItem>
             <GlassCard className="h-full">
-              <h3 className="mb-2 text-lg font-semibold text-white">Something not covered?</h3>
-              <p className="mb-4 text-sm text-gray-400">
+              <h3 className="mb-2 text-lg font-semibold text-brand-navy">Something not covered?</h3>
+              <p className="mb-4 text-sm text-brand-muted">
                 Reach the organisers directly — questions about rounds, eligibility, and schedules are
                 answered there.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-lg border border-white/[0.15] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-gray-200 transition-colors hover:border-cyan-500/40 hover:text-white"
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-brand-green bg-white px-5 py-2.5 text-sm font-medium text-brand-ink transition-colors hover:bg-brand-green-soft"
               >
                 <MessageCircle className="h-4 w-4" />
                 Contact A2Z Academy

@@ -19,7 +19,7 @@ export default function StepMembers() {
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-brand-muted">
         Fill in the details of every team member. Each email address can only be used once across
         the hackathon.
       </p>
@@ -27,7 +27,7 @@ export default function StepMembers() {
       {membersError && (
         <p
           role="alert"
-          className="rounded-lg border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm text-red-400"
+          className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-brand-red"
         >
           {membersError}
         </p>
@@ -36,12 +36,12 @@ export default function StepMembers() {
       {members.map((member, index) => (
         <GlassCard key={member?.memberId ?? index} className="!p-5 sm:!p-6">
           <div className="mb-4 flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 text-cyan-300">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/15 to-brand-green/15 text-brand-green-hover">
               <User className="h-3.5 w-3.5" />
             </span>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-brand-navy">
               Member {index + 1}
-              {index === 0 && <span className="ml-2 text-xs font-normal text-gray-500">(we suggest starting with yourself)</span>}
+              {index === 0 && <span className="ml-2 text-xs font-normal text-brand-muted">(we suggest starting with yourself)</span>}
             </h3>
           </div>
 

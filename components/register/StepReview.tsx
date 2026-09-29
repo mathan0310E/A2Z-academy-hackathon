@@ -35,13 +35,13 @@ export default function StepReview({
       <GlassCard className="!p-5 sm:!p-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h3 className="text-lg font-bold text-white">{teamName || "Untitled team"}</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="text-lg font-bold text-brand-navy">{teamName || "Untitled team"}</h3>
+            <p className="text-xs text-brand-muted">
               {teamType ? getTeamTypeLabel(teamType) : "No team type selected"} ·{" "}
               {members.length} of {teamType ? getMemberCount(teamType) : 2} members filled
             </p>
           </div>
-          <span className="rounded-full border border-cyan-500/25 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-300">
+          <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold text-brand-green-hover">
             Step 3 of 3
           </span>
         </div>
@@ -50,15 +50,15 @@ export default function StepReview({
           {members.map((member, index) => (
             <div
               key={member?.memberId ?? index}
-              className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3"
+              className="rounded-lg border border-brand-navy/10 bg-brand-surface p-3"
             >
               <div className="flex items-center gap-2">
-                <User className="h-3.5 w-3.5 text-cyan-400" />
-                <span className="text-sm font-semibold text-white">
+                <User className="h-3.5 w-3.5 text-brand-green" />
+                <span className="text-sm font-semibold text-brand-navy">
                   {member?.name || `Member ${index + 1} — name missing`}
                 </span>
               </div>
-              <div className="mt-2 grid gap-1 text-xs text-gray-400 sm:grid-cols-2">
+              <div className="mt-2 grid gap-1 text-xs text-brand-muted sm:grid-cols-2">
                 <span className="flex items-center gap-1.5">
                   <Mail className="h-3 w-3" /> {member?.email || "—"}
                 </span>
@@ -77,8 +77,8 @@ export default function StepReview({
 
       {/* Leader selection */}
       <div>
-        <span className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400">
-          <Crown className="h-3.5 w-3.5 text-amber-300" />
+        <span className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-muted">
+          <Crown className="h-3.5 w-3.5 text-amber-700" />
           Select the Team Leader *
         </span>
         <div
@@ -90,27 +90,27 @@ export default function StepReview({
           {members.map((member, index) => (
             <label
               key={member?.memberId ?? index}
-              className="flex cursor-pointer items-center gap-3 rounded-lg border border-white/[0.1] bg-white/[0.02] px-4 py-3 transition-colors hover:border-cyan-500/30 has-[:checked]:border-cyan-500/50 has-[:checked]:bg-cyan-500/10"
+              className="flex cursor-pointer items-center gap-3 rounded-lg border border-brand-navy/15 bg-brand-surface px-4 py-3 transition-colors hover:border-brand-green/40 has-[:checked]:border-brand-green has-[:checked]:bg-brand-green-soft"
             >
               <input
                 type="radio"
                 value={member?.memberId ?? ""}
                 {...register("leaderMemberId")}
-                className="h-4 w-4 accent-cyan-500"
+                className="h-4 w-4 accent-brand-green"
               />
-              <span className="text-sm text-gray-200">
+              <span className="text-sm text-brand-ink">
                 {member?.name || `Member ${index + 1}`}
-                <span className="ml-2 text-xs text-gray-500">{member?.email}</span>
+                <span className="ml-2 text-xs text-brand-muted">{member?.email}</span>
               </span>
             </label>
           ))}
         </div>
         {leaderError && (
-          <p role="alert" className="mt-2 text-xs text-red-400">
+          <p role="alert" className="mt-2 text-xs text-brand-red">
             {leaderError}
           </p>
         )}
-        <p className="mt-2 text-xs text-gray-500">
+        <p className="mt-2 text-xs text-brand-muted">
           The leader receives the confirmation email and is the single point of contact with the
           organisers.
         </p>
@@ -119,26 +119,26 @@ export default function StepReview({
       {/* Confirmation */}
       <label
         className={cn(
-          "flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 text-sm text-gray-300",
-          confirmError ? "border-red-500/40 bg-red-500/5" : "border-white/[0.1] bg-white/[0.02]"
+          "flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 text-sm text-brand-ink",
+          confirmError ? "border-red-300 bg-red-50" : "border-brand-navy/15 bg-brand-surface"
         )}
       >
         <input
           type="checkbox"
           checked={confirmed}
           onChange={(event) => onConfirmedChange(event.target.checked)}
-          className="mt-0.5 h-4 w-4 accent-cyan-500"
+          className="mt-0.5 h-4 w-4 accent-brand-green"
         />
         <span>
           I confirm that all the information above is accurate and that I have read the{" "}
-          <a href="/guidelines" className="text-cyan-300 hover:underline">
+          <a href="/guidelines" className="text-brand-green-hover hover:underline">
             guidelines
           </a>
           .
         </span>
       </label>
       {confirmError && (
-        <p role="alert" className="text-xs text-red-400">
+        <p role="alert" className="text-xs text-brand-red">
           {confirmError}
         </p>
       )}

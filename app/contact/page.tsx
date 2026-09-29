@@ -7,6 +7,7 @@ import ContactForm from "@/components/contact/ContactForm";
 import { siteConfig } from "@/lib/content";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "Contact",
   description:
     "Contact the A2Z Academy hackathon organisers by email, phone, or the official WhatsApp group.",
@@ -52,23 +53,23 @@ export default function ContactPage() {
           {channels.map(({ Icon, label, value, href, hint }) => (
             <RevealItem key={label}>
               <GlassCard className="h-full">
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/15 to-blue-500/15 text-cyan-400">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
                   {label}
                 </h3>
                 {href ? (
                   <Link
                     href={href}
-                    className="mt-1 block break-words text-base font-semibold text-white transition-colors hover:text-cyan-300"
+                    className="mt-1 block break-words text-base font-semibold text-brand-navy transition-colors hover:text-brand-green-hover"
                   >
                     {value}
                   </Link>
                 ) : (
-                  <p className="mt-1 text-base font-semibold text-white">{value}</p>
+                  <p className="mt-1 text-base font-semibold text-brand-navy">{value}</p>
                 )}
-                <p className="mt-2 text-xs leading-relaxed text-gray-500">{hint}</p>
+                <p className="mt-2 text-xs leading-relaxed text-brand-muted">{hint}</p>
               </GlassCard>
             </RevealItem>
           ))}
@@ -78,14 +79,14 @@ export default function ContactPage() {
           <RevealItem>
             <GlassCard className="flex flex-col items-center gap-4 text-center md:flex-row md:justify-between md:text-left">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 text-green-400">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green-soft text-brand-green-hover">
                   <MessageCircle className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-semibold text-white">
+                  <h3 className="text-base font-semibold text-brand-navy">
                     Official WhatsApp Group
                   </h3>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-brand-muted">
                     All round instructions, dates, and shortlisting announcements happen here first.
                   </p>
                 </div>
@@ -95,13 +96,13 @@ export default function ContactPage() {
                   href={whatsAppUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-green-500/25"
+                  className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-brand-green hover:bg-brand-green-hover px-5 py-2.5 text-sm font-semibold text-brand-ink-strong shadow-brand"
                 >
                   Join the group
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               ) : (
-                <span className="shrink-0 rounded-lg border border-white/[0.12] px-4 py-2.5 text-xs text-gray-400">
+                <span className="shrink-0 rounded-lg border border-brand-navy/15 px-4 py-2.5 text-xs text-brand-muted">
                   Group link shared after registration
                 </span>
               )}
@@ -112,29 +113,29 @@ export default function ContactPage() {
         <RevealGroup className="mt-6">
           <RevealItem>
             <GlassCard>
-              <h3 className="mb-3 text-base font-semibold text-white">Before you write to us</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <h3 className="mb-3 text-base font-semibold text-brand-navy">Before you write to us</h3>
+              <ul className="space-y-2 text-sm text-brand-muted">
                 <li>
-                  Include your <span className="text-cyan-300">Registration ID</span> (format
+                  Include your <span className="text-brand-green-hover">Registration ID</span> (format
                   AZZ-{new Date().getFullYear()}-00001) so we can find your team quickly.
                 </li>
                 <li>
                   Looking for the rules? Check the{" "}
-                  <Link href="/guidelines" className="text-cyan-300 hover:underline">
+                  <Link href="/guidelines" className="text-brand-green-hover hover:underline">
                     guidelines
                   </Link>
                   .
                 </li>
                 <li>
                   Curious about the format? See the{" "}
-                  <Link href="/rounds" className="text-cyan-300 hover:underline">
+                  <Link href="/rounds" className="text-brand-green-hover hover:underline">
                     rounds
                   </Link>{" "}
                   page.
                 </li>
                 <li>
                   Not registered yet?{" "}
-                  <Link href="/register" className="text-cyan-300 hover:underline">
+                  <Link href="/register" className="text-brand-green-hover hover:underline">
                     Register your team
                   </Link>{" "}
                   — it takes about two minutes.
@@ -147,8 +148,8 @@ export default function ContactPage() {
         <RevealGroup className="mt-10">
           <RevealItem>
             <GlassCard>
-              <h3 className="text-lg font-semibold text-white">Send us a message</h3>
-              <p className="mb-5 mt-1 text-sm text-gray-400">
+              <h3 className="text-lg font-semibold text-brand-navy">Send us a message</h3>
+              <p className="mb-5 mt-1 text-sm text-brand-muted">
                 Registration changes, round questions, or institutional participation — send a
                 message below and the A2Z Academy team will reply by email.
               </p>

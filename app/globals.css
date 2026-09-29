@@ -2,74 +2,242 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Puvi is loaded via next/font (see app/fonts.ts) and exposed as
+   --font-puvi, which Tailwind's fontFamily maps onto `font-sans`/`font-display`. */
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-[#0a0f24] font-sans text-gray-200 antialiased;
-    background: radial-gradient(ellipse at top, #0a0f24 0%, #0f172a 40%, #1e293b 100%);
-    background-attachment: fixed;
+    @apply bg-brand-surface font-sans text-brand-ink antialiased;
+    background-color: #f7f7f7;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold tracking-tight text-brand-navy;
   }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #eaf6e1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #06b6d4;
-  border-radius: 4px;
+  background: #71bf43;
+  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #0284c7;
+  background: #5fa536;
 }
 
 /* Selection highlight */
 ::selection {
-  background: rgba(6, 172, 212, 0.3);
-  color: #ffffff;
+  background: rgba(113, 191, 67, 0.28);
+  color: #0f2340;
 }
 
-/* Glass card utility */
-.glass-card {
-  background: rgba(15, 23, 42, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+@layer components {
+  /* Card surface used across the site (light theme equivalent of the old glass card) */
+  .glass-card {
+    background: #ffffff;
+    border: 1px solid #e8eef5;
+    box-shadow: 0 4px 24px rgba(15, 35, 64, 0.06);
+  }
+
+  /* Pill buttons matching the A2Z Academy reference site */
+  .btn-pill,
+  .btn-pill-primary,
+  .btn-pill-outline,
+  .btn-pill-navy {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all duration-200;
+  }
+  .btn-pill-primary {
+    @apply bg-brand-green text-brand-ink-strong shadow-brand hover:bg-brand-green-hover hover:shadow-brand-lg;
+  }
+  .btn-pill-outline {
+    @apply border-2 border-brand-green bg-white text-brand-ink hover:bg-brand-green-soft;
+  }
+  .btn-pill-navy {
+    @apply bg-brand-navy text-white hover:bg-brand-navy-deep;
+  }
+
+  /* Two-tone headline accent used on the reference site */
+  .text-brand-accent {
+    color: #71bf43;
+  }
 }
 
-/* Circuit pattern */
-.circuit-pattern {
-  background-image:
-    linear-gradient(rgba(6, 172, 212, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 172, 212, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* Grid pattern overlay */
+/* Subtle grid pattern accent (kept lightweight, light-theme friendly) */
 .grid-pattern {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    linear-gradient(rgba(26, 51, 90, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 51, 90, 0.035) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
-/* Gradient text */
+/* Gradient text in brand green */
 .gradient-text {
-  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #60a5fa 100%);
+  background: linear-gradient(135deg, #71bf43 0%, #5fa536 60%, #4c872c 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }
 
-/* Animated gradient border */
-.border-gradient {
-  border-image: linear-gradient(135deg, #06b6d4, #3b82f6, #60a5fa);
-  border-image-slice: 1;
-  border-width: 1px;
+/* Staggered grid reveals driven by `data-revealed` on the container.
+   Children translate up as the group enters the viewport. */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(1.25rem) scale(0.98);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-group[data-revealed="true"] .reveal-item {
+  opacity: 1;
+  transform: none;
+}
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(1) { transition-delay: 0s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(2) { transition-delay: 0.06s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(3) { transition-delay: 0.12s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(4) { transition-delay: 0.18s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(5) { transition-delay: 0.24s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(6) { transition-delay: 0.3s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(7) { transition-delay: 0.36s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(8) { transition-delay: 0.42s; }
+.reveal-group[data-revealed="true"] .reveal-item:nth-child(n + 9) { transition-delay: 0.48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
+/* Hero entrance animation (CSS-only, replaces Framer Motion). */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.97);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+.hero-enter-item {
+  opacity: 0;
+  animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-enter-item:nth-child(1) { animation-delay: 0.15s; }
+.hero-enter-item:nth-child(2) { animation-delay: 0.25s; }
+.hero-enter-item:nth-child(3) { animation-delay: 0.35s; }
+.hero-enter-item:nth-child(4) { animation-delay: 0.45s; }
+.hero-enter-item:nth-child(5) { animation-delay: 0.55s; }
+.hero-enter:last-child .hero-enter-item:nth-child(1) { animation-delay: 0.5s; }
+.hero-enter:last-child .hero-enter-item:nth-child(2) { animation-delay: 0.58s; }
+.hero-enter:last-child .hero-enter-item:nth-child(3) { animation-delay: 0.66s; }
+.hero-enter:last-child .hero-enter-item:nth-child(4) { animation-delay: 0.74s; }
+
+/* Ambient motion: slow drift for decorative shapes and a soft pulse accent. */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-float-slow {
+  animation: float 9s ease-in-out infinite;
+}
+
+/* Card hover lift — a restrained preview motion for interactive surfaces. */
+.hover-lift {
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+  will-change: transform;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(15, 35, 64, 0.12);
+}
+
+/* Route transition: the template remounts on navigation, replaying this fade-up. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.page-enter {
+  animation: page-enter 0.35s ease-out;
+}
+
+/* Wizard step transition — replays when the keyed step panel remounts. */
+@keyframes step-enter {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.step-enter {
+  animation: step-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Section headline underline draws in from the left when revealed. */
+@keyframes underline-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.underline-draw {
+  transform-origin: left center;
+}
+.reveal-group[data-revealed="true"] .underline-draw,
+.reveal-visible .underline-draw,
+.underline-draw.underline-draw-active {
+  animation: underline-draw 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter-item {
+    opacity: 1;
+    animation: none;
+  }
+  .animate-float,
+  .animate-float-slow,
+  .page-enter,
+  .step-enter,
+  .underline-draw {
+    animation: none;
+  }
+  .hover-lift:hover {
+    transform: none;
+  }
+}

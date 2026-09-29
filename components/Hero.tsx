@@ -1,144 +1,108 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { SectionWrapper } from "@/components/ui/Section";
-import { GradientHeading } from "@/components/ui/Section";
-import { ChevronDown, Play, ArrowRight } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown, Trophy } from "lucide-react";
 
-const TECHNOLOGY_ICONS = [
-  { label: "AI", color: "from-purple-500 to-pink-500" },
-  { label: "Data", color: "from-blue-500 to-cyan-500" },
-  { label: "Cybersecurity", color: "from-green-500 to-emerald-500" },
-  { label: "IoT", color: "from-orange-500 to-amber-500" },
-  { label: "Innovation", color: "from-fuchsia-500 to-rose-500" },
-  { label: "Collaboration", color: "from-indigo-500 to-violet-500" },
+const STATS = [
+  { value: "2–4", label: "Members per team" },
+  { value: "3", label: "Competitive rounds" },
+  { value: "40 → 25", label: "Teams shortlisted" },
+  { value: "₹250", label: "Round 3 fee / head" },
 ];
 
-const container = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
-    },
-  },
-};
+const DOMAINS = [
+  "Cyber Security",
+  "Cloud Security",
+  "IoT Security",
+  "Full Stack",
+  "Ethical Hacking",
+];
 
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
+/**
+ * Static hero. Entrance animation is pure CSS (see `.hero-enter` in globals.css)
+ * so this stays a Server Component with zero animation runtime.
+ */
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden py-20">
-      {/* Background: Radial gradient with circuit pattern */}
+    <section className="relative overflow-hidden bg-hero-gradient py-20 md:py-28">
       <div
-        className="absolute inset-0"
+        className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(1200px circle at 20% 30%, rgba(6,172,212,0.04) 0%, transparent 50%), radial-gradient(1200px circle at 80% 70%, rgba(59,130,246,0.04) 0%, transparent 50%)",
+          background:
+            "radial-gradient(900px circle at 15% 20%, rgba(113,191,67,0.12) 0%, transparent 55%), radial-gradient(900px circle at 85% 75%, rgba(26,51,90,0.08) 0%, transparent 55%)",
         }}
       />
+      {/* Ambient drifting shapes — decorative only */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-10 top-24 h-40 w-40 animate-float-slow rounded-full bg-brand-green/10 blur-3xl"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-8 bottom-20 h-56 w-56 animate-float rounded-full bg-brand-navy/5 blur-3xl"
+      />
 
-      <div className="relative container mx-auto px-4 md:px-6 text-center">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="visible"
-          className="mx-auto max-w-4xl"
-        >
-          {/* Tech badge */}
-          <motion.div variants={item} className="mb-6">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/5 px-3 py-1 text-xs font-medium uppercase tracking-wider text-cyan-300">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-cyan-400" />
+      <div className="relative container mx-auto px-4 md:px-6">
+        <div className="hero-enter mx-auto max-w-3xl text-center">
+          {/* Badge */}
+          <div className="hero-enter-item mb-6">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-green-hover">
+              <Trophy className="h-3.5 w-3.5" />
               Tech-Based Hackathon
             </span>
-          </motion.div>
+          </div>
 
-          {/* Main heading */}
-          <motion.h1
-            variants={item}
-            className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl"
-          >
-            <span className="block">A2Z Academy</span>
-            <span className="block text-2xl text-gray-300 sm:text-3xl">
-              Empowering Institutes with Tech-Based Training
-            </span>
-          </motion.h1>
+          <h1 className="hero-enter-item text-4xl font-extrabold leading-tight tracking-tight text-brand-navy sm:text-5xl md:text-6xl">
+            Build your skills.
+            <br />
+            <span className="text-brand-green">Build your future.</span>
+          </h1>
 
-          <motion.div variants={item} className="my-6">
-            <h2 className="text-xl font-medium text-cyan-400 md:text-2xl">
-              A2Z Academy Tech-Based Hackathon
-            </h2>
-          </motion.div>
+          <p className="hero-enter-item mx-auto mt-6 max-w-2xl text-base leading-relaxed text-brand-muted sm:text-lg">
+            A2Z Academy empowers institutes with tech-based training. Join the{" "}
+            <span className="font-semibold text-brand-navy">A2Z Academy Tech-Based Hackathon</span> —
+            explore technology, solve real-world problems, and build innovative solutions.
+          </p>
 
-          <motion.p
-            variants={item}
-            className="mb-8 text-lg text-gray-300 sm:text-xl"
-          >
-            Explore technology. Solve real-world problems. Build innovative solutions.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div variants={item} className="mb-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/register">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative flex items-center justify-center gap-2 rounded-lg border border-cyan-500/50 bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow-2xl shadow-cyan-500/25 transition-all duration-300"
-              >
-                Start Registration
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </motion.button>
+          <div className="hero-enter-item mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/register" className="btn-pill-primary group w-full sm:w-auto">
+              Start Registration
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link href="/hackathon">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center justify-center gap-2 rounded-lg border border-white/[0.15] bg-white/[0.04] px-8 py-3.5 text-base font-medium text-gray-300 backdrop-blur hover:border-cyan-500/40 hover:text-white"
-              >
-                <Play className="h-4 w-4" />
-                Explore Hackathon
-              </motion.button>
+            <Link href="/hackathon" className="btn-pill-outline w-full sm:w-auto">
+              <BookOpen className="h-4 w-4" />
+              Explore Hackathon
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Animated technology icons */}
-          <motion.div variants={item} className="mb-10 flex justify-center gap-3 flex-wrap">
-            {TECHNOLOGY_ICONS.map((tech) => (
-              <motion.div
-                key={tech.label}
-                className={`flex items-center justify-center rounded-full bg-gradient-to-r ${tech.color} h-9 w-9`}
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 400 }}
-                title={tech.label}
+          <div className="hero-enter-item mt-10 flex flex-wrap justify-center gap-2">
+            {DOMAINS.map((domain) => (
+              <span
+                key={domain}
+                className="rounded-full border border-brand-navy/10 bg-white px-3.5 py-1.5 text-xs font-semibold text-brand-navy shadow-card"
               >
-                <span className="text-xs font-bold text-white">{tech.label}</span>
-              </motion.div>
+                {domain}
+              </span>
             ))}
-          </motion.div>
+          </div>
+        </div>
 
-          {/* Scroll indicator */}
-          <motion.div
-            variants={item}
-            className="flex cursor-pointer items-center justify-center gap-1 text-sm text-gray-500"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            onClick={() => {
-              const section = document.getElementById("about");
-              if (section) section.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            <span>Scroll to explore</span>
-            <ChevronDown className="h-4 w-4" />
-          </motion.div>
-        </motion.div>
+        {/* Stats strip — mirrors the reference site's metric row */}
+        <div className="hero-enter mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
+          {STATS.map((stat) => (
+            <div key={stat.label} className="hero-enter-item">
+              <div className="hover-lift h-full rounded-xl border border-brand-navy/10 bg-white p-5 text-center shadow-card">
+                <p className="text-2xl font-extrabold text-brand-green md:text-3xl">{stat.value}</p>
+                <p className="mt-1 text-xs font-medium text-brand-muted">{stat.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="relative mt-14 flex justify-center">
+        <span className="flex items-center gap-2 text-xs font-medium text-brand-muted">
+          Scroll to explore
+          <ChevronDown className="h-4 w-4 animate-bounce" />
+        </span>
       </div>
     </section>
   );
