@@ -20,6 +20,9 @@ const ROUTES = [
   "/faq",
   "/contact",
   "/register",
+  "/privacy",
+  "/terms",
+  "/cookies",
 ];
 
 /** A path that matches no route, used to capture the 404 page. */
@@ -116,6 +119,11 @@ async function main() {
     for (const route of ROUTES) {
       const page = await browser.newPage();
       await page.setViewport({ width: 1280, height: 900 });
+      // Client-only UI (the cookie banner) checks this flag and stays out of the
+      // captured HTML, so hydration matches.
+      await page.evaluateOnNewDocument(() => {
+        (window as unknown as { __A2Z_PRERENDER__?: boolean }).__A2Z_PRERENDER__ = true;
+      });
       await page.goto(origin + route, { waitUntil: "networkidle0", timeout: 60000 });
       // Let helmet flush the document head and the entrance animations settle.
       await new Promise((r) => setTimeout(r, 700));

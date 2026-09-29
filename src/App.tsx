@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CookieConsent from "@/components/CookieConsent";
 import StructuredData from "@/components/StructuredData";
 import { AppCheckProvider } from "@/contexts/AppCheckContext";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -13,6 +14,9 @@ import TeamFormation from "@/pages/TeamFormation";
 import Guidelines from "@/pages/Guidelines";
 import WhatWeProvide from "@/pages/WhatWeProvide";
 import Faq from "@/pages/Faq";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
+import Cookies from "@/pages/Cookies";
 import NotFound from "@/pages/NotFound";
 
 /**
@@ -49,6 +53,9 @@ export default function App() {
               <Route path="/guidelines" element={<Guidelines />} />
               <Route path="/what-we-provide" element={<WhatWeProvide />} />
               <Route path="/faq" element={<Faq />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/cookies" element={<Cookies />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/register" element={<Register />} />
               <Route path="*" element={<NotFound />} />
@@ -56,6 +63,7 @@ export default function App() {
           </Suspense>
         </main>
         <Footer />
+        <CookieConsent />
       </div>
     </AppCheckProvider>
   );

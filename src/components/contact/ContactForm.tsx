@@ -87,7 +87,7 @@ export default function ContactForm() {
           reference below for follow-ups.
         </p>
 
-        <div className="mx-auto mt-5 max-w-sm rounded-xl border border-brand-green/40 bg-brand-green-soft px-4 py-3">
+        <div className="mx-auto mt-5 max-w-sm rounded-none border border-brand-green/40 bg-brand-green-soft px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Reference</p>
           <p className="font-mono text-lg font-bold tracking-wider text-brand-green-hover">
             {result.referenceId}

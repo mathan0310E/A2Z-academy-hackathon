@@ -142,3 +142,40 @@ The Next.js → Vite port was verified before the swap: `tsc --noEmit` clean, ES
 production build green, all 11 routes + 404 returning the right status, prerendered HTML carrying
 per-route SEO, hydration with no console errors, and a DOM-parity check against the running Next
 app matching on text, headings, titles, and links for every route.
+
+## Retheme (a2zacademy.co.in parity)
+
+The portal mirrors the reference site's design system. Values below come from its computed
+styles, so changing them is a deliberate deviation, not a cleanup:
+
+- **Surfaces are square.** Every card, panel, input, and option box is `rounded-none`. Only
+  buttons are pills (`.btn-pill*` / Button `variant="pill*"`).
+- **Primary foreground is near-black** (`#1a1a1a`), not white — white on `#71bf43` fails contrast.
+- **`font-medium`/`rounded-none` in the Button base** would beat the `.btn-pill*` component
+  classes (utilities win over the component layer), so the pill variants repeat `rounded-full
+  font-bold` as utilities for `cn`/tailwind-merge to resolve.
+- Reference computed styles: body `#f7f7f7` / `#333`, h1 60px/700, h2 36px/300, footer `#222`
+  with a `#2A2A2A` footnote strip, nav links 13–15px semibold, header `h-[4.25rem]`.
+
+### shadcn/ui tokens
+
+`tailwind.config.js` maps `primary`/`accent`/`muted`/etc. to HSL CSS vars in `globals.css`
+(`--primary` = brand green, `--accent` = near-black, `--radius: 0px`). The old numeric
+`primary-50…950` and `accent-blue/cyan/electric` scales were unused and were replaced by these.
+`src/components/ui/Button.tsx` is a cva-based shadcn Button.
+
+### Cookie consent and prerender
+
+`src/components/CookieConsent.tsx` renders only in the browser. The prerender harness
+(`scripts/prerender.ts`) sets `window.__A2Z_PRERENDER__ = true` via `evaluateOnNewDocument`, and
+the component checks that flag — otherwise the captured HTML would contain the banner while the
+client's first render would not, which is a hydration mismatch. Consent is stored in
+`localStorage` under `a2z-cookie-consent`.
+
+### Content parity
+
+Footer content, social handles, and the legal pages (`/privacy`, `/terms`, `/cookies`) follow the
+reference. Legal pages must also be added to `scripts/prerender.ts` `ROUTES` and to
+`CRAWLABLE_ROUTES` in `server/index.ts` (sitemap). The Department field is free text with a
+`<datalist>` of suggestions — participants are never restricted to the list.
+

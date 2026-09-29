@@ -23,23 +23,40 @@ export default {
           surface: "#f7f7f7",
           white: "#ffffff",
         },
+        // shadcn/ui semantic tokens (HSL channel triplets from globals.css).
+        // The reference site maps primary -> brand green and accent -> brand ink.
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          50: "#eaf6e1",
-          100: "#eaf6e1",
-          200: "#d3ecc0",
-          300: "#a9dc85",
-          400: "#8ecd62",
-          500: "#71bf43",
-          600: "#5fa536",
-          700: "#4c872c",
-          800: "#3c6b23",
-          900: "#2f531c",
-          950: "#1a2f0f",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          blue: "#1a335a",
-          cyan: "#71bf43",
-          electric: "#8ecd62",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
       },
       fontFamily: {
@@ -79,6 +96,9 @@ export default {
       },
       borderRadius: {
         brand: "0.5rem",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       animation: {
         "pulse-slow": "pulse 3s ease-in-out infinite",
@@ -93,5 +113,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };

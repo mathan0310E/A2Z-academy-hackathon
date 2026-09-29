@@ -1,13 +1,28 @@
+/**
+ * Official WhatsApp group URL. `import.meta.env` only exists in the Vite
+ * client bundle, so fall back to `process.env` for Node. Guarded the same way
+ * as `lib/site.ts`: `import.meta` is valid ESM syntax everywhere, but `.env`
+ * is undefined outside Vite, so reading it directly would throw.
+ */
+const viteEnv = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
+const nodeEnv = typeof process !== "undefined" ? process.env : undefined;
+
 export const siteConfig = {
   name: "A2Z Academy",
   tagline: "Empowering Institutes with Tech-Based Training",
   hackathon: "A2Z Academy Tech-Based Hackathon",
   description:
     "A2Z Academy empowers institutes with tech-based training. Join the A2Z Academy Tech-Based Hackathon to explore technology, solve real-world problems, and build innovative solutions.",
+  whatsappUrl: viteEnv?.VITE_WHATSAPP_GROUP_URL || nodeEnv?.WHATSAPP_GROUP_URL || "",
   contact: {
     email: "hello@a2zacademy.co.in",
     phone: "+91 9999999999",
     location: "India",
+  },
+  legal: {
+    privacyEffective: "1 January 2025",
+    termsEffective: "1 January 2025",
+    cookiesEffective: "1 January 2025",
   },
   about: {
     whoWeAre:

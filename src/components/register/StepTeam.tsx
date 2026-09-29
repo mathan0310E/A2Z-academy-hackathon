@@ -36,7 +36,7 @@ export default function StepTeam() {
               <label
                 key={option.value}
                 className={cn(
-                  "cursor-pointer rounded-xl border p-4 transition-all",
+                  "cursor-pointer rounded-none border p-4 transition-all",
                   selected
                     ? "border-brand-green bg-brand-green-soft shadow-brand-sm"
                     : "border-brand-navy/15 bg-brand-surface hover:border-brand-green/40"
@@ -80,7 +80,7 @@ export default function StepTeam() {
         )}
       </div>
 
-      <div className="rounded-xl border border-brand-navy/10 bg-brand-surface p-4 text-sm text-brand-muted">
+      <div className="rounded-none border border-slate-200 bg-brand-surface p-4 text-sm text-brand-muted">
         <p>
           You will fill in the details for{" "}
           <span className="font-semibold text-brand-green-hover">

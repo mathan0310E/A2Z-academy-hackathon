@@ -28,6 +28,30 @@
 
 :root {
   --font-puvi: "Puvi";
+
+  /* shadcn/ui semantic tokens.
+     Values match the reference site's computed styles: white surfaces on an
+     #f7f7f7 page, #333 body ink, green primary, and a near-black accent. */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 20%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 20%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 20%;
+  --primary: 98 50% 51%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 20%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 4 78% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --ring: 98 50% 51%;
+  --radius: 0px;
 }
 
 @layer base {
@@ -250,6 +274,69 @@
   animation: underline-draw 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
+/* Cookie consent enter/leave (the banner mounts only after the effect runs,
+   so these replay on first paint rather than needing a transition). */
+@keyframes consent-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes consent-out {
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+.consent-enter {
+  animation: consent-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.consent-leave {
+  animation: consent-out 0.28s ease-in both;
+}
+
+/* Mobile drawer links cascade in behind the grid-rows expansion. */
+@keyframes drawer-item-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.drawer-item {
+  animation: drawer-item-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Nav link underline sweep on hover, matching the reference's quiet hover. */
+.academy-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: #71bf43;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.academy-nav-link:hover::after,
+.academy-nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Scroll progress bar sits flush against the header's bottom border. */
+.scroll-progress {
+  transform-origin: left center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-enter-item {
     opacity: 1;
@@ -259,10 +346,16 @@
   .animate-float-slow,
   .page-enter,
   .step-enter,
-  .underline-draw {
+  .underline-draw,
+  .consent-enter,
+  .consent-leave,
+  .drawer-item {
     animation: none;
   }
   .hover-lift:hover {
     transform: none;
+  }
+  .academy-nav-link::after {
+    transition: none;
   }
 }

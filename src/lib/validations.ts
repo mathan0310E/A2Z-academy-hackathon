@@ -91,17 +91,26 @@ export const memberFormSchema = memberSchema.omit({
 export type MemberFormValues = z.infer<typeof memberFormSchema>;
 
 export const YEARS = ["1st Year", "2nd Year", "3rd Year", "4th Year", "5th Year"];
+/**
+ * Suggestions for the free-text Department field. Participants are not limited
+ * to this list — anything they type is accepted, so unusual or
+ * institution-specific department names are never blocked.
+ */
 export const DEPARTMENTS = [
   "Computer Science & Engineering",
   "Information Technology",
+  "Artificial Intelligence & Data Science",
+  "Artificial Intelligence & Machine Learning",
   "Electronics & Communication Engineering",
-  "Electrical Engineering",
+  "Electrical & Electronics Engineering",
   "Mechanical Engineering",
   "Civil Engineering",
   "Biotechnology",
+  "Cyber Security",
   "Mathematics",
   "Physics",
-  "Other",
+  "Commerce",
+  "Management Studies",
 ];
 
 /* ============================ Contact form ============================ */

@@ -23,7 +23,9 @@ export function SectionWrapper({
 }
 
 /**
- * Glassmorphism card container.
+ * Card surface. The reference site uses square corners on every panel (only
+ * buttons are pill-shaped), so this stays `rounded-none` and gets a hairline
+ * border instead of a large radius.
  */
 export function GlassCard({
   children,
@@ -35,7 +37,7 @@ export function GlassCard({
   return (
     <div
       className={cn(
-        "glass-card rounded-2xl border border-brand-navy/10 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brand-green/40 hover:shadow-card sm:p-8",
+        "glass-card rounded-none border border-slate-200 p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-brand-green/40 hover:shadow-card sm:p-8",
         className
       )}
     >

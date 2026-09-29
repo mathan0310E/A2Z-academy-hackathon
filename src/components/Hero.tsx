@@ -89,7 +89,7 @@ export default function Hero() {
         <div className="hero-enter mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
           {STATS.map((stat) => (
             <div key={stat.label} className="hero-enter-item">
-              <div className="hover-lift h-full rounded-xl border border-brand-navy/10 bg-white p-5 text-center shadow-card">
+              <div className="hover-lift h-full rounded-none border border-brand-navy/10 bg-white p-5 text-center shadow-card">
                 <p className="text-2xl font-extrabold text-brand-green md:text-3xl">{stat.value}</p>
                 <p className="mt-1 text-xs font-medium text-brand-muted">{stat.label}</p>
               </div>

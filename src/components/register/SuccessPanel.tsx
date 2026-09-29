@@ -42,7 +42,7 @@ export default function SuccessPanel({ result }: { result: RegistrationResult })
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-brand-muted">
           Your Registration ID
         </p>
-        <div className="flex items-center justify-center gap-2 rounded-xl border border-brand-green/40 bg-brand-green-soft px-4 py-3">
+        <div className="flex items-center justify-center gap-2 rounded-none border border-brand-green/40 bg-brand-green-soft px-4 py-3">
           <span className="font-mono text-lg font-bold tracking-wider text-brand-green-hover">
             {result.registrationId}
           </span>
@@ -60,7 +60,7 @@ export default function SuccessPanel({ result }: { result: RegistrationResult })
         </p>
       </div>
 
-      <div className="mx-auto mt-6 max-w-lg space-y-2 rounded-xl border border-brand-navy/10 bg-brand-surface p-4 text-left text-sm text-brand-muted">
+      <div className="mx-auto mt-6 max-w-lg space-y-2 rounded-none border border-slate-200 bg-brand-surface p-4 text-left text-sm text-brand-muted">
         <p>
           <span className="text-brand-ink">Confirmation email:</span> sent to {result.leaderEmail}{" "}
           (leader — {result.leaderName}) and every other member.

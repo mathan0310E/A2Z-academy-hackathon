@@ -7,6 +7,7 @@
 export {
   TextField,
   SelectField,
+  ComboboxField,
   TextareaField,
   getError,
   inputClassName,

@@ -4,7 +4,7 @@ import { User } from "lucide-react";
 import type { RegistrationFormData } from "@/lib/validations";
 import { DEPARTMENTS, YEARS } from "@/lib/validations";
 import { GlassCard } from "@/components/ui/Section";
-import { TextField, SelectField, getError } from "./Field";
+import { TextField, SelectField, ComboboxField, getError } from "./Field";
 
 export default function StepMembers() {
   const {
@@ -75,10 +75,13 @@ export default function StepMembers() {
               autoComplete="organization"
               maxLength={200}
             />
-            <SelectField
+            <ComboboxField
               name={`members.${index}.department`}
               label="Department *"
               options={DEPARTMENTS}
+              placeholder="e.g. Computer Science & Engineering"
+              hint="Type your department — suggestions appear as you type."
+              maxLength={100}
             />
             <SelectField name={`members.${index}.year`} label="Year of Study *" options={YEARS} />
           </div>

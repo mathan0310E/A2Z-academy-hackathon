@@ -46,7 +46,7 @@ app.use("/api/contact", contactRoutes);
 const CRAWLABLE_ROUTES: Array<{
   path: string;
   priority: number;
-  changeFrequency: "daily" | "weekly" | "monthly";
+  changeFrequency: "daily" | "weekly" | "monthly" | "yearly";
 }> = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/register", priority: 0.9, changeFrequency: "weekly" },
@@ -59,6 +59,9 @@ const CRAWLABLE_ROUTES: Array<{
   { path: "/about", priority: 0.5, changeFrequency: "monthly" },
   { path: "/faq", priority: 0.5, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.5, changeFrequency: "monthly" },
+  { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
+  { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
+  { path: "/cookies", priority: 0.3, changeFrequency: "yearly" },
 ];
 
 function absoluteUrl(p: string): string {

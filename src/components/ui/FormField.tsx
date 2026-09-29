@@ -1,5 +1,6 @@
 
 import { useFormContext } from "react-hook-form";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type AnyErrors = Record<string, any>;
@@ -19,12 +20,15 @@ function getError(errors: AnyErrors, path: string): string | undefined {
  * Shared input styling so every form in the site (registration, contact)
  * renders identical fields. Exported for the rare case a field needs to be
  * composed by hand.
+ *
+ * `rounded-none` matches the reference site's square field treatment.
  */
 export const inputClassName =
-  "w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-brand-navy placeholder:text-brand-muted/60 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-green/40";
+  "w-full rounded-none border bg-white px-3.5 py-2.5 text-sm text-brand-navy placeholder:text-brand-muted/60 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-green/40";
 
 const errorClassName = "border-red-500/60 focus:border-red-500 focus:ring-red-500/30";
-const normalClassName = "border-brand-navy/15 focus:border-brand-green focus:ring-brand-green/30";
+const normalClassName =
+  "border-slate-300 hover:border-brand-green/50 focus:border-brand-green focus:ring-brand-green/30";
 
 function FieldShell({
   name,
@@ -147,6 +151,65 @@ export function SelectField({
           </option>
         ))}
       </select>
+    </FieldShell>
+  );
+}
+
+/**
+ * Free-text input with an optional suggestion list.
+ *
+ * Used for "Department" so participants can type their actual department
+ * instead of being forced into a fixed dropdown. Suggestions are rendered with
+ * a native <datalist>, so there is no JS, no extra bundle weight, and it
+ * degrades to a plain text box in browsers without support.
+ */
+export function ComboboxField({
+  name,
+  label,
+  options,
+  placeholder,
+  hint,
+  maxLength,
+}: {
+  name: string;
+  label: string;
+  options: readonly string[];
+  placeholder?: string;
+  hint?: string;
+  maxLength?: number;
+}) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const error = getError(errors as AnyErrors, name);
+  const listId = `${name}-suggestions`;
+
+  return (
+    <FieldShell name={name} label={label} hint={hint} error={error}>
+      <div className="relative">
+        <input
+          id={name}
+          {...register(name as any)}
+          list={listId}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          autoComplete="off"
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${name}-error` : undefined}
+          className={cn(inputClassName, "pr-9", error ? errorClassName : normalClassName)}
+        />
+        <ChevronDown
+          aria-hidden="true"
+          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted"
+        />
+        <datalist id={listId}>
+          {options.map((option) => (
+            <option key={option} value={option} />
+          ))}
+        </datalist>
+      </div>
     </FieldShell>
   );
 }

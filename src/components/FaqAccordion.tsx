@@ -25,7 +25,7 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
         return (
           <div
             key={item.question}
-            className="glass-card overflow-hidden rounded-xl border border-brand-navy/10"
+            className="glass-card overflow-hidden rounded-none border border-slate-200"
           >
             <button
               id={buttonId}
