@@ -18,6 +18,22 @@ let scriptPromise: Promise<void> | undefined;
 function loadScript(): Promise<void> {
   if (scriptPromise) return scriptPromise;
   scriptPromise = new Promise<void>((resolve, reject) => {
+    // Firebase App Check loads the same reCAPTCHA script with the same site
+    // key. If it is already present, wait for it instead of adding a second tag.
+    const existing = document.querySelector<HTMLScriptElement>(
+      'script[src^="https://www.google.com/recaptcha/api.js"]'
+    );
+    if (existing) {
+      if ((window as unknown as { grecaptcha?: unknown }).grecaptcha) {
+        resolve();
+        return;
+      }
+      existing.addEventListener("load", () => resolve(), { once: true });
+      existing.addEventListener("error", () => reject(new Error("reCAPTCHA script failed to load")), {
+        once: true,
+      });
+      return;
+    }
     const script = document.createElement("script");
     script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
     script.async = true;

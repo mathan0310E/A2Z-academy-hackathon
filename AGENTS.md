@@ -149,6 +149,19 @@ defaults to `https://www.a2zacademy.co.in` and drives canonicals, `robots.txt`, 
 - `server/routes/register.ts` and `server/routes/contact.ts` (Firestore + Nodemailer). Firebase/App
   Check may be unconfigured locally; every failure path degrades gracefully (problem statements
   resolve to an empty state, emails are best-effort).
+- **Abuse protection on the public write endpoints.** `/api/register` and `/api/contact` are wrapped
+  in `rateLimit(...)` (`server/lib/rate-limit.ts`) and `requireCaptcha()` (`server/lib/captcha.ts`).
+  The rate limiter keys on `req.ip` (proxy-aware; never the raw `X-Forwarded-For`), and the captcha
+  middleware verifies a reCAPTCHA v3 token against Google when `RECAPTCHA_SECRET_KEY` is set —
+  without it, verification is skipped and a warning is logged once. The client obtains the token via
+  `src/lib/recaptcha.ts` (`getRecaptchaToken(action)`), which reuses the script Firebase App Check
+  already loads and is imported by `RegistrationForm`/`ContactForm` only, so it stays out of the home
+  payload. App Check is a separate, Firebase-enforced layer — it never gates our own Express routes.
+- **Security headers and origin policy.** `server/index.ts` sets `trust proxy`, CSP, HSTS,
+  `X-Frame-Options`, `nosniff` and `Referrer-Policy`, and restricts `/api/*` CORS to the
+  `PUBLIC_ORIGIN` allow-list.
+- JSON-LD is serialised through `src/lib/json-ld.ts` (`jsonLdHtml`) so content authored in the admin
+  panel cannot break out of the `<script type="application/ld+json">` tag.
 - CORS headers on `/api/*` mirror what `next.config.mjs` used to set, and there is an explicit
   `OPTIONS` preflight handler.
 - Environment variables are documented in `.env.example`. Client vars need the `VITE_` prefix;

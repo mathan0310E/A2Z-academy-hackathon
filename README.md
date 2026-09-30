@@ -25,7 +25,7 @@ confirmation emails, published problem statements, and a contact channel.
 | Server | Express (static `dist/` + `/api/*`) |
 | Database | Firestore — client SDK for public reads, Admin SDK for writes |
 | Email | Nodemailer over SMTP |
-| Abuse protection | Firebase App Check (reCAPTCHA v3), optional |
+| Abuse protection | Per-IP rate limiting + reCAPTCHA v3 on `/api/register` and `/api/contact`; Firebase App Check (optional) |
 
 ---
 
@@ -54,7 +54,7 @@ plain names and are read by Express through `process.env` — never prefix them 
 | Variable | Scope | Purpose |
 | --- | --- | --- |
 | `VITE_FIREBASE_*` | client | Firebase web config |
-| `VITE_RECAPTCHA_SITE_KEY` | client | App Check / reCAPTCHA v3 site key (optional in dev) |
+| `VITE_RECAPTCHA_SITE_KEY` | client | reCAPTCHA v3 site key — used by App Check and by the registration/contact forms (optional in dev) |
 | `VITE_WHATSAPP_GROUP_URL` | client + server | Official WhatsApp group invite used in CTAs and emails |
 | `VITE_SITE_URL` | client + server | Canonical URL for metadata, `sitemap.xml`, `robots.txt` |
 | `FIREBASE_PROJECT_ID` | server only | Admin SDK project id (falls back to `VITE_FIREBASE_PROJECT_ID`) |
@@ -63,6 +63,8 @@ plain names and are read by Express through `process.env` — never prefix them 
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD` | server only | Nodemailer transport |
 | `SMTP_FROM` | server only | Friendly From header, e.g. `A2Z Academy <no-reply@…>` |
 | `ADMIN_EMAIL` | server only | Organiser inbox that receives registrations and contact messages |
+| `PUBLIC_ORIGIN` | server only | Comma-separated origins allowed to call `/api/*` (CORS allow-list) |
+| `RECAPTCHA_SECRET_KEY` | server only | reCAPTCHA v3 secret used to verify tokens on `/api/register` and `/api/contact`. Unset = verification skipped (development only) |
 | `PORT` | server only | Port the Express server binds to (default `12000`) |
 
 ---
@@ -103,13 +105,13 @@ plain names and are read by Express through `process.env` — never prefix them 
 |   |       ProblemStatementsList.tsx, BrandLogo.tsx, ScrollToTop.tsx
 |   |-- contexts/              AppCheckContext.tsx (reCAPTCHA v3)
 |   |-- lib/                   firebase (client init), firestore, content, site, format,
-|   |                          utils, validations
+|   |                          utils, validations, recaptcha, json-ld
 |   |-- types/index.ts         shared TS types
 |-- server/
 |   |-- index.ts               Express: static dist/, /api/*, sitemap.xml, robots.txt, headers
 |   |-- routes/                register.ts, contact.ts
 |   |-- lib/                   firebase-admin, firestore, registration, nodemailer,
-|   |                          email-templates, contact
+|   |                          email-templates, contact, rate-limit, captcha
 |-- scripts/
 |   |-- prerender.ts           headless-Chromium render of every route into dist/
 |   |-- verify-hydration.ts    asserts client nav, title updates, reveals, clean console
