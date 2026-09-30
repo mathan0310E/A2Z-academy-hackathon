@@ -360,7 +360,30 @@
   transform-origin: left center;
 }
 
+/* Decorative "matrix" rain behind the hero. Kept deliberately faint and masked
+   out toward the fold so the headline, copy, and stat cards stay fully legible. */
+.matrix-canvas {
+  opacity: 0.18;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.55) 55%,
+    rgba(0, 0, 0, 0.12) 85%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.55) 55%,
+    rgba(0, 0, 0, 0.12) 85%,
+    transparent 100%
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .matrix-canvas {
+    opacity: 0.1;
+  }
   .hero-enter-item {
     opacity: 1;
     animation: none;

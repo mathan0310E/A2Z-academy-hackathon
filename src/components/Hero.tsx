@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Trophy } from "lucide-react";
+import MatrixRain from "@/components/MatrixRain";
 
 const STATS = [
   { value: "2–4", label: "Members per team" },
@@ -25,6 +26,9 @@ const DOMAINS = [
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-hero-gradient">
+      {/* Matrix rain sits at the back of the stack; the gradient wash and the
+          drifting blobs layer over it, and all of it is decorative. */}
+      <MatrixRain className="pointer-events-none absolute inset-0 h-full w-full" />
       <div
         className="pointer-events-none absolute inset-0"
         style={{
