@@ -16,8 +16,13 @@ export const siteConfig = {
   whatsappUrl: viteEnv?.VITE_WHATSAPP_GROUP_URL || nodeEnv?.WHATSAPP_GROUP_URL || "",
   contact: {
     email: "hello@a2zacademy.co.in",
-    phone: "+91 9999999999",
-    location: "India",
+    phone: "+91 63798 69678",
+    phoneAlt: "+91 78259 88139",
+    location: "Tiruvannamalai, Tamil Nadu",
+    addressLocality: "Tiruvannamalai",
+    addressRegion: "Tamil Nadu",
+    postalCode: "606601",
+    addressCountry: "IN",
   },
   legal: {
     privacyEffective: "1 January 2025",

@@ -120,12 +120,23 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2 text-white/80">
               <Phone className="h-4 w-4 shrink-0 text-brand-green" />
-              <a
-                href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
-                className="transition-colors hover:text-brand-green"
-              >
-                {siteConfig.contact.phone}
-              </a>
+              <span className="flex flex-wrap items-center gap-x-2">
+                <a
+                  href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
+                  className="transition-colors hover:text-brand-green"
+                >
+                  {siteConfig.contact.phone}
+                </a>
+                <span aria-hidden="true" className="text-white/40">
+                  ·
+                </span>
+                <a
+                  href={`tel:${siteConfig.contact.phoneAlt.replace(/\s/g, "")}`}
+                  className="transition-colors hover:text-brand-green"
+                >
+                  {siteConfig.contact.phoneAlt}
+                </a>
+              </span>
             </li>
             <li className="flex items-center gap-2 text-white/80">
               <MapPin className="h-4 w-4 shrink-0 text-brand-green" />

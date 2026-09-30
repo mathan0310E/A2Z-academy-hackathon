@@ -8,7 +8,7 @@ import Seo from "@/components/Seo";
 
 export default function ContactPage() {
   const whatsAppUrl = import.meta.env.VITE_WHATSAPP_GROUP_URL || "";
-  const { email, phone, location } = siteConfig.contact;
+  const { email, phone, phoneAlt, location } = siteConfig.contact;
 
   const channels = [
     {
@@ -23,6 +23,8 @@ export default function ContactPage() {
       label: "Phone",
       value: phone,
       href: `tel:${phone.replace(/\s+/g, "")}`,
+      valueAlt: phoneAlt,
+      hrefAlt: `tel:${phoneAlt.replace(/\s+/g, "")}`,
       hint: "Mon–Sat, 10:00 AM – 6:00 PM IST.",
     },
     {
@@ -49,7 +51,7 @@ export default function ContactPage() {
 
       <div className="mx-auto max-w-4xl">
         <RevealGroup className="grid gap-4 sm:grid-cols-3">
-          {channels.map(({ Icon, label, value, href, hint }) => (
+          {channels.map(({ Icon, label, value, href, valueAlt, hrefAlt, hint }) => (
             <RevealItem key={label}>
               <GlassCard className="h-full">
                 <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green-ink">
@@ -67,6 +69,14 @@ export default function ContactPage() {
                   </a>
                 ) : (
                   <p className="mt-1 text-base font-semibold text-brand-ink">{value}</p>
+                )}
+                {valueAlt && hrefAlt && (
+                  <a
+                    href={hrefAlt}
+                    className="mt-0.5 block break-words text-base font-semibold text-brand-ink transition-colors hover:text-brand-green-ink"
+                  >
+                    {valueAlt}
+                  </a>
                 )}
                 <p className="mt-2 text-xs leading-relaxed text-brand-muted">{hint}</p>
               </GlassCard>
