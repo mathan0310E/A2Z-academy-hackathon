@@ -14,6 +14,9 @@ const PORT = Number(process.env.PORT || 12000);
 
 const app = express();
 app.disable("x-powered-by");
+// Behind nginx (one proxy hop), so `req.ip` is the real client and a
+// client-supplied X-Forwarded-For cannot choose its own rate-limit bucket.
+app.set("trust proxy", 1);
 app.use(compression());
 app.use(express.json({ limit: "1mb" }));
 
@@ -22,19 +25,49 @@ app.use((_req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader("X-DNS-Prefetch-Control", "on");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  res.setHeader(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      // Vite emits one inline module script; reCAPTCHA + Firebase need the rest.
+      "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://apis.google.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com data:",
+      "img-src 'self' data: https:",
+      "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.cloudfunctions.net https://www.google.com wss://*.firebaseio.com",
+      "frame-src https://www.google.com https://a2z-acadamey-hackathon.firebaseapp.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests",
+    ].join("; ")
+  );
   next();
 });
 
 // ---- API ----
-// CORS mirrors the `Access-Control-*` block in the Next app's next.config.mjs.
-app.use("/api", (_req, res, next) => {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,DELETE,PATCH,POST,PUT");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-Type, authorization, X-A2Z-HMAC"
-  );
+// CORS is an explicit allow-list. `Access-Control-Allow-Origin: *` is never sent
+// alongside credentials, and only known site origins may call the API.
+const PUBLIC_ORIGINS = (process.env.PUBLIC_ORIGIN || "")
+  .split(",")
+  .map((value) => value.trim().replace(/\/$/, ""))
+  .filter(Boolean);
+
+app.use("/api", (req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    const allowed = PUBLIC_ORIGINS.includes(origin.replace(/\/$/, ""));
+    if (allowed) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Vary", "Origin");
+    }
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
   next();
 });
 // Preflight: Next responded to OPTIONS automatically; Express needs it explicit.

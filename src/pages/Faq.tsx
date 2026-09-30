@@ -6,6 +6,7 @@ import FaqAccordion from "@/components/FaqAccordion";
 import ImportantNotice from "@/components/ImportantNotice";
 import { usePortalContent } from "@/contexts/PortalContentContext";
 import Seo from "@/components/Seo";
+import { jsonLdHtml } from "@/lib/json-ld";
 
 export default function FaqPage() {
   const { faqs } = usePortalContent();
@@ -30,7 +31,7 @@ export default function FaqPage() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(faqJsonLd) }}
       />
       <SectionWrapper className="pt-12 md:pt-16">
         <SectionTitle

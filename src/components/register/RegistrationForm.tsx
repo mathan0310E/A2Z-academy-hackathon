@@ -4,6 +4,7 @@ import { FormProvider, useForm, type Path } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, ArrowLeft, ArrowRight, Check, Loader2, Send } from "lucide-react";
 import { registrationSchema, type RegistrationFormData } from "@/lib/validations";
+import { getRecaptchaToken } from "@/lib/recaptcha";
 import { getMemberCount } from "@/types";
 import { GlassCard } from "@/components/ui/Section";
 import { cn } from "@/lib/utils";
@@ -109,10 +110,11 @@ export default function RegistrationForm() {
   const onSubmit = async (values: RegistrationFormData) => {
     setServerError(undefined);
     try {
+      const recaptchaToken = await getRecaptchaToken("register");
       const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, recaptchaToken }),
       });
       const json = await response.json();
 

@@ -2,6 +2,8 @@ import { Router, type Request, type Response } from "express";
 import { contactSchema, type ContactFormData } from "../../src/lib/validations";
 import { logContactEmail, saveContactMessage } from "../lib/contact";
 import { sendEmail } from "../lib/nodemailer";
+import { rateLimit } from "../lib/rate-limit";
+import { requireCaptcha } from "../lib/captcha";
 import {
   buildContactAcknowledgementEmail,
   buildContactNotificationEmail,
@@ -21,7 +23,12 @@ router.get("/", (_req: Request, res: Response) => {
   res.json({ status: "ok", message: "A2Z Academy Contact API" });
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post(
+  "/",
+  // Abuse control: each accepted message sends two emails.
+  rateLimit({ scope: "contact", max: 5, windowMs: 60_000 }),
+  requireCaptcha(),
+  async (req: Request, res: Response) => {
   try {
     const body = req.body;
 

@@ -1,5 +1,6 @@
 import { absoluteUrl, SITE_URL } from "@/lib/site";
 import { siteConfig } from "@/lib/content";
+import { jsonLdHtml } from "@/lib/json-ld";
 
 /**
  * Site-wide JSON-LD graph (Organization + WebSite + WebPage) plus a Hackathon
@@ -81,8 +82,9 @@ export default function StructuredData() {
   return (
     <script
       type="application/ld+json"
-      // Content is authored in-repo, so there is no user input to escape.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+      // Content is authored in-repo or in the admin panel, so it is escaped for
+      // HTML rather than assumed safe.
+      dangerouslySetInnerHTML={{ __html: jsonLdHtml(graph) }}
     />
   );
 }

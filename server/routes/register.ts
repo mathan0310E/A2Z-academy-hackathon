@@ -7,6 +7,8 @@ import {
   saveEmailLog,
 } from "../lib/registration";
 import { sendEmail } from "../lib/nodemailer";
+import { rateLimit } from "../lib/rate-limit";
+import { requireCaptcha } from "../lib/captcha";
 import {
   buildLeaderConfirmationEmail,
   buildMemberConfirmationEmail,
@@ -20,7 +22,13 @@ router.get("/", (_req: Request, res: Response) => {
   res.json({ status: "ok", message: "A2Z Academy Registration API" });
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post(
+  "/",
+  // Abuse control: a scripted client could otherwise register unlimited teams,
+  // each sending several emails through our SMTP account.
+  rateLimit({ scope: "register", max: 5, windowMs: 60_000 }),
+  requireCaptcha(),
+  async (req: Request, res: Response) => {
   try {
     const body = req.body;
 

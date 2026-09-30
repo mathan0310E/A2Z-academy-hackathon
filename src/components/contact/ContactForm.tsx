@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle2, Home, Loader2, Send } from "lucide-react";
 import { SelectField, TextField, TextareaField } from "@/components/ui/FormField";
 import { CONTACT_TOPICS, contactSchema, type ContactFormData } from "@/lib/validations";
+import { getRecaptchaToken } from "@/lib/recaptcha";
 import { siteConfig } from "@/lib/content";
 
 type ContactResult = {
@@ -44,10 +45,11 @@ export default function ContactForm() {
     setServerError(undefined);
 
     try {
+      const recaptchaToken = await getRecaptchaToken("contact");
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, recaptchaToken }),
       });
       const json = await response.json();
 
