@@ -37,6 +37,9 @@ export function getAdminDb(): Firestore {
   if (!adminDb) {
     getAdminApp();
     adminDb = getFirestore();
+    // Optional fields (e.g. email errorMessage, sentAt) are omitted when absent
+    // rather than being rejected as invalid document data.
+    adminDb.settings({ ignoreUndefinedProperties: true });
   }
   return adminDb!;
 }
