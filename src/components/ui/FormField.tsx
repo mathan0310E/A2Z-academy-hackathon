@@ -1,6 +1,7 @@
 
+import { useMemo, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { ChevronDown } from "lucide-react";
+import { Check, ChevronDown, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type AnyErrors = Record<string, any>;
@@ -157,12 +158,15 @@ export function SelectField({
 }
 
 /**
- * Free-text input with an optional suggestion list.
+ * Free-text input with a themed suggestion list.
  *
  * Used for "Department" so participants can type their actual department
- * instead of being forced into a fixed dropdown. Suggestions are rendered with
- * a native <datalist>, so there is no JS, no extra bundle weight, and it
- * degrades to a plain text box in browsers without support.
+ * instead of being forced into a fixed dropdown. A native <datalist> would
+ * render an OS-styled popup that ignores the brand tokens, so the list is
+ * rendered in-page and filtered as you type. The input stays free text —
+ * suggestions are a convenience, never a constraint — and picking one only
+ * fills the value. Keyboard support follows the ARIA combobox pattern:
+ * ArrowUp/Down to move, Enter to accept, Escape to dismiss.
  */
 export function ComboboxField({
   name,
@@ -181,35 +185,148 @@ export function ComboboxField({
 }) {
   const {
     register,
+    setValue,
+    watch,
     formState: { errors },
   } = useFormContext();
 
   const error = getError(errors as AnyErrors, name);
   const listId = `${name}-suggestions`;
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  const value = (watch(name as any) as string) ?? "";
+
+  const matches = useMemo(() => {
+    const q = value.trim().toLowerCase();
+    if (!q) return options;
+    return options.filter((o) => o.toLowerCase().includes(q));
+  }, [options, value]);
+
+  const { onChange, onBlur, ...rest } = register(name as any);
+
+  const choose = (option: string) => {
+    setValue(name as any, option, { shouldDirty: true, shouldValidate: true });
+    setOpen(false);
+    setActive(-1);
+  };
+
+  // Arrow keys walk the list once it is open; the first press opens it so a
+  // keyboard user never has to tab away from the input. Escape is handled
+  // before the empty-list guard so the field always collapses cleanly.
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const n = matches.length;
+    if (!open) {
+      if ((e.key === "ArrowDown" || e.key === "ArrowUp") && n > 0) {
+        setOpen(true);
+        setActive(e.key === "ArrowDown" ? 0 : n - 1);
+        e.preventDefault();
+      }
+      return;
+    }
+    if (e.key === "Escape") {
+      setOpen(false);
+      setActive(-1);
+      return;
+    }
+    if (n === 0) return;
+    if (e.key === "ArrowDown") {
+      setActive((i) => (i + 1) % n);
+      e.preventDefault();
+    } else if (e.key === "ArrowUp") {
+      setActive((i) => (i - 1 + n) % n);
+      e.preventDefault();
+    } else if (e.key === "Enter" && active >= 0 && matches[active]) {
+      choose(matches[active]);
+      e.preventDefault();
+    }
+  };
+
+  // aria-expanded / aria-controls must only describe a list that is rendered,
+  // otherwise the input advertises a listbox that does not exist.
+  const showList = open && matches.length > 0;
 
   return (
     <FieldShell name={name} label={label} hint={hint} error={error}>
-      <div className="relative">
+      <div
+        ref={wrapRef}
+        className="relative"
+        // Close when focus leaves the field entirely (e.g. tabbing to the next
+        // input) without racing the click that selects an option.
+        onBlur={(e) => {
+          if (!wrapRef.current?.contains(e.relatedTarget as Node)) {
+            setOpen(false);
+            setActive(-1);
+          }
+        }}
+      >
+        <Search
+          aria-hidden="true"
+          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted"
+        />
         <input
           id={name}
-          {...register(name as any)}
-          list={listId}
+          {...rest}
+          value={value}
+          onChange={(e) => {
+            onChange(e);
+            setOpen(true);
+            setActive(-1);
+          }}
+          onFocus={() => setOpen(true)}
+          onKeyDown={onKeyDown}
+          onBlur={onBlur}
+          role="combobox"
+          aria-expanded={showList}
+          aria-controls={showList ? listId : undefined}
+          aria-autocomplete="list"
+          aria-activedescendant={active >= 0 ? `${listId}-${active}` : undefined}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${name}-error` : undefined}
           placeholder={placeholder}
           maxLength={maxLength}
           autoComplete="off"
-          aria-invalid={error ? true : undefined}
-          aria-describedby={error ? `${name}-error` : undefined}
-          className={cn(inputClassName, "pr-9", error ? errorClassName : normalClassName)}
+          className={cn(inputClassName, "pl-9 pr-9", error ? errorClassName : normalClassName)}
         />
         <ChevronDown
           aria-hidden="true"
-          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted"
+          className={cn(
+            "pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted transition-transform duration-200",
+            showList && "rotate-180"
+          )}
         />
-        <datalist id={listId}>
-          {options.map((option) => (
-            <option key={option} value={option} />
-          ))}
-        </datalist>
+
+        {showList && (
+          <ul
+            id={listId}
+            role="listbox"
+            className="absolute z-30 mt-1.5 max-h-64 w-full overflow-auto rounded-lg border border-input bg-white p-1 shadow-brand-lg"
+          >
+            {matches.map((option, i) => {
+              const selected = option === value;
+              return (
+                <li
+                  key={option}
+                  id={`${listId}-${i}`}
+                  role="option"
+                  aria-selected={selected}
+                  onMouseEnter={() => setActive(i)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => choose(option)}
+                  className={cn(
+                    "flex cursor-pointer items-center justify-between gap-2 rounded-md px-3 py-2 text-sm transition-colors",
+                    i === active ? "bg-brand-green-soft text-brand-green-ink" : "text-brand-ink",
+                    selected && "font-semibold"
+                  )}
+                >
+                  <span>{option}</span>
+                  {selected && <Check aria-hidden="true" className="h-4 w-4 shrink-0 text-brand-green-ink" />}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </FieldShell>
   );

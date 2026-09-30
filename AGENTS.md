@@ -216,5 +216,5 @@ client's first render would not, which is a hydration mismatch. Consent is store
 Footer content, social handles, and the legal pages (`/privacy`, `/terms`, `/cookies`) follow the
 reference. Legal pages must also be added to `scripts/prerender.ts` `ROUTES` and to
 `CRAWLABLE_ROUTES` in `server/index.ts` (sitemap). The Department field is free text with a
-`<datalist>` of suggestions — participants are never restricted to the list.
+themed in-page suggestion list — participants are never restricted to the list.
 
