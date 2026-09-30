@@ -140,6 +140,11 @@ defaults to `https://www.a2zacademy.co.in` and drives canonicals, `robots.txt`, 
 
 ## Backend
 
+- **Contact details are real, not placeholders.** `src/lib/content.ts` `siteConfig.contact` holds
+  the verified A2Z Academy details (phones `+91 63798 69678` / `+91 78259 88139`, address
+  Tiruvannamalai, Tamil Nadu 606601). `Footer`, `Contact`, and `StructuredData` all read from it —
+  do not reintroduce dummy values like `+91 9999999999`. The `hello@a2zacademy.co.in` mailbox is
+  on-domain; no verified alternative exists, so it is left as-is.
 - `server/routes/register.ts` and `server/routes/contact.ts` (Firestore + Nodemailer). Firebase/App
   Check may be unconfigured locally; every failure path degrades gracefully (problem statements
   resolve to an empty state, emails are best-effort).
