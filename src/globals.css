@@ -360,54 +360,52 @@
   transform-origin: left center;
 }
 
-/* Legibility veil over the matrix rain. On wide screens the copy occupies the
-   left column, so a horizontal wash keeps text on near-white while the right
-   side stays clear; below lg the copy spans the full width, so a vertical wash
-   fades the rain out behind it instead. */
+/* Legibility veil over the matrix rain. Deliberately near-uniform and light so
+   the rain stays visible right across the hero rather than only on the side with
+   no copy. Text contrast is handled locally by the halo on .hero-copy below, so
+   this only needs to soften the effect against the gradient. */
 .hero-veil {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.92) 0%,
-    rgba(255, 255, 255, 0.88) 70%,
-    rgba(255, 255, 255, 0.7) 100%
-  );
-}
-@media (min-width: 1024px) {
-  .hero-veil {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.88) 46%,
-      rgba(255, 255, 255, 0.45) 66%,
-      rgba(255, 255, 255, 0) 84%
-    );
-  }
+  background: rgba(255, 255, 255, 0.42);
 }
 
-/* Decorative "matrix" rain behind the hero. Visible as moving texture, but the
-   mask still fades it out toward the fold so headline, copy, and stat cards stay
-   legible. */
+/* The copy column sits directly on the rain. Instead of masking the effect
+   behind a panel, the text carries a soft white halo: the glyph keeps its own
+   near-white ground, so the rain can run unbroken from left to right without
+   pushing the copy below 4.5:1. */
+.hero-copy > h1,
+.hero-copy > p {
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 0.95),
+    0 0 10px rgba(255, 255, 255, 0.9),
+    0 0 22px rgba(255, 255, 255, 0.7);
+}
+
+/* Decorative "matrix" rain behind the hero. Runs at full strength across the
+   width so the effect reads as one continuous left-to-right field, fading only
+   where it meets the header and the fold below. */
 .matrix-canvas {
-  opacity: 0.5;
+  opacity: 1;
   -webkit-mask-image: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.7) 55%,
-    rgba(0, 0, 0, 0.25) 85%,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 1) 8%,
+    rgba(0, 0, 0, 0.95) 68%,
+    rgba(0, 0, 0, 0.5) 90%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.7) 55%,
-    rgba(0, 0, 0, 0.25) 85%,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 1) 8%,
+    rgba(0, 0, 0, 0.95) 68%,
+    rgba(0, 0, 0, 0.5) 90%,
     transparent 100%
   );
 }
 
 @media (prefers-reduced-motion: reduce) {
   .matrix-canvas {
-    opacity: 0.35;
+    opacity: 0.6;
   }
   .hero-enter-item {
     opacity: 1;

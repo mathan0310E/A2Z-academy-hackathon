@@ -51,7 +51,7 @@ export default function Hero() {
       <div aria-hidden="true" className="hero-veil pointer-events-none absolute inset-0" />
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:py-20">
-        <div className="hero-enter space-y-6">
+        <div className="hero-enter hero-copy space-y-6">
           {/* Badge */}
           <div className="hero-enter-item">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-green-ink">

@@ -14,9 +14,9 @@ import { useEffect, useRef } from "react";
 const GLYPHS = "01<>{}[]()/*+-=:;ABCDEFabcdef#$%&@!?";
 // The hero is a light theme, so the classic effect is inverted: the leading
 // glyph is the darkest/most saturated one and the trail fades out from there.
-const HEAD_COLOR = "rgba(30, 66, 12, 0.98)";
-const GLOW_COLOR = "rgba(65, 122, 30, 0.55)";
-const TRAIL_RGB = "65, 122, 30";
+const HEAD_COLOR = "rgba(26, 58, 10, 1)";
+const GLOW_COLOR = "rgba(65, 122, 30, 0.6)";
+const TRAIL_RGB = "56, 106, 24";
 const FONT_STACK = "ui-monospace, SFMono-Regular, Menlo, monospace";
 
 type Column = {
@@ -35,14 +35,14 @@ type Column = {
 const pickGlyph = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
 
 function makeColumn(rows: number): Column {
-  const length = 9 + Math.floor(Math.random() * 18);
+  const length = 12 + Math.floor(Math.random() * 22);
   return {
     // Spread heads from just above the canvas to the bottom edge so the hero is
     // already raining on first paint instead of filling in over ~15 seconds.
     head: Math.random() * rows * 1.35 - rows * 0.35,
-    speed: 4 + Math.random() * 13,
+    speed: 5 + Math.random() * 15,
     length,
-    brightness: 0.45 + Math.random() * 0.55,
+    brightness: 0.62 + Math.random() * 0.38,
     chars: Array.from({ length }, pickGlyph),
     mutateAt: Array.from({ length }, () => Math.random() * 2),
   };
