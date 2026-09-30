@@ -1,16 +1,52 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Decorative "matrix" rain for the hero background: columns of glyphs falling
- * with a brighter leading character. Pure canvas, so it costs no DOM nodes and
- * no animation runtime.
+ * Animated "matrix" rain for the hero background, built to read as continuous
+ * flowing streams rather than random flicker: each column owns a persistent
+ * trail of glyphs with a bright leading character, the stream slides smoothly
+ * between rows, and glyphs mutate in place the way they do in the film.
  *
- * Legibility and cost are the two constraints here. The canvas is hidden from
- * assistive tech and from pointer events, the CSS keeps it faint and masks it
- * out toward the fold (see `.matrix-canvas`), and the loop is capped to ~24fps
- * and stops entirely when the tab is hidden or the section scrolls out of view.
+ * Cost and legibility are the constraints. It is a single canvas (no DOM nodes),
+ * capped at 30fps, paused when the tab is hidden or the hero is off-screen, and
+ * dropped to 1x pixel ratio if frames start running long. Under
+ * prefers-reduced-motion it paints one static frame and never animates.
  */
-const GLYPHS = "01<>{}[]()/*+-=ABCDEF#$%&";
+const GLYPHS = "01<>{}[]()/*+-=:;ABCDEFabcdef#$%&@!?";
+// The hero is a light theme, so the classic effect is inverted: the leading
+// glyph is the darkest/most saturated one and the trail fades out from there.
+const HEAD_COLOR = "rgba(30, 66, 12, 0.98)";
+const GLOW_COLOR = "rgba(65, 122, 30, 0.55)";
+const TRAIL_RGB = "65, 122, 30";
+const FONT_STACK = "ui-monospace, SFMono-Regular, Menlo, monospace";
+
+type Column = {
+  /** Fractional row position of the leading glyph. */
+  head: number;
+  /** Rows travelled per second. */
+  speed: number;
+  /** Trail length in rows. */
+  length: number;
+  brightness: number;
+  chars: string[];
+  /** Per-cell timestamp (seconds) at which the glyph next mutates. */
+  mutateAt: number[];
+};
+
+const pickGlyph = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
+
+function makeColumn(rows: number): Column {
+  const length = 9 + Math.floor(Math.random() * 18);
+  return {
+    // Spread heads from just above the canvas to the bottom edge so the hero is
+    // already raining on first paint instead of filling in over ~15 seconds.
+    head: Math.random() * rows * 1.35 - rows * 0.35,
+    speed: 4 + Math.random() * 13,
+    length,
+    brightness: 0.45 + Math.random() * 0.55,
+    chars: Array.from({ length }, pickGlyph),
+    mutateAt: Array.from({ length }, () => Math.random() * 2),
+  };
+}
 
 export default function MatrixRain({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -21,15 +57,12 @@ export default function MatrixRain({ className }: { className?: string }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let width = 0;
     let height = 0;
-    let fontSize = 14;
-    let columns = 0;
-    let drops: number[] = [];
-    let speeds: number[] = [];
+    let fontSize = 15;
+    let columns: Column[] = [];
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -39,63 +72,125 @@ export default function MatrixRain({ className }: { className?: string }) {
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Slightly larger glyphs on bigger screens; fewer, longer trails otherwise.
-      fontSize = width < 640 ? 12 : 15;
-      columns = Math.ceil(width / fontSize);
-      drops = Array.from({ length: columns }, () => Math.random() * (height / fontSize));
-      speeds = Array.from({ length: columns }, () => 0.45 + Math.random() * 0.55);
-      ctx.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+      fontSize = width < 640 ? 13 : width < 1100 ? 15 : 17;
+      const count = Math.ceil(width / fontSize);
+      const rows = Math.ceil(height / fontSize) + 2;
+      // Keep existing streams across resizes so the rain never restarts.
+      columns = Array.from({ length: count }, (_, i) => columns[i] ?? makeColumn(rows));
+
+      ctx.font = `${fontSize}px ${FONT_STACK}`;
+      ctx.textBaseline = "top";
     };
 
-    const draw = () => {
-      // Translucent wash instead of clearRect — this is what produces the trail.
-      ctx.fillStyle = "rgba(255, 255, 255, 0.09)";
-      ctx.fillRect(0, 0, width, height);
+    const draw = (dt: number, now: number) => {
+      ctx.clearRect(0, 0, width, height);
+      const rows = Math.ceil(height / fontSize) + 2;
 
-      for (let i = 0; i < columns; i++) {
+      // Pass 1 — trails. Characters hold their position and mutate on a timer,
+      // which is what makes the columns read as flowing text.
+      for (let i = 0; i < columns.length; i++) {
+        const col = columns[i];
         const x = i * fontSize;
-        const y = drops[i] * fontSize;
-        const glyph = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+        col.head += col.speed * dt;
 
-        // The leading glyph is the only high-contrast one; the rest read as a
-        // dim green trail so the overall wash stays light.
-        ctx.fillStyle = "rgba(65, 122, 30, 0.85)";
-        ctx.fillText(glyph, x, y);
-        ctx.fillStyle = "rgba(113, 191, 67, 0.35)";
-        ctx.fillText(GLYPHS[(Math.random() * GLYPHS.length) | 0], x, y - fontSize);
+        if ((col.head - col.length) * fontSize > height) {
+          columns[i] = makeColumn(rows);
+          continue;
+        }
 
-        if (y > height && Math.random() > 0.975) drops[i] = 0;
-        drops[i] += speeds[i];
+        for (let k = 1; k < col.length; k++) {
+          const y = (col.head - k) * fontSize;
+          if (y < -fontSize || y > height) continue;
+
+          if (now >= col.mutateAt[k]) {
+            col.chars[k] = pickGlyph();
+            col.mutateAt[k] = now + 0.3 + Math.random() * 2.5;
+          }
+
+          const alpha = Math.pow(1 - k / col.length, 1.7) * col.brightness;
+          ctx.fillStyle = `rgba(${TRAIL_RGB}, ${alpha.toFixed(3)})`;
+          ctx.fillText(col.chars[k], x, y);
+        }
       }
+
+      // Pass 2 — leading glyphs, drawn with a soft glow so each stream has a
+      // bright head the way the reference effect does.
+      ctx.shadowColor = GLOW_COLOR;
+      ctx.shadowBlur = 7;
+      for (let i = 0; i < columns.length; i++) {
+        const col = columns[i];
+        const y = col.head * fontSize;
+        if (y < -fontSize || y > height) continue;
+        if (now >= col.mutateAt[0]) {
+          col.chars[0] = pickGlyph();
+          col.mutateAt[0] = now + 0.15 + Math.random() * 1.2;
+        }
+        ctx.fillStyle = HEAD_COLOR;
+        ctx.fillText(col.chars[0], i * fontSize, y);
+      }
+      ctx.shadowBlur = 0;
     };
 
     resize();
+    draw(0, 0);
 
-    // Static first frame so the section never renders empty, then animate.
-    draw();
-    if (reduced) return () => undefined;
+    if (reduced) {
+      const onResizeStatic = () => {
+        resize();
+        draw(0, 0);
+      };
+      window.addEventListener("resize", onResizeStatic);
+      return () => window.removeEventListener("resize", onResizeStatic);
+    }
 
     let raf = 0;
     let last = 0;
-    const interval = 1000 / 24;
+    let acc = 0;
+    let slowFrames = 0;
+    const FRAME = 1 / 30;
 
-    const loop = (now: number) => {
+    const loop = (ts: number) => {
       raf = requestAnimationFrame(loop);
-      if (now - last < interval) return;
+      const now = ts / 1000;
+      if (!last) {
+        last = now;
+        return;
+      }
+      // Clamp so a tab switch doesn't teleport every stream.
+      const dt = Math.min(now - last, 0.1);
       last = now;
-      draw();
+      acc += dt;
+      if (acc < FRAME) return;
+      const step = acc;
+      acc = 0;
+
+      const t0 = performance.now();
+      draw(step, now);
+      const cost = performance.now() - t0;
+
+      // Back off to 1x pixel ratio if drawing consistently runs long.
+      if (cost > 14) {
+        slowFrames += 1;
+        if (slowFrames > 45 && dpr > 1) {
+          dpr = 1;
+          slowFrames = 0;
+          resize();
+        }
+      } else if (slowFrames > 0) {
+        slowFrames -= 1;
+      }
     };
     raf = requestAnimationFrame(loop);
 
     const onResize = () => resize();
     window.addEventListener("resize", onResize);
 
-    // Pause while the tab is hidden or the hero is scrolled past.
     const onVisibility = () => {
       if (document.hidden) {
         cancelAnimationFrame(raf);
         raf = 0;
       } else if (!raf) {
+        last = 0;
         raf = requestAnimationFrame(loop);
       }
     };
@@ -104,7 +199,10 @@ export default function MatrixRain({ className }: { className?: string }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!raf) raf = requestAnimationFrame(loop);
+          if (!raf) {
+            last = 0;
+            raf = requestAnimationFrame(loop);
+          }
         } else if (raf) {
           cancelAnimationFrame(raf);
           raf = 0;

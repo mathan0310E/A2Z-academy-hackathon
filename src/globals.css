@@ -360,6 +360,30 @@
   transform-origin: left center;
 }
 
+/* Legibility veil over the matrix rain. On wide screens the copy occupies the
+   left column, so a horizontal wash keeps text on near-white while the right
+   side stays clear; below lg the copy spans the full width, so a vertical wash
+   fades the rain out behind it instead. */
+.hero-veil {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.88) 70%,
+    rgba(255, 255, 255, 0.7) 100%
+  );
+}
+@media (min-width: 1024px) {
+  .hero-veil {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.88) 46%,
+      rgba(255, 255, 255, 0.45) 66%,
+      rgba(255, 255, 255, 0) 84%
+    );
+  }
+}
+
 /* Decorative "matrix" rain behind the hero. Visible as moving texture, but the
    mask still fades it out toward the fold so headline, copy, and stat cards stay
    legible. */

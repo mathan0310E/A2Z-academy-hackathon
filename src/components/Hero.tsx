@@ -45,6 +45,10 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute -right-8 bottom-20 h-56 w-56 animate-float rounded-full bg-brand-navy/5 blur-3xl"
       />
+      {/* Legibility veil. A falling glyph head passing behind a text glyph would
+          otherwise drop local contrast to ~1.9:1, so the copy side of the hero is
+          washed toward white while the right side stays clear for the rain. */}
+      <div aria-hidden="true" className="hero-veil pointer-events-none absolute inset-0" />
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:py-20">
         <div className="hero-enter space-y-6">
