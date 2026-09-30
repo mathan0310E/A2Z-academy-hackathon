@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, ChevronDown, Trophy } from "lucide-react";
+import { ArrowRight, BookOpen, Trophy } from "lucide-react";
 
 const STATS = [
   { value: "2–4", label: "Members per team" },
@@ -17,12 +17,14 @@ const DOMAINS = [
 ];
 
 /**
- * Static hero. Entrance animation is pure CSS (see `.hero-enter` in globals.css)
- * so this stays a Server Component with zero animation runtime.
+ * Hero. Composition mirrors the reference site: a two-column grid with the
+ * headline/copy/CTAs on the left and a card grid on the right, collapsing to a
+ * single column below `lg`. Entrance animation is pure CSS (see `.hero-enter`
+ * in globals.css) so this ships no animation runtime.
  */
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-hero-gradient py-20 md:py-28">
+    <section className="relative overflow-hidden bg-hero-gradient">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -40,44 +42,47 @@ export default function Hero() {
         className="pointer-events-none absolute -right-8 bottom-20 h-56 w-56 animate-float rounded-full bg-brand-navy/5 blur-3xl"
       />
 
-      <div className="relative container mx-auto px-4 md:px-6">
-        <div className="hero-enter mx-auto max-w-3xl text-center">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:py-20">
+        <div className="hero-enter space-y-6">
           {/* Badge */}
-          <div className="hero-enter-item mb-6">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-green-hover">
+          <div className="hero-enter-item">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-green-ink">
               <Trophy className="h-3.5 w-3.5" />
               Tech-Based Hackathon
             </span>
           </div>
 
-          <h1 className="hero-enter-item text-4xl font-extrabold leading-tight tracking-tight text-brand-navy sm:text-5xl md:text-6xl">
+          <h1 className="hero-enter-item font-display text-5xl font-bold leading-[1.05] text-brand-ink sm:text-6xl">
             Build your skills.
             <br />
-            <span className="text-brand-green">Build your future.</span>
+            <span className="text-brand-green-ink">Build your future.</span>
           </h1>
 
-          <p className="hero-enter-item mx-auto mt-6 max-w-2xl text-base leading-relaxed text-brand-muted sm:text-lg">
+          <p className="hero-enter-item max-w-xl text-base leading-relaxed text-brand-muted sm:text-lg">
             A2Z Academy empowers institutes with tech-based training. Join the{" "}
-            <span className="font-semibold text-brand-navy">A2Z Academy Tech-Based Hackathon</span> —
+            <span className="font-semibold text-brand-ink">A2Z Academy Tech-Based Hackathon</span> —
             explore technology, solve real-world problems, and build innovative solutions.
           </p>
 
-          <div className="hero-enter-item mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link to="/register" className="btn-pill-primary group w-full sm:w-auto">
+          <div className="hero-enter-item flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/register"
+              className="btn-pill-primary group h-11 text-base"
+            >
               Start Registration
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link to="/hackathon" className="btn-pill-outline w-full sm:w-auto">
+            <Link to="/hackathon" className="btn-pill-outline h-11 text-base">
               <BookOpen className="h-4 w-4" />
               Explore Hackathon
             </Link>
           </div>
 
-          <div className="hero-enter-item mt-10 flex flex-wrap justify-center gap-2">
+          <div className="hero-enter-item flex flex-wrap gap-2 pt-2">
             {DOMAINS.map((domain) => (
               <span
                 key={domain}
-                className="rounded-full border border-brand-navy/10 bg-white px-3.5 py-1.5 text-xs font-semibold text-brand-navy shadow-card"
+                className="rounded-full border border-brand-navy/10 bg-white px-3.5 py-1.5 text-xs font-semibold text-brand-ink shadow-card"
               >
                 {domain}
               </span>
@@ -85,24 +90,17 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Stats strip — mirrors the reference site's metric row */}
-        <div className="hero-enter mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
+        {/* Card grid — mirrors the reference's right-hand visual column */}
+        <div className="hero-enter grid grid-cols-2 gap-3 sm:gap-4">
           {STATS.map((stat) => (
             <div key={stat.label} className="hero-enter-item">
-              <div className="hover-lift h-full rounded-none border border-brand-navy/10 bg-white p-5 text-center shadow-card">
-                <p className="text-2xl font-extrabold text-brand-green md:text-3xl">{stat.value}</p>
+              <div className="glass-card h-full p-5">
+                <p className="text-2xl font-extrabold text-brand-green-ink md:text-3xl">{stat.value}</p>
                 <p className="mt-1 text-xs font-medium text-brand-muted">{stat.label}</p>
               </div>
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="relative mt-14 flex justify-center">
-        <span className="flex items-center gap-2 text-xs font-medium text-brand-muted">
-          Scroll to explore
-          <ChevronDown className="h-4 w-4 animate-bounce" />
-        </span>
       </div>
     </section>
   );

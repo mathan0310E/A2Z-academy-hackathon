@@ -13,6 +13,7 @@ export default function ProblemStatementsPage() {
       />
       <SectionWrapper className="pt-12 md:pt-16">
         <SectionTitle
+          as="h1"
           title="Problem Statements"
           subtitle="Browse the published problem statements to plan your solution. You do not select a problem while registering — instructions for each round are shared in the official WhatsApp group."
         />

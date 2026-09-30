@@ -19,11 +19,11 @@ export default function NotFound() {
         noIndex
       />
       <div className="mx-auto max-w-2xl text-center">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-medium uppercase tracking-wider text-brand-green-hover">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-medium uppercase tracking-wider text-brand-green-ink">
           404 — Page not found
         </span>
 
-        <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-brand-navy sm:text-5xl">
+        <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-brand-ink sm:text-5xl">
           This page has left the circuit
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base text-brand-muted">
@@ -56,7 +56,7 @@ export default function NotFound() {
               <li key={href}>
                 <Link
                   to={href}
-                  className="inline-flex items-center gap-2 text-sm text-brand-green-hover hover:underline"
+                  className="inline-flex items-center gap-2 text-sm text-brand-green-ink hover:underline"
                 >
                   <Icon className="h-4 w-4" />
                   {label}

@@ -9,10 +9,11 @@
 const viteEnv = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
 const nodeEnv = typeof process !== "undefined" ? process.env : undefined;
 
-export const SITE_URL = (viteEnv?.VITE_SITE_URL || nodeEnv?.VITE_SITE_URL || "https://a2zacademy.co.in").replace(
-  /\/+$/,
-  ""
-);
+export const SITE_URL = (
+  viteEnv?.VITE_SITE_URL ||
+  nodeEnv?.VITE_SITE_URL ||
+  "https://www.a2zacademy.co.in"
+).replace(/\/+$/, "");
 
 /** Build an absolute URL from a site-relative path ("/register" → "https://…/register"). */
 export function absoluteUrl(path: string): string {

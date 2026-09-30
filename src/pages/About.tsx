@@ -31,16 +31,17 @@ export default function AboutPage() {
         description="A2Z Academy empowers educational institutions with tech-based training, practical learning, project development, and innovation-driven hackathons."
         path="/about"
       />
-      <SectionTitle title="About A2Z Academy" subtitle="Who we are and what we stand for." />
+      <SectionTitle title="About A2Z Academy"
+        as="h1" subtitle="Who we are and what we stand for." />
 
       <div className="mx-auto max-w-4xl space-y-6">
         {pillars.map(({ title, Icon, body }, index) => (
           <Reveal key={title} delay={index * 0.1}>
             <GlassCard className="p-8">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green-ink">
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="mb-3 text-xl font-semibold text-brand-navy">{title}</h3>
+              <h2 className="mb-3 text-xl font-bold text-brand-ink">{title}</h2>
               <p className="leading-relaxed text-brand-ink">{body}</p>
             </GlassCard>
           </Reveal>
@@ -48,7 +49,7 @@ export default function AboutPage() {
 
         <Reveal delay={0.3}>
           <GlassCard className="p-8">
-            <h3 className="mb-4 text-xl font-semibold text-brand-navy">Our Focus</h3>
+            <h2 className="mb-4 text-xl font-bold text-brand-ink">Our Focus</h2>
             <ul className="grid grid-cols-2 gap-3 text-sm text-brand-ink sm:grid-cols-4">
               {FOCUSES.map((focus) => (
                 <li key={focus} className="flex items-center gap-2">

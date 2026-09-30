@@ -25,6 +25,7 @@ export default function WhatWeProvidePage() {
       />
       <SectionTitle
         title="What A2Z Academy Provides"
+        as="h1"
         subtitle="Comprehensive technology education and innovation services for institutes and students."
       />
 
@@ -35,10 +36,10 @@ export default function WhatWeProvidePage() {
           return (
             <RevealItem key={item.title} className="h-full">
               <GlassCard className="group flex h-full flex-col text-center transition-all duration-300 hover:border-brand-green/40">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green transition-colors group-hover:from-brand-green/20">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green-ink transition-colors group-hover:from-brand-green/20">
                   <Icon className="h-7 w-7" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-brand-navy">{item.title}</h3>
+                <h2 className="mb-2 text-lg font-bold text-brand-ink">{item.title}</h2>
                 <p className="flex-1 text-sm text-brand-muted">{item.description}</p>
               </GlassCard>
             </RevealItem>

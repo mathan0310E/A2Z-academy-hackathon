@@ -31,15 +31,17 @@ export default function RegisterPage() {
         path="/register"
       />
       <SectionTitle
+        as="h1"
         title="Register Your Team"
         subtitle="Complete the three steps below. You will receive a unique Registration ID instantly and a confirmation email for every member."
       />
 
       <div className="mx-auto max-w-3xl">
+        <h2 className="sr-only">Registration steps</h2>
         <div className="mb-8 grid gap-3 sm:grid-cols-3">
           {facts.map(({ Icon, label, value }) => (
             <GlassCard key={label} className="!p-4">
-              <div className="mb-2 flex items-center gap-2 text-brand-green">
+              <div className="mb-2 flex items-center gap-2 text-brand-green-ink">
                 <Icon className="h-4 w-4" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
                   {label}
@@ -56,7 +58,7 @@ export default function RegisterPage() {
           Registration is the only entry path to the hackathon. Team names and member emails must be
           unique — duplicates are rejected automatically. Changes after submitting can be requested
           through the{" "}
-          <a href="/contact" className="text-brand-green hover:underline">
+          <a href="/contact" className="text-brand-green-ink underline underline-offset-2 hover:decoration-2">
             contact page
           </a>
           .

@@ -33,6 +33,7 @@ export default function FaqPage() {
       <SectionWrapper className="pt-12 md:pt-16">
         <SectionTitle
           title="Frequently Asked Questions"
+        as="h1"
           subtitle="Everything you need to know before you register. Still unsure? The official WhatsApp group and contact page are always open."
         />
 
@@ -43,7 +44,7 @@ export default function FaqPage() {
         <RevealGroup className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">
           <RevealItem>
             <GlassCard className="h-full">
-              <h3 className="mb-2 text-lg font-semibold text-brand-navy">Ready to compete?</h3>
+              <h2 className="mb-2 text-lg font-bold text-brand-ink">Ready to compete?</h2>
               <p className="mb-4 text-sm text-brand-muted">
                 Registration takes about two minutes. You will receive a unique Registration ID on
                 success.
@@ -60,7 +61,7 @@ export default function FaqPage() {
 
           <RevealItem>
             <GlassCard className="h-full">
-              <h3 className="mb-2 text-lg font-semibold text-brand-navy">Something not covered?</h3>
+              <h2 className="mb-2 text-lg font-bold text-brand-ink">Something not covered?</h2>
               <p className="mb-4 text-sm text-brand-muted">
                 Reach the organisers directly — questions about rounds, eligibility, and schedules are
                 answered there.

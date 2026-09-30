@@ -16,13 +16,14 @@ export default function GuidelinesPage() {
       />
       <SectionWrapper className="pt-12 md:pt-16">
         <div className="mb-10 flex justify-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-medium uppercase tracking-wider text-brand-green-hover">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-medium uppercase tracking-wider text-brand-green-ink">
             <ScrollText className="h-3.5 w-3.5" />
             Read before you register
           </span>
         </div>
 
         <SectionTitle
+          as="h1"
           title="Guidelines & Rules"
           subtitle="These guidelines keep the competition fair for every team. By registering, each team confirms that all information submitted is accurate."
         />
@@ -32,7 +33,7 @@ export default function GuidelinesPage() {
             {siteConfig.guidelines.map((rule, index) => (
               <RevealItem key={rule}>
                 <GlassCard className="flex items-start gap-4 !p-5">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/15 to-brand-green/15 text-sm font-bold text-brand-green-hover">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/15 to-brand-green/15 text-sm font-bold text-brand-green-ink">
                     {index + 1}
                   </span>
                   <p className="pt-1 text-sm leading-relaxed text-brand-ink">{rule}</p>
@@ -48,7 +49,7 @@ export default function GuidelinesPage() {
               <GlassCard className="h-full border-amber-300">
                 <div className="mb-3 flex items-center gap-2 text-amber-700">
                   <AlertTriangle className="h-5 w-5" />
-                  <h3 className="text-base font-semibold text-brand-navy">Important</h3>
+                  <h2 className="text-base font-bold text-brand-ink">Important</h2>
                 </div>
                 <ul className="space-y-2 text-sm text-brand-muted">
                   <li>
@@ -67,9 +68,9 @@ export default function GuidelinesPage() {
 
             <RevealItem>
               <GlassCard className="h-full">
-                <div className="mb-3 flex items-center gap-2 text-brand-green-hover">
+                <div className="mb-3 flex items-center gap-2 text-brand-green-ink">
                   <CheckCircle2 className="h-5 w-5" />
-                  <h3 className="text-base font-semibold text-brand-navy">What to do next</h3>
+                  <h2 className="text-base font-bold text-brand-ink">What to do next</h2>
                 </div>
                 <ol className="space-y-2 text-sm text-brand-muted">
                   <li>1. Form your team and agree on a team type.</li>

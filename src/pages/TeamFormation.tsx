@@ -29,6 +29,7 @@ export default function TeamFormationPage() {
       />
       <SectionWrapper className="pt-12 md:pt-16">
         <SectionTitle
+          as="h1"
           title="Team Formation"
           subtitle={`Every team must have ${siteConfig.hackathonInfo.teamSize} and pick exactly one team type during registration. One registration per team.`}
         />
@@ -42,16 +43,16 @@ export default function TeamFormationPage() {
                 <RevealItem key={type.value}>
                   <GlassCard className="h-full">
                     <div className="mb-4 flex items-center justify-between">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green-ink">
                         <Icon className="h-5 w-5" />
                       </div>
-                      <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold text-brand-green-hover">
+                      <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold text-brand-green-ink">
                         {type.members} members
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold text-brand-navy">
+                    <h2 className="text-lg font-bold text-brand-ink">
                       {type.value.charAt(0).toUpperCase() + type.value.slice(1)}
-                    </h3>
+                    </h2>
                     <p className="mt-2 text-sm leading-relaxed text-brand-muted">
                       {TEAM_ROLE_NOTES[type.value]}
                     </p>
@@ -70,9 +71,9 @@ export default function TeamFormationPage() {
             <RevealGroup className="grid gap-4 sm:grid-cols-2">
               <RevealItem>
                 <GlassCard className="h-full">
-                  <div className="mb-3 flex items-center gap-2 text-brand-green-hover">
+                  <div className="mb-3 flex items-center gap-2 text-brand-green-ink">
                     <Users className="h-5 w-5" />
-                    <h3 className="text-base font-semibold text-brand-navy">Member details</h3>
+                    <h2 className="text-base font-bold text-brand-ink">Member details</h2>
                   </div>
                   <ul className="space-y-2 text-sm text-brand-muted">
                     <li>Every member needs their own name, phone, and email.</li>
@@ -86,9 +87,9 @@ export default function TeamFormationPage() {
 
               <RevealItem>
                 <GlassCard className="h-full">
-                  <div className="mb-3 flex items-center gap-2 text-brand-green-hover">
+                  <div className="mb-3 flex items-center gap-2 text-brand-green-ink">
                     <Crown className="h-5 w-5" />
-                    <h3 className="text-base font-semibold text-brand-navy">The team leader</h3>
+                    <h2 className="text-base font-bold text-brand-ink">The team leader</h2>
                   </div>
                   <ul className="space-y-2 text-sm text-brand-muted">
                     <li>Exactly one member is marked as leader during registration.</li>
@@ -102,9 +103,9 @@ export default function TeamFormationPage() {
 
               <RevealItem>
                 <GlassCard className="h-full">
-                  <div className="mb-3 flex items-center gap-2 text-brand-green-hover">
+                  <div className="mb-3 flex items-center gap-2 text-brand-green-ink">
                     <UserCheck className="h-5 w-5" />
-                    <h3 className="text-base font-semibold text-brand-navy">Cross-institution teams</h3>
+                    <h2 className="text-base font-bold text-brand-ink">Cross-institution teams</h2>
                   </div>
                   <ul className="space-y-2 text-sm text-brand-muted">
                     <li>Members may come from the same college or from different institutions.</li>
@@ -118,9 +119,9 @@ export default function TeamFormationPage() {
 
               <RevealItem>
                 <GlassCard className="h-full">
-                  <div className="mb-3 flex items-center gap-2 text-brand-green-hover">
+                  <div className="mb-3 flex items-center gap-2 text-brand-green-ink">
                     <Users2 className="h-5 w-5" />
-                    <h3 className="text-base font-semibold text-brand-navy">Once submitted</h3>
+                    <h2 className="text-base font-bold text-brand-ink">Once submitted</h2>
                   </div>
                   <ul className="space-y-2 text-sm text-brand-muted">
                     <li>
@@ -129,7 +130,7 @@ export default function TeamFormationPage() {
                     </li>
                     <li>
                       Need a change afterwards? Message the organisers via the{" "}
-                      <Link to="/contact" className="text-brand-green-hover hover:underline">
+                      <Link to="/contact" className="text-brand-green-ink underline underline-offset-2 hover:decoration-2">
                         contact page
                       </Link>
                       .

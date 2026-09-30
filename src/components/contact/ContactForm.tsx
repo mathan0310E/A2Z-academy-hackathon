@@ -77,19 +77,19 @@ export default function ContactForm() {
   if (result) {
     return (
       <div className="text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-green-soft text-brand-green-hover">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-green-soft text-brand-green-ink">
           <CheckCircle2 className="h-7 w-7" />
         </div>
 
-        <h4 className="text-xl font-bold text-brand-navy">Message sent</h4>
+        <h3 className="text-xl font-bold text-brand-ink">Message sent</h3>
         <p className="mx-auto mt-2 max-w-lg text-sm text-brand-muted">
           Thanks for reaching out — the A2Z Academy team will reply to your email address. Keep your
           reference below for follow-ups.
         </p>
 
-        <div className="mx-auto mt-5 max-w-sm rounded-none border border-brand-green/40 bg-brand-green-soft px-4 py-3">
+        <div className="mx-auto mt-5 max-w-sm rounded-lg border border-brand-green/40 bg-brand-green-soft px-4 py-3">
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Reference</p>
-          <p className="font-mono text-lg font-bold tracking-wider text-brand-green-hover">
+          <p className="font-mono text-lg font-bold tracking-wider text-brand-green-ink">
             {result.referenceId}
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function ContactForm() {
           </button>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-brand-green-hover hover:underline"
+            className="inline-flex items-center gap-2 text-sm text-brand-green-ink hover:underline"
           >
             <Home className="h-4 w-4" />
             Back to home

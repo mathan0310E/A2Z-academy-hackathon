@@ -35,10 +35,10 @@ export default function StepMembers() {
       {members.map((member, index) => (
         <GlassCard key={member?.memberId ?? index} className="!p-5 sm:!p-6">
           <div className="mb-4 flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/15 to-brand-green/15 text-brand-green-hover">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/15 to-brand-green/15 text-brand-green-ink">
               <User className="h-3.5 w-3.5" />
             </span>
-            <h3 className="text-sm font-semibold text-brand-navy">
+            <h3 className="text-sm font-bold text-brand-ink">
               Member {index + 1}
               {index === 0 && <span className="ml-2 text-xs font-normal text-brand-muted">(we suggest starting with yourself)</span>}
             </h3>

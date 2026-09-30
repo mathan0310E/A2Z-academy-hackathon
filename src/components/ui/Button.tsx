@@ -7,14 +7,17 @@ import { cn } from "@/lib/utils";
  * shadcn/ui Button, tuned to the A2Z Academy reference site.
  *
  * Two details from the reference are deliberate and easy to "fix" by mistake:
- *  - the base is `rounded-none`; the pill shape comes from the `.btn-pill*`
- *    utilities, so the outline variant stays square like the reference's
- *    "Decline" button.
+ *  - the base radius is `rounded-lg` (= `var(--radius)`); the pill shape is layered on by the
+ *    `.btn-pill*` classes and their `rounded-full` utility (tailwind-merge drops the
+ *    conflicting base value).
  *  - the primary foreground is near-black (#1a1a1a) on green, not white —
  *    white on #71bf43 fails contrast.
+ *
+ * Pill sizes use a 1.5rem horizontal pad and a 2.5rem height, matching the
+ * reference's `h-10 px-6` CTAs.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-none text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -22,15 +25,14 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-slate-300 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         /**
          * Brand pills. `rounded-full` and `font-bold` are repeated as utilities
-         * (not only inside `.btn-pill`) because the base sets `rounded-none` and
-         * `font-medium`, and utility classes beat the component layer — while
-         * `cn`/tailwind-merge only dedupes conflicts it can see as utilities.
+         * because the base sets `rounded-lg` and `font-medium`; `cn`/
+         * tailwind-merge resolves those conflicts in favour of the variant.
          */
         pill: "btn-pill btn-pill-primary rounded-full font-bold",
         /** Brand pill — outlined, matches the reference's secondary CTA. */
@@ -43,8 +45,8 @@ const buttonVariants = cva(
         sm: "h-8 px-3",
         lg: "h-11 px-8",
         icon: "h-9 w-9",
-        pill: "h-10 px-5",
-        pillLg: "h-12 px-7",
+        pill: "h-10 px-6",
+        pillLg: "h-11 px-6",
       },
     },
     defaultVariants: {

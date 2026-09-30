@@ -26,7 +26,7 @@ export default function Error({
             <AlertTriangle className="h-7 w-7" />
           </div>
 
-          <h1 className="text-2xl font-extrabold text-brand-navy">Something went wrong</h1>
+          <h1 className="text-2xl font-extrabold text-brand-ink">Something went wrong</h1>
           <p className="mx-auto mt-2 max-w-lg text-sm text-brand-muted">
             An unexpected error stopped this page from rendering. Your registration data was not
             affected — please retry, or head back home.

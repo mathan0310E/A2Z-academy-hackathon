@@ -10,6 +10,10 @@ export default {
           green: "#71bf43",
           "green-hover": "#5fa536",
           "green-soft": "#eaf6e1",
+          // Green for TEXT on light surfaces. The brand green only reaches 2.27:1 on
+          // white, so body/label text uses this darker shade (5.2:1 on white, 4.7:1 on
+          // green-soft). It must NOT be used as a fill — near-black on it is only 3.34:1.
+          "green-ink": "#417a1e",
           cyan: "#71bf43",
           "cyan-hover": "#5fa536",
           navy: "#1a335a",
@@ -60,18 +64,17 @@ export default {
         },
       },
       fontFamily: {
+        // Stack copied from the reference site's computed `font-family`, so the
+        // rendered fallback chain matches rather than inserting Inter/system-ui.
         sans: [
-          "var(--font-puvi)",
           "Puvi",
-          "Inter",
-          "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
           "Roboto",
           "sans-serif",
         ],
-        display: ["var(--font-puvi)", "Puvi", "Inter", "system-ui", "sans-serif"],
+        display: ["Puvi", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
       },
       backgroundImage: {

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import ImportantNotice from "@/components/ImportantNotice";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
@@ -28,7 +29,7 @@ function InfoItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1">
       <span className="text-xs uppercase tracking-wider text-brand-muted">{label}</span>
-      <span className="font-medium text-brand-navy">{value}</span>
+      <span className="font-medium text-brand-ink">{value}</span>
     </div>
   );
 }
@@ -58,10 +59,10 @@ export default function Home() {
             return (
               <RevealItem key={title}>
                 <GlassCard className="group flex h-full flex-col items-center text-center transition-all duration-300 hover:border-brand-green/40">
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green transition-colors group-hover:from-brand-green/20">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green-ink transition-colors group-hover:from-brand-green/20">
                     <Icon className="h-7 w-7" />
                   </div>
-                  <h3 className="mb-2 text-lg font-semibold text-brand-navy">{title}</h3>
+                  <h3 className="mb-2 text-lg font-bold text-brand-ink">{title}</h3>
                   <p className="flex-1 text-sm text-brand-muted">{description}</p>
                 </GlassCard>
               </RevealItem>
@@ -71,15 +72,15 @@ export default function Home() {
       </SectionWrapper>
 
       {/* Why Participate */}
-      <SectionWrapper className="border-t border-brand-navy/10">
+      <SectionWrapper className="border-t bg-brand-surface">
         <SectionTitle title="Why Participate" subtitle="More than a competition — it's a launchpad for your career in technology." />
         <RevealGroup className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {WHY_PARTICIPATE.map(({ title, description, Icon }) => (
             <RevealItem key={title} className="text-center">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 text-brand-green-ink">
                 <Icon className="h-6 w-6" />
               </div>
-              <h4 className="mb-1 font-semibold text-brand-navy">{title}</h4>
+              <p className="mb-1 font-bold text-brand-ink">{title}</p>
               <p className="text-xs text-brand-muted">{description}</p>
             </RevealItem>
           ))}
@@ -87,7 +88,7 @@ export default function Home() {
       </SectionWrapper>
 
       {/* Hackathon Overview */}
-      <SectionWrapper id="hackathon" className="border-t border-brand-navy/10">
+      <SectionWrapper id="hackathon" className="border-t bg-white">
         <SectionTitle title="A2Z Academy Tech-Based Hackathon" subtitle="Empowering Institutes with Tech-Based Training" />
         <Reveal className="mx-auto max-w-3xl">
           <GlassCard className="p-6 sm:p-8">
@@ -108,7 +109,7 @@ export default function Home() {
       </SectionWrapper>
 
       {/* Hackathon Journey */}
-      <SectionWrapper className="border-t border-brand-navy/10">
+      <SectionWrapper className="border-t bg-brand-surface">
         <SectionTitle title="Hackathon Journey" subtitle="Your path from registration to victory" />
         <div className="relative mx-auto max-w-3xl">
           <div className="absolute left-1/2 -ml-px h-full w-0.5 -translate-x-1/2 -translate-y-6 bg-gradient-to-b from-brand-green to-brand-green-hover" />
@@ -122,7 +123,7 @@ export default function Home() {
                         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-xs font-bold text-brand-ink">
                           {idx + 1}
                         </div>
-                        <span className="font-semibold text-brand-green">{step.label}</span>
+                        <span className="font-semibold text-brand-green-ink">{step.label}</span>
                       </div>
                       <p className="text-sm text-brand-muted">{step.detail}</p>
                     </GlassCard>
@@ -138,6 +139,31 @@ export default function Home() {
           </div>
         </div>
       </SectionWrapper>
+
+      {/* Closing CTA band — mirrors the reference's navy call-to-action strip */}
+      <section className="w-full bg-brand-navy py-16 text-white sm:py-20">
+        <div className="mx-auto max-w-4xl px-5 text-center sm:px-6">
+          <Reveal>
+            <h2 className="font-display text-3xl font-bold leading-snug text-white sm:text-4xl">
+              Ready to build with A2Z Academy?
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base text-white/80">
+              Register your team of 2–4 members and take your first step from idea to impact.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link to="/register" className="btn-pill-primary h-11 text-base">
+                Register Now
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex h-11 items-center justify-center rounded-full border-2 border-white/70 px-6 text-base font-bold text-white transition-colors hover:bg-white/10"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }

@@ -179,7 +179,7 @@ export default function RegistrationForm() {
                   className={cn(
                     "flex h-8 w-8 items-center justify-center rounded-full border text-xs font-bold transition-colors",
                     isDone
-                      ? "border-brand-green/60 bg-brand-green/20 text-brand-green-hover"
+                      ? "border-brand-green/60 bg-brand-green-soft text-brand-green-ink"
                       : isActive
                         ? "border-brand-green bg-brand-green text-brand-ink"
                         : "border-brand-navy/15 bg-brand-surface text-brand-muted"
@@ -191,7 +191,7 @@ export default function RegistrationForm() {
                   <p
                     className={cn(
                       "text-sm font-semibold",
-                      isActive ? "text-brand-navy" : "text-brand-muted"
+                      isActive ? "text-brand-ink" : "text-brand-muted"
                     )}
                   >
                     {item.title}

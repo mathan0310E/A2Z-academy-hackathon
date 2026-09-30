@@ -43,6 +43,7 @@ export default function ContactPage() {
       />
       <SectionTitle
         title="Contact Us"
+        as="h1"
         subtitle="Questions about registration, rounds, or institutional participation? Reach out through any of the channels below."
       />
 
@@ -51,21 +52,21 @@ export default function ContactPage() {
           {channels.map(({ Icon, label, value, href, hint }) => (
             <RevealItem key={label}>
               <GlassCard className="h-full">
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green-ink">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-brand-muted">
                   {label}
-                </h3>
+                </h2>
                 {href ? (
                   <a
                     href={href}
-                    className="mt-1 block break-words text-base font-semibold text-brand-navy transition-colors hover:text-brand-green-hover"
+                    className="mt-1 block break-words text-base font-semibold text-brand-ink transition-colors hover:text-brand-green-ink"
                   >
                     {value}
                   </a>
                 ) : (
-                  <p className="mt-1 text-base font-semibold text-brand-navy">{value}</p>
+                  <p className="mt-1 text-base font-semibold text-brand-ink">{value}</p>
                 )}
                 <p className="mt-2 text-xs leading-relaxed text-brand-muted">{hint}</p>
               </GlassCard>
@@ -77,13 +78,13 @@ export default function ContactPage() {
           <RevealItem>
             <GlassCard className="flex flex-col items-center gap-4 text-center md:flex-row md:justify-between md:text-left">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green-soft text-brand-green-hover">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-green-soft text-brand-green-ink">
                   <MessageCircle className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-semibold text-brand-navy">
+                  <h2 className="text-base font-bold text-brand-ink">
                     Official WhatsApp Group
-                  </h3>
+                  </h2>
                   <p className="text-sm text-brand-muted">
                     All round instructions, dates, and shortlisting announcements happen here first.
                   </p>
@@ -111,29 +112,29 @@ export default function ContactPage() {
         <RevealGroup className="mt-6">
           <RevealItem>
             <GlassCard>
-              <h3 className="mb-3 text-base font-semibold text-brand-navy">Before you write to us</h3>
+              <h2 className="mb-3 text-base font-bold text-brand-ink">Before you write to us</h2>
               <ul className="space-y-2 text-sm text-brand-muted">
                 <li>
-                  Include your <span className="text-brand-green-hover">Registration ID</span> (format
+                  Include your <span className="text-brand-green-ink">Registration ID</span> (format
                   AZZ-{new Date().getFullYear()}-00001) so we can find your team quickly.
                 </li>
                 <li>
                   Looking for the rules? Check the{" "}
-                  <Link to="/guidelines" className="text-brand-green-hover hover:underline">
+                  <Link to="/guidelines" className="text-brand-green-ink underline underline-offset-2 hover:decoration-2">
                     guidelines
                   </Link>
                   .
                 </li>
                 <li>
                   Curious about the format? See the{" "}
-                  <Link to="/rounds" className="text-brand-green-hover hover:underline">
+                  <Link to="/rounds" className="text-brand-green-ink underline underline-offset-2 hover:decoration-2">
                     rounds
                   </Link>{" "}
                   page.
                 </li>
                 <li>
                   Not registered yet?{" "}
-                  <Link to="/register" className="text-brand-green-hover hover:underline">
+                  <Link to="/register" className="text-brand-green-ink underline underline-offset-2 hover:decoration-2">
                     Register your team
                   </Link>{" "}
                   — it takes about two minutes.
@@ -146,7 +147,7 @@ export default function ContactPage() {
         <RevealGroup className="mt-10">
           <RevealItem>
             <GlassCard>
-              <h3 className="text-lg font-semibold text-brand-navy">Send us a message</h3>
+              <h2 className="text-lg font-bold text-brand-ink">Send us a message</h2>
               <p className="mb-5 mt-1 text-sm text-brand-muted">
                 Registration changes, round questions, or institutional participation — send a
                 message below and the A2Z Academy team will reply by email.

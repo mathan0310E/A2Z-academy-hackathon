@@ -52,6 +52,7 @@ export default function HackathonPage() {
       />
       <SectionTitle
         title="A2Z Academy Tech-Based Hackathon"
+        as="h1"
         subtitle="Explore technology. Solve real-world problems. Build innovative solutions."
       />
 
@@ -62,12 +63,12 @@ export default function HackathonPage() {
               {details.map(({ Icon, label, value }) => (
                 <RevealItem key={label}>
                   <div className="flex items-start gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-green-soft text-brand-green">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-green-soft text-brand-green-ink">
                       <Icon className="h-4 w-4" />
                     </div>
                     <div>
                       <p className="text-xs uppercase tracking-wider text-brand-muted">{label}</p>
-                      <p className="font-medium text-brand-navy">{value}</p>
+                      <p className="font-medium text-brand-ink">{value}</p>
                     </div>
                   </div>
                 </RevealItem>
@@ -77,14 +78,15 @@ export default function HackathonPage() {
         </Reveal>
 
         {/* Rounds summary */}
+        <h2 className="sr-only">Hackathon rounds</h2>
         <RevealGroup className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {ROUNDS_SUMMARY.map((round, index) => (
             <RevealItem key={round.title} className="h-full">
               <GlassCard className="h-full p-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand-green">
+                <span className="text-xs font-semibold uppercase tracking-wider text-brand-green-ink">
                   Round {index + 1}
                 </span>
-                <h3 className="mt-2 mb-2 text-base font-semibold text-brand-navy">{round.title}</h3>
+                <h3 className="mt-2 mb-2 text-base font-bold text-brand-ink">{round.title}</h3>
                 <p className="text-sm text-brand-muted">{round.detail}</p>
               </GlassCard>
             </RevealItem>

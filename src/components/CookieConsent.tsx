@@ -68,7 +68,7 @@ export default function CookieConsent() {
     >
       <div
         className={
-          "relative mx-auto flex max-w-4xl flex-col gap-4 rounded-none border border-slate-200 bg-white p-5 shadow-2xl sm:flex-row sm:items-center sm:justify-between " +
+          "relative mx-auto flex max-w-4xl flex-col gap-4 rounded-xl border border-input bg-white p-5 shadow-2xl sm:flex-row sm:items-center sm:justify-between " +
           (leaving ? "consent-leave" : "consent-enter")
         }
       >
@@ -77,17 +77,17 @@ export default function CookieConsent() {
             <span className="text-lg" aria-hidden="true">
               🍪
             </span>
-            <h3
+            <h2
               id="cookie-consent-title"
-              className="font-display text-base font-bold text-slate-900"
+              className="font-display text-base font-bold text-brand-ink-strong"
             >
               We use cookies
-            </h3>
+            </h2>
           </div>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-brand-muted">
             We use cookies to improve your experience, analyze traffic, and personalize content.
             Read our{" "}
-            <Link to="/privacy" className="font-semibold text-brand-green hover:underline">
+            <Link to="/privacy" className="font-semibold text-brand-green-ink underline underline-offset-2 hover:decoration-2">
               Privacy Policy
             </Link>
             .
@@ -112,7 +112,7 @@ export default function CookieConsent() {
           type="button"
           aria-label="Close"
           onClick={() => decide("declined")}
-          className="absolute right-3 top-3 text-slate-400 transition-colors hover:text-slate-600 sm:hidden"
+          className="absolute right-3 top-3 text-brand-muted transition-colors hover:text-brand-ink sm:hidden"
         >
           <X className="h-4 w-4" />
         </button>

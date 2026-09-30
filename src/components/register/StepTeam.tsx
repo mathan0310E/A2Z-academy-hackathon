@@ -36,7 +36,7 @@ export default function StepTeam() {
               <label
                 key={option.value}
                 className={cn(
-                  "cursor-pointer rounded-none border p-4 transition-all",
+                  "cursor-pointer rounded-xl border p-4 transition-all",
                   selected
                     ? "border-brand-green bg-brand-green-soft shadow-brand-sm"
                     : "border-brand-navy/15 bg-brand-surface hover:border-brand-green/40"
@@ -52,7 +52,7 @@ export default function StepTeam() {
                   <span
                     className={cn(
                       "text-base font-bold",
-                      selected ? "text-brand-green-hover" : "text-brand-navy"
+                      selected ? "text-brand-green-ink" : "text-brand-ink"
                     )}
                   >
                     {option.value.charAt(0).toUpperCase() + option.value.slice(1)}
@@ -61,7 +61,7 @@ export default function StepTeam() {
                     className={cn(
                       "rounded-full px-2.5 py-0.5 text-xs font-semibold",
                       selected
-                        ? "bg-brand-green/20 text-brand-green-hover"
+                        ? "bg-brand-green-soft text-brand-green-ink"
                         : "bg-brand-surface text-brand-muted"
                     )}
                   >
@@ -80,10 +80,10 @@ export default function StepTeam() {
         )}
       </div>
 
-      <div className="rounded-none border border-slate-200 bg-brand-surface p-4 text-sm text-brand-muted">
+      <div className="rounded-lg border border-input bg-brand-surface p-4 text-sm text-brand-muted">
         <p>
           You will fill in the details for{" "}
-          <span className="font-semibold text-brand-green-hover">
+          <span className="font-semibold text-brand-green-ink">
             {teamType ? TEAM_TYPE_OPTIONS.find((o) => o.value === teamType)?.members : 2} members
           </span>{" "}
           in the next step. The member forms appear automatically based on your team type.

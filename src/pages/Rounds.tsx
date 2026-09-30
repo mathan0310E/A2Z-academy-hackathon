@@ -36,10 +36,10 @@ function MetaItem({ Icon, label, value }: { Icon: any; label: string; value: str
         description="A2Z Academy Tech-Based Hackathon rounds — Round 1 PPT Submission, Round 2 Online Round, Round 3 Offline Hackathon."
         path="/rounds"
       />
-      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-brand-green" />
+      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-brand-green-ink" />
       <div>
         <p className="text-[11px] uppercase tracking-wider text-brand-muted">{label}</p>
-        <p className="text-sm font-medium text-brand-navy">{value}</p>
+        <p className="text-sm font-medium text-brand-ink">{value}</p>
       </div>
     </div>
   );
@@ -50,7 +50,8 @@ export default function RoundsPage() {
 
   return (
     <SectionWrapper className="pt-12 md:pt-16">
-      <SectionTitle title="Hackathon Rounds" subtitle="Three rounds. One journey from idea to impact." />
+      <SectionTitle title="Hackathon Rounds"
+        as="h1" subtitle="Three rounds. One journey from idea to impact." />
 
       <div className="mx-auto max-w-4xl space-y-8">
         {siteConfig.rounds.map((round, index) => {
@@ -61,10 +62,10 @@ export default function RoundsPage() {
             <Reveal key={round.title} delay={index * 0.1}>
               <GlassCard className="p-6 sm:p-8">
                 <div className="mb-4 flex flex-wrap items-center gap-3">
-                  <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green-hover">
+                  <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green-ink">
                     {meta.badge}
                   </span>
-                  <h2 className="text-xl font-bold text-brand-navy sm:text-2xl">{round.title}</h2>
+                  <h2 className="text-xl font-bold text-brand-ink sm:text-2xl">{round.title}</h2>
                 </div>
 
                 <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -76,8 +77,8 @@ export default function RoundsPage() {
                 <p className="leading-relaxed text-brand-ink">{round.description}</p>
 
                 {meta.extra && (
-                  <div className="mt-4 flex items-center gap-2 rounded-lg border border-brand-navy/20 bg-brand-navy/5 px-4 py-2.5 text-sm text-brand-navy">
-                    <MapPin className="h-4 w-4 shrink-0 text-brand-navy" />
+                  <div className="mt-4 flex items-center gap-2 rounded-lg border border-brand-navy/20 bg-brand-navy/5 px-4 py-2.5 text-sm text-brand-ink">
+                    <MapPin className="h-4 w-4 shrink-0 text-brand-ink" />
                     <span>{meta.extra}</span>
                   </div>
                 )}

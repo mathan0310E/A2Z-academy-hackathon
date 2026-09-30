@@ -66,7 +66,7 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-slate-200 bg-white transition-shadow",
+        "sticky top-0 z-50 border-b bg-white transition-shadow",
         scrolled && "shadow-[0_1px_16px_rgba(15,35,64,0.07)]"
       )}
     >
@@ -88,7 +88,7 @@ export default function Navbar() {
               aria-current={isActive(href) ? "page" : undefined}
               className={cn(
                 "academy-nav-link relative whitespace-nowrap text-[13px] font-semibold transition-colors xl:text-[15px]",
-                isActive(href) ? "text-brand-green" : "text-brand-muted hover:text-brand-ink"
+                isActive(href) ? "text-brand-green-ink" : "text-brand-muted hover:text-brand-ink"
               )}
             >
               {label}
@@ -122,7 +122,7 @@ export default function Navbar() {
       {/* Mobile drawer — a CSS grid-rows transition keeps the markup static. */}
       <div
         className={cn(
-          "grid overflow-hidden border-slate-200 bg-white transition-all duration-300 lg:hidden",
+          "grid overflow-hidden bg-white transition-all duration-300 lg:hidden",
           mobileOpen ? "grid-rows-[1fr] border-t opacity-100" : "grid-rows-[0fr] opacity-0"
         )}
       >
@@ -135,11 +135,11 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 style={mobileOpen ? { animationDelay: `${i * 40}ms` } : undefined}
                 className={cn(
-                  "rounded-none px-3 py-2.5 text-sm font-semibold transition-colors",
+                  "rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors",
                   mobileOpen && "drawer-item",
                   isActive(href)
-                    ? "bg-brand-green-soft text-brand-green-hover"
-                    : "text-brand-ink hover:bg-brand-surface hover:text-brand-green"
+                    ? "bg-brand-green-soft text-brand-green-ink"
+                    : "text-brand-ink hover:bg-brand-surface hover:text-brand-green-ink"
                 )}
               >
                 {label}

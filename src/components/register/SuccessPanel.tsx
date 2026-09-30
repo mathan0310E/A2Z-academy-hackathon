@@ -28,13 +28,13 @@ export default function SuccessPanel({ result }: { result: RegistrationResult })
 
   return (
     <GlassCard className="text-center">
-      <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-green-soft text-brand-green-hover">
+      <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-green-soft text-brand-green-ink">
         <CheckCircle2 className="h-7 w-7" />
       </div>
 
-      <h2 className="text-2xl font-extrabold text-brand-navy">Registration successful</h2>
+      <h2 className="text-2xl font-extrabold text-brand-ink">Registration successful</h2>
       <p className="mx-auto mt-2 max-w-lg text-sm text-brand-muted">
-        Team <span className="font-semibold text-brand-navy">{result.teamName}</span> is registered for
+        Team <span className="font-semibold text-brand-ink">{result.teamName}</span> is registered for
         the A2Z Academy Tech-Based Hackathon with {result.memberCount} members.
       </p>
 
@@ -42,17 +42,17 @@ export default function SuccessPanel({ result }: { result: RegistrationResult })
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-brand-muted">
           Your Registration ID
         </p>
-        <div className="flex items-center justify-center gap-2 rounded-none border border-brand-green/40 bg-brand-green-soft px-4 py-3">
-          <span className="font-mono text-lg font-bold tracking-wider text-brand-green-hover">
+        <div className="flex items-center justify-center gap-2 rounded-lg border border-brand-green/40 bg-brand-green-soft px-4 py-3">
+          <span className="font-mono text-lg font-bold tracking-wider text-brand-green-ink">
             {result.registrationId}
           </span>
           <button
             type="button"
             onClick={copyId}
             aria-label="Copy registration ID"
-            className="rounded-md p-1.5 text-brand-muted transition-colors hover:bg-brand-green-soft hover:text-brand-green-hover"
+            className="rounded-md p-1.5 text-brand-muted transition-colors hover:bg-brand-green-soft hover:text-brand-green-ink"
           >
-            {copied ? <Check className="h-4 w-4 text-brand-green-hover" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-brand-green-ink" /> : <Copy className="h-4 w-4" />}
           </button>
         </div>
         <p className="mt-2 text-xs text-brand-muted">
@@ -60,7 +60,7 @@ export default function SuccessPanel({ result }: { result: RegistrationResult })
         </p>
       </div>
 
-      <div className="mx-auto mt-6 max-w-lg space-y-2 rounded-none border border-slate-200 bg-brand-surface p-4 text-left text-sm text-brand-muted">
+      <div className="mx-auto mt-6 max-w-lg space-y-2 rounded-lg border border-input bg-brand-surface p-4 text-left text-sm text-brand-muted">
         <p>
           <span className="text-brand-ink">Confirmation email:</span> sent to {result.leaderEmail}{" "}
           (leader — {result.leaderName}) and every other member.

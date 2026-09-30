@@ -34,13 +34,13 @@ export default function StepReview({
       <GlassCard className="!p-5 sm:!p-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h3 className="text-lg font-bold text-brand-navy">{teamName || "Untitled team"}</h3>
+            <h3 className="text-lg font-bold text-brand-ink">{teamName || "Untitled team"}</h3>
             <p className="text-xs text-brand-muted">
               {teamType ? getTeamTypeLabel(teamType) : "No team type selected"} ·{" "}
               {members.length} of {teamType ? getMemberCount(teamType) : 2} members filled
             </p>
           </div>
-          <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold text-brand-green-hover">
+          <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold text-brand-green-ink">
             Step 3 of 3
           </span>
         </div>
@@ -52,8 +52,8 @@ export default function StepReview({
               className="rounded-lg border border-brand-navy/10 bg-brand-surface p-3"
             >
               <div className="flex items-center gap-2">
-                <User className="h-3.5 w-3.5 text-brand-green" />
-                <span className="text-sm font-semibold text-brand-navy">
+                <User className="h-3.5 w-3.5 text-brand-green-ink" />
+                <span className="text-sm font-semibold text-brand-ink">
                   {member?.name || `Member ${index + 1} — name missing`}
                 </span>
               </div>
@@ -130,7 +130,7 @@ export default function StepReview({
         />
         <span>
           I confirm that all the information above is accurate and that I have read the{" "}
-          <a href="/guidelines" className="text-brand-green-hover hover:underline">
+          <a href="/guidelines" className="text-brand-green-ink underline underline-offset-2 hover:decoration-2">
             guidelines
           </a>
           .

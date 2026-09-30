@@ -40,7 +40,7 @@ export default function ProblemStatementsList() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center gap-3 py-20 text-brand-muted">
-        <Loader2 className="h-6 w-6 animate-spin text-brand-green" />
+        <Loader2 className="h-6 w-6 animate-spin text-brand-green-ink" />
         <p className="text-sm">Loading published problem statements…</p>
       </div>
     );
@@ -49,12 +49,12 @@ export default function ProblemStatementsList() {
   if (problems.length === 0) {
     return (
       <GlassCard className="text-center">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-green/10 to-brand-green/10 text-brand-green-ink">
           <Layers className="h-6 w-6" />
         </div>
-        <h3 className="text-lg font-semibold text-brand-navy">
+        <h2 className="text-lg font-bold text-brand-ink">
           Problem statements are not published yet
-        </h3>
+        </h2>
         <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-brand-muted">
           The A2Z Academy team publishes problem statements here once they are finalised. You can
           still register right now — registration is independent of problem selection, and every
@@ -74,7 +74,7 @@ export default function ProblemStatementsList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2 text-sm text-brand-muted">
-        <Sparkles className="h-4 w-4 text-brand-green" />
+        <Sparkles className="h-4 w-4 text-brand-green-ink" />
         <span>
           {problems.length} published problem statement{problems.length === 1 ? "" : "s"}
         </span>
@@ -85,7 +85,7 @@ export default function ProblemStatementsList() {
           <RevealItem key={problem.problemId}>
             <GlassCard className="h-full">
               <div className="mb-3 flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold text-brand-green-hover">
+                <span className="rounded-full border border-brand-green/40 bg-brand-green-soft px-3 py-1 text-xs font-semibold text-brand-green-ink">
                   {problem.domain || "General"}
                 </span>
                 <span className="rounded-full border border-brand-navy/15 px-3 py-1 text-xs text-brand-muted">
@@ -93,7 +93,7 @@ export default function ProblemStatementsList() {
                 </span>
               </div>
 
-              <h3 className="text-lg font-bold text-brand-navy">{problem.title}</h3>
+              <h2 className="text-lg font-bold text-brand-ink">{problem.title}</h2>
 
               <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-brand-muted">
                 {problem.description}
@@ -101,10 +101,10 @@ export default function ProblemStatementsList() {
 
               {problem.requirements && (
                 <div className="mt-4">
-                  <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-muted">
+                  <h3 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-muted">
                     <FileText className="h-3.5 w-3.5" />
                     Requirements
-                  </h4>
+                  </h3>
                   <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-brand-muted">
                     {problem.requirements}
                   </p>
@@ -113,9 +113,9 @@ export default function ProblemStatementsList() {
 
               {problem.additionalInfo && (
                 <div className="mt-4 rounded-lg border border-brand-navy/10 bg-brand-surface p-3">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-brand-muted">
                     Additional info
-                  </h4>
+                  </h3>
                   <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-brand-muted">
                     {problem.additionalInfo}
                   </p>

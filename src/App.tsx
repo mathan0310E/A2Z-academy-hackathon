@@ -34,12 +34,8 @@ export default function App() {
     <AppCheckProvider>
       <StructuredData />
 
-      <div
-        className="pointer-events-none fixed inset-0 z-0 grid-pattern opacity-[0.5]"
-        aria-hidden="true"
-      />
       <ScrollToTop />
-      <div className="relative z-10 flex min-h-screen flex-col bg-white/0">
+      <div className="relative flex min-h-screen flex-col bg-white">
         <Navbar />
         <main className="page-enter flex-1" key={pathname}>
           <Suspense fallback={<div className="min-h-[60vh]" aria-hidden="true" />}>

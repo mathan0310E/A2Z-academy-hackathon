@@ -28,6 +28,19 @@ export default function Seo({ title, description = DEFAULT_DESCRIPTION, path, no
     <Helmet prioritizeSeoTags>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      <meta
+        name="keywords"
+        content="A2Z Academy, tech hackathon, hackathon registration, cyber security, cloud security, IoT, ethical hacking, full stack, Tiruvannamalai, a2zacademy.co.in"
+      />
+      <meta name="author" content={SITE_NAME} />
+      <meta name="language" content="English" />
+      <meta name="geo.region" content="IN-TN" />
+      <meta name="geo.placename" content="Tamil Nadu" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="mobile-web-app-capable" content="yes" />
       <link rel="canonical" href={url} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={SITE_NAME} />
@@ -46,7 +59,10 @@ export default function Seo({ title, description = DEFAULT_DESCRIPTION, path, no
       {noIndex ? (
         <meta name="robots" content="noindex, follow" />
       ) : (
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+        <meta
+          name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        />
       )}
       <link rel="alternate" hrefLang="en-IN" href={url} />
       <meta name="application-name" content={SITE_NAME} />

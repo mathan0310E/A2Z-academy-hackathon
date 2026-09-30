@@ -44,7 +44,7 @@ export default function BrandLogo({
       </span>
       <span
         className={cn(
-          "font-display text-[28px] font-extrabold leading-none tracking-tight text-brand-navy",
+          "font-display text-[28px] font-extrabold leading-none tracking-tight text-brand-ink",
           wordmarkClassName
         )}
       >

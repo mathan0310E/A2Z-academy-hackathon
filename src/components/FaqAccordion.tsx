@@ -25,7 +25,7 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
         return (
           <div
             key={item.question}
-            className="glass-card overflow-hidden rounded-none border border-slate-200"
+            className="glass-card overflow-hidden"
           >
             <button
               id={buttonId}
@@ -38,14 +38,14 @@ export default function FaqAccordion({ items }: { items: FaqItem[] }) {
               <span
                 className={cn(
                   "text-sm font-semibold sm:text-base",
-                  isOpen ? "text-brand-green-hover" : "text-brand-navy"
+                  isOpen ? "text-brand-green-ink" : "text-brand-ink"
                 )}
               >
                 {item.question}
               </span>
               <ChevronDown
                 className={cn(
-                  "h-5 w-5 shrink-0 text-brand-green transition-transform duration-300",
+                  "h-5 w-5 shrink-0 text-brand-green-ink transition-transform duration-300",
                   isOpen && "rotate-180"
                 )}
               />

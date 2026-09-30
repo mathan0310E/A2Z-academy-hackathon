@@ -21,14 +21,15 @@ function getError(errors: AnyErrors, path: string): string | undefined {
  * renders identical fields. Exported for the rare case a field needs to be
  * composed by hand.
  *
- * `rounded-none` matches the reference site's square field treatment.
+ * The reference site has no forms, so fields follow its token system instead:
+ * `--radius` (0.5rem → `rounded-lg`), the `--input` hairline (#e6e6e6), and the
+ * same `#9ca3af` placeholder ink Tailwind's preflight uses.
  */
 export const inputClassName =
-  "w-full rounded-none border bg-white px-3.5 py-2.5 text-sm text-brand-navy placeholder:text-brand-muted/60 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-green/40";
+  "w-full rounded-lg border border-input bg-white px-3.5 py-2.5 text-sm text-brand-ink placeholder:text-[#9ca3af] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-green/40";
 
 const errorClassName = "border-red-500/60 focus:border-red-500 focus:ring-red-500/30";
-const normalClassName =
-  "border-slate-300 hover:border-brand-green/50 focus:border-brand-green focus:ring-brand-green/30";
+const normalClassName = "hover:border-brand-green/50 focus:border-brand-green focus:ring-brand-green/30";
 
 function FieldShell({
   name,
@@ -52,9 +53,9 @@ function FieldShell({
         {label}
       </label>
       {children}
-      {hint && !error && <p className="mt-1.5 text-xs text-brand-muted/80">{hint}</p>}
+      {hint && !error && <p className="mt-1.5 text-xs text-brand-muted">{hint}</p>}
       {error && (
-        <p id={`${name}-error`} role="alert" className="mt-1.5 text-xs text-red-400">
+        <p id={`${name}-error`} role="alert" className="mt-1.5 text-xs text-brand-red">
           {error}
         </p>
       )}

@@ -95,22 +95,50 @@ export const YEARS = ["1st Year", "2nd Year", "3rd Year", "4th Year", "5th Year"
  * Suggestions for the free-text Department field. Participants are not limited
  * to this list — anything they type is accepted, so unusual or
  * institution-specific department names are never blocked.
+ *
+ * Covers the engineering branches and non-engineering degree programmes common
+ * across Indian institutions, since participants come from a wide range of
+ * colleges and streams.
  */
 export const DEPARTMENTS = [
+  // Computing & IT
   "Computer Science & Engineering",
+  "Computer Science & Business Systems",
   "Information Technology",
+  "Information Science & Engineering",
   "Artificial Intelligence & Data Science",
   "Artificial Intelligence & Machine Learning",
-  "Electronics & Communication Engineering",
-  "Electrical & Electronics Engineering",
-  "Mechanical Engineering",
-  "Civil Engineering",
-  "Biotechnology",
+  "Data Science",
   "Cyber Security",
+  // Electronics & electrical
+  "Electronics & Communication Engineering",
+  "Electronics & Instrumentation Engineering",
+  "Electrical & Electronics Engineering",
+  "Instrumentation & Control Engineering",
+  // Core engineering
+  "Mechanical Engineering",
+  "Mechatronics Engineering",
+  "Robotics & Automation Engineering",
+  "Civil Engineering",
+  "Chemical Engineering",
+  "Aeronautical Engineering",
+  "Automobile Engineering",
+  "Agricultural Engineering",
+  "Marine Engineering",
+  "Architecture",
+  // Sciences & other streams
+  "Biotechnology",
+  "Biomedical Engineering",
   "Mathematics",
   "Physics",
+  "Chemistry",
+  "Statistics",
+  "B.Sc. Computer Science",
+  "BCA",
+  "B.Com",
   "Commerce",
   "Management Studies",
+  "Economics",
 ];
 
 /* ============================ Contact form ============================ */

@@ -68,7 +68,32 @@ The official A2Z Academy logo and app icons are mirrored from the brand site and
 Icons throughout the UI come from `lucide-react` — the same set the reference site uses (arrow,
 chevron, check, plus/minus/circle for accordions and steppers).
 
+## Accessibility
+
+`npm run audit:a11y` runs axe-core (WCAG 2.0/2.1/2.2 A + AA + best-practice) over every route at
+desktop and mobile widths plus the interactive states — mobile nav, cookie banner, FAQ accordion,
+contact validation errors, and register wizard steps 2 and 3. It needs the server running
+(`npm start`, or set `AUDIT_BASE_URL`) and **exits non-zero on any violation**, so it can gate CI.
+The target is zero violations; treat a new one as a regression.
+
+Two colour rules exist purely to satisfy contrast and are easy to "tidy" away by mistake:
+
+- **Green text needs the darker token.** `text-brand-green` (#71bf43) is only 2.27:1 on white, so
+  body/label/icon text on light surfaces uses `text-brand-green-ink` (#417a1e — 5.2:1 on white,
+  4.7:1 on `green-soft`). Keep the bright green for **fills, borders, and gradient stops**, and for
+  text on **dark** backgrounds (footer `#222` = 7:1, navy band = 5.6:1). `green-ink` must never be
+  a fill: near-black on it is only 3.34:1.
+- **Inline links in prose are underlined, not colour-only** (`underline underline-offset-2`), and
+  error text uses `text-brand-red` (#d92d20, 4.8:1) rather than `text-red-400` (2.8:1).
+
 ## SEO & structured data
+
+`src/components/StructuredData.tsx` emits one JSON-LD `@graph` (Organization + WebSite + WebPage
++ a Hackathon `Event`) in the root layout; `src/components/Seo.tsx` sets per-page title,
+description, keywords, canonical, geo, and Open Graph/Twitter tags. `SITE_URL` in `src/lib/site.ts`
+defaults to `https://www.a2zacademy.co.in` and drives canonicals, `robots.txt`, and `sitemap.xml`
+(served from `server/index.ts`). All routes are prerendered, so do not add a static
+`<meta name="description">` to `index.html` — it would duplicate Helmet's per-page tag.
 
 - `src/components/Seo.tsx` — per-page head (title template, description, canonical, OpenGraph,
   Twitter, robots) via `react-helmet-async`. The suffix `| A2Z Academy` is appended automatically,
@@ -148,19 +173,33 @@ app matching on text, headings, titles, and links for every route.
 The portal mirrors the reference site's design system. Values below come from its computed
 styles, so changing them is a deliberate deviation, not a cleanup:
 
-- **Surfaces are square.** Every card, panel, input, and option box is `rounded-none`. Only
-  buttons are pills (`.btn-pill*` / Button `variant="pill*"`).
+- **Radii come from the `--radius` token (0.5rem).** Cards/panels/inputs use `rounded-lg`
+  (= `var(--radius)`); buttons are pills (`.btn-pill*` / Button `variant="pill*"`). Do not
+  reintroduce `rounded-none` on surfaces — it was an earlier over-correction.
 - **Primary foreground is near-black** (`#1a1a1a`), not white — white on `#71bf43` fails contrast.
-- **`font-medium`/`rounded-none` in the Button base** would beat the `.btn-pill*` component
-  classes (utilities win over the component layer), so the pill variants repeat `rounded-full
-  font-bold` as utilities for `cn`/tailwind-merge to resolve.
+- **`font-medium` in the Button base** would beat the `.btn-pill*` component classes (utilities
+  win over the component layer), so the pill variants repeat `rounded-full font-bold` as
+  utilities for `cn`/tailwind-merge to resolve.
+- **Headings follow a strict H1→H2→H3 outline.** Each page's first `SectionTitle` passes
+  `as="h1"` (every other title stays `h2`); card titles directly under it are `h2`, and anything
+  nested inside those is `h3`. The reference uses the same sequential outline, so a skip
+  (`h1`→`h3`) is a bug, not a style choice.
 - Reference computed styles: body `#f7f7f7` / `#333`, h1 60px/700, h2 36px/300, footer `#222`
   with a `#2A2A2A` footnote strip, nav links 13–15px semibold, header `h-[4.25rem]`.
+- `body` sets `overflow-x: clip` because the hero/section ambient blur shapes are offset past the
+  viewport edge on purpose. This hides their bleed without creating a scroll container (unlike
+  `overflow-x: hidden`), so `scrollWidth` can exceed `clientWidth` while the page stays
+  non-scrollable — probe `window.scrollX` rather than `scrollWidth` when testing overflow.
+- The reference has no forms, so form fields follow its tokens instead: `rounded-lg`,
+  `border-input` (`#e6e6e6`), and a `#9ca3af` placeholder. All fields share `inputClassName`
+  in `src/components/ui/FormField.tsx`.
+- The home page ends with a navy (`bg-brand-navy`) CTA band, mirroring the reference's closing
+  call-to-action strip.
 
 ### shadcn/ui tokens
 
 `tailwind.config.js` maps `primary`/`accent`/`muted`/etc. to HSL CSS vars in `globals.css`
-(`--primary` = brand green, `--accent` = near-black, `--radius: 0px`). The old numeric
+(`--primary` = brand green, `--accent` = near-black, `--radius: 0.5rem`). The old numeric
 `primary-50…950` and `accent-blue/cyan/electric` scales were unused and were replaced by these.
 `src/components/ui/Button.tsx` is a cva-based shadcn Button.
 

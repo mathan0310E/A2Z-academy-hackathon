@@ -72,7 +72,7 @@ export default function Cookies() {
           body: (
             <p>
               For details of what personal data we collect and how we use it, see our{" "}
-              <Link to="/privacy" className="font-semibold text-brand-green hover:underline">
+              <Link to="/privacy" className="font-semibold text-brand-green-ink underline underline-offset-2 hover:decoration-2">
                 Privacy Policy
               </Link>
               . Data-protection requests can be made through our contact form.
