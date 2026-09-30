@@ -75,19 +75,22 @@ export default function Navbar() {
         className="absolute bottom-0 left-0 h-0.5 w-full origin-left bg-brand-green transition-transform duration-150 ease-out"
         style={{ transform: `scaleX(${progress})` }}
       />
-      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between px-5 sm:px-6">
-        <Link to="/" className="flex items-center" aria-label="A2Z Academy home">
-          <BrandLogo />
+      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-4 px-5 sm:px-6">
+        <Link to="/" className="flex shrink-0 items-center" aria-label="A2Z Academy home">
+          <BrandLogo wordmarkClassName="text-[22px] xl:text-[28px]" />
         </Link>
 
-        <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
+        {/* Logo + nav sit together on the left, the CTA is pushed to the far
+            right, and the nav is allowed to shrink (min-w-0) so the row can never
+            overlap or overflow at the narrow end of the desktop range. */}
+        <nav className="hidden min-w-0 items-center gap-3 lg:flex xl:gap-7">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               to={href}
               aria-current={isActive(href) ? "page" : undefined}
               className={cn(
-                "academy-nav-link relative whitespace-nowrap text-[13px] font-semibold transition-colors xl:text-[15px]",
+                "academy-nav-link relative whitespace-nowrap text-[12px] font-semibold transition-colors xl:text-[15px]",
                 isActive(href) ? "text-brand-green-ink" : "text-brand-muted hover:text-brand-ink"
               )}
             >
@@ -96,13 +99,7 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Link
-            to="/guidelines"
-            className="rounded-full border-2 border-brand-ink px-5 py-2 text-sm font-bold text-brand-ink transition-colors hover:bg-brand-surface"
-          >
-            Guidelines
-          </Link>
+        <div className="ml-auto hidden shrink-0 items-center lg:flex">
           <Button asChild variant="pill" size="pill">
             <Link to="/register">Register Now</Link>
           </Button>

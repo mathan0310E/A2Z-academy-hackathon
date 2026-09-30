@@ -4,6 +4,7 @@ import ImportantNotice from "@/components/ImportantNotice";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/content";
+import { cn } from "@/lib/utils";
 import { Award, Code, Globe, Laptop, Lightbulb, ShieldCheck, Trophy, Users } from "lucide-react";
 import Seo from "@/components/Seo";
 
@@ -108,35 +109,45 @@ export default function Home() {
         </Reveal>
       </SectionWrapper>
 
-      {/* Hackathon Journey */}
+      {/* Hackathon Journey — zigzag roadmap. On md+ the spine runs down the
+          centre and cards alternate left/right with the numbered node pinned to
+          the spine; below md everything stacks to a single left-hand spine. */}
       <SectionWrapper className="border-t bg-brand-surface">
         <SectionTitle title="Hackathon Journey" subtitle="Your path from registration to victory" />
-        <div className="relative mx-auto max-w-3xl">
-          <div className="absolute left-1/2 -ml-px h-full w-0.5 -translate-x-1/2 -translate-y-6 bg-gradient-to-b from-brand-green to-brand-green-hover" />
-          <div className="space-y-10">
-            {JOURNEY.map((step, idx) => (
-              <Reveal key={step.label} direction={idx % 2 === 0 ? "left" : "right"} delay={idx * 0.05}>
-                <div className="relative flex items-center">
-                  <div className="w-full pl-16 md:ml-8 md:w-5/12 md:pl-0">
-                    <GlassCard className="p-5">
-                      <div className="mb-2 flex items-center gap-2">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-xs font-bold text-brand-ink">
-                          {idx + 1}
-                        </div>
-                        <span className="font-semibold text-brand-green-ink">{step.label}</span>
+        <div className="relative mx-auto max-w-4xl">
+          <span
+            aria-hidden="true"
+            className="absolute left-[1.375rem] top-0 h-full w-0.5 -translate-x-1/2 bg-gradient-to-b from-brand-green via-brand-green to-brand-green-hover md:left-1/2"
+          />
+          <ol className="space-y-8 md:space-y-12">
+            {JOURNEY.map((step, idx) => {
+              const left = idx % 2 === 0;
+              return (
+                <li key={step.label} className="relative">
+                  <Reveal delay={idx * 0.05}>
+                    <div className="relative flex items-center">
+                      {/* Numbered node, centred on the spine. */}
+                      <span className="absolute left-[1.375rem] z-10 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border-2 border-brand-green bg-white text-sm font-bold text-brand-green-ink shadow-brand-sm md:left-1/2 md:h-11 md:w-11">
+                        {idx + 1}
+                      </span>
+
+                      <div
+                        className={cn(
+                          "w-full pl-14 md:w-1/2 md:pl-0",
+                          left ? "md:pr-12" : "md:ml-auto md:pl-12"
+                        )}
+                      >
+                        <GlassCard className="p-5">
+                          <span className="font-semibold text-brand-green-ink">{step.label}</span>
+                          <p className="mt-1 text-sm text-brand-muted">{step.detail}</p>
+                        </GlassCard>
                       </div>
-                      <p className="text-sm text-brand-muted">{step.detail}</p>
-                    </GlassCard>
-                  </div>
-                  <div className="absolute left-4 -ml-6 md:left-1/2 md:ml-0 md:-translate-x-1/2">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-brand-green/40 bg-brand-surface">
-                      <div className="h-3 w-3 rounded-full bg-brand-green" />
                     </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+                  </Reveal>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </SectionWrapper>
 
