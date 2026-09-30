@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import StructuredData from "@/components/StructuredData";
 import { AppCheckProvider } from "@/contexts/AppCheckContext";
+import { PortalContentProvider } from "@/contexts/PortalContentContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
@@ -32,35 +33,37 @@ export default function App() {
 
   return (
     <AppCheckProvider>
-      <StructuredData />
+      <PortalContentProvider>
+        <StructuredData />
 
-      <ScrollToTop />
-      <div className="relative flex min-h-screen flex-col bg-white">
-        <Navbar />
-        <main className="page-enter flex-1" key={pathname}>
-          <Suspense fallback={<div className="min-h-[60vh]" aria-hidden="true" />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/hackathon" element={<Hackathon />} />
-              <Route path="/rounds" element={<Rounds />} />
-              <Route path="/problem-statements" element={<ProblemStatements />} />
-              <Route path="/team-formation" element={<TeamFormation />} />
-              <Route path="/guidelines" element={<Guidelines />} />
-              <Route path="/what-we-provide" element={<WhatWeProvide />} />
-              <Route path="/faq" element={<Faq />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/cookies" element={<Cookies />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </main>
-        <Footer />
-        <CookieConsent />
-      </div>
+        <ScrollToTop />
+        <div className="relative flex min-h-screen flex-col bg-white">
+          <Navbar />
+          <main className="page-enter flex-1" key={pathname}>
+            <Suspense fallback={<div className="min-h-[60vh]" aria-hidden="true" />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/hackathon" element={<Hackathon />} />
+                <Route path="/rounds" element={<Rounds />} />
+                <Route path="/problem-statements" element={<ProblemStatements />} />
+                <Route path="/team-formation" element={<TeamFormation />} />
+                <Route path="/guidelines" element={<Guidelines />} />
+                <Route path="/what-we-provide" element={<WhatWeProvide />} />
+                <Route path="/faq" element={<Faq />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/cookies" element={<Cookies />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </main>
+          <Footer />
+          <CookieConsent />
+        </div>
+      </PortalContentProvider>
     </AppCheckProvider>
   );
 }

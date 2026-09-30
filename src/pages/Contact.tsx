@@ -4,10 +4,11 @@ import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import ContactForm from "@/components/contact/ContactForm";
 import { siteConfig } from "@/lib/content";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 import Seo from "@/components/Seo";
 
 export default function ContactPage() {
-  const whatsAppUrl = import.meta.env.VITE_WHATSAPP_GROUP_URL || "";
+  const { whatsappUrl: whatsAppUrl, hackathonInfo } = usePortalContent();
   const { email, phone, phoneAlt, location } = siteConfig.contact;
 
   const channels = [
@@ -32,7 +33,7 @@ export default function ContactPage() {
       label: "Location",
       value: location,
       href: undefined,
-      hint: `Round 3 (offline) is hosted at ${siteConfig.hackathonInfo.round3Venue}.`,
+      hint: `Round 3 (offline) is hosted at ${hackathonInfo.round3Venue}.`,
     },
   ];
 

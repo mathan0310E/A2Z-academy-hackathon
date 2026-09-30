@@ -1,25 +1,26 @@
 import { Users, Trophy, MessageCircle } from "lucide-react";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import RegistrationForm from "@/components/register/RegistrationForm";
-import { siteConfig } from "@/lib/content";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 import Seo from "@/components/Seo";
 
 export default function RegisterPage() {
+  const { hackathonInfo } = usePortalContent();
   const facts = [
     {
       Icon: Users,
       label: "Team size",
-      value: siteConfig.hackathonInfo.teamSize,
+      value: hackathonInfo.teamSize,
     },
     {
       Icon: Trophy,
       label: "Round 3 (offline)",
-      value: `${siteConfig.hackathonInfo.round3Venue} · ${siteConfig.hackathonInfo.round3Fee}`,
+      value: `${hackathonInfo.round3Venue} · ${hackathonInfo.round3Fee}`,
     },
     {
       Icon: MessageCircle,
       label: "All updates via",
-      value: siteConfig.hackathonInfo.communication,
+      value: hackathonInfo.communication,
     },
   ];
 

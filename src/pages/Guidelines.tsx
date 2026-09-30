@@ -3,10 +3,12 @@ import { AlertTriangle, ArrowRight, CheckCircle2, ScrollText } from "lucide-reac
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import ImportantNotice from "@/components/ImportantNotice";
-import { siteConfig } from "@/lib/content";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 import Seo from "@/components/Seo";
 
 export default function GuidelinesPage() {
+  const { guidelines, hackathonInfo } = usePortalContent();
+
   return (
     <>
       <Seo
@@ -30,7 +32,7 @@ export default function GuidelinesPage() {
 
         <div className="mx-auto max-w-3xl">
           <RevealGroup className="space-y-3">
-            {siteConfig.guidelines.map((rule, index) => (
+            {guidelines.map((rule, index) => (
               <RevealItem key={rule}>
                 <GlassCard className="flex items-start gap-4 !p-5">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand-green/15 to-brand-green/15 text-sm font-bold text-brand-green-ink">
@@ -54,12 +56,12 @@ export default function GuidelinesPage() {
                 <ul className="space-y-2 text-sm text-brand-muted">
                   <li>
                     Round 3 is offline at{" "}
-                    <span className="text-brand-ink">{siteConfig.hackathonInfo.round3Venue}</span> and
-                    requires <span className="text-brand-ink">{siteConfig.hackathonInfo.round3Fee}</span>{" "}
+                    <span className="text-brand-ink">{hackathonInfo.round3Venue}</span> and
+                    requires <span className="text-brand-ink">{hackathonInfo.round3Fee}</span>{" "}
                     per head.
                   </li>
                   <li>
-                    Shortlisting follows: {siteConfig.hackathonInfo.shortlisting}.
+                    Shortlisting follows: {hackathonInfo.shortlisting}.
                   </li>
                   <li>Never share your Registration ID with anyone outside your team.</li>
                 </ul>

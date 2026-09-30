@@ -18,6 +18,7 @@ reference to them, it is stale.
 - `npm start` — Express server on `:12000` serving `dist/` and the API
 - `npm run typecheck` — `tsc --noEmit`
 - `npm run lint` — ESLint over `src/` and `server/`
+- `npm test` — Node test runner over `tests/` (the admin→portal content contract)
 - `npx tsx scripts/verify-hydration.ts` — hydration/console check against a running server
 
 ## Design system (A2Z brand theme)
@@ -222,4 +223,58 @@ Footer content, social handles, and the legal pages (`/privacy`, `/terms`, `/coo
 reference. Legal pages must also be added to `scripts/prerender.ts` `ROUTES` and to
 `CRAWLABLE_ROUTES` in `server/index.ts` (sitemap). The Department field is free text with a
 themed in-page suggestion list — participants are never restricted to the list.
+
+## Admin panel integration (admin.a2zacademy.co.in)
+
+The hackathon content shown here can be edited by operators in a **separate application**
+(`a2z-admin` — its own Express process, ports 13000/13001, its own repo). The two apps share only
+the **Firestore database**: the admin panel writes with the Firebase Admin SDK, this site reads
+the published documents with the client SDK. Nothing else is shared — no code, no build, no
+deploy pipeline.
+
+`src/contexts/PortalContentContext.tsx` is the single bridge. It is mounted in `App.tsx` and
+exposes `usePortalContent()` for `Faq`, `Rounds`, `Guidelines`, `Hackathon`, `Home`, `Register`,
+`TeamFormation`, `Contact`, `ImportantNotice` and `register/SuccessPanel`.
+
+Three rules make this safe to reason about:
+
+- **The baseline is checked in, not fetched.** `src/lib/content.ts` `siteConfig` remains the
+  source of truth for the prerendered HTML and for any field the admin panel leaves empty. The
+  merge only overrides a field when the stored value is non-blank, so a half-filled document can
+  never blank out the published site.
+- **The fetch is skipped while prerendering.** `scripts/prerender.ts` sets
+  `window.__A2Z_PRERENDER__`, and the provider returns early when it sees that flag. Without this,
+  admin values would be baked into the static HTML while the client's first render — starting from
+  the baseline — would disagree, producing a hydration mismatch. The captured HTML is therefore
+  always the baseline, and admin values appear after hydration.
+- **The fetch is deferred to idle** (`requestIdleCallback`, 200 ms `setTimeout` fallback) so the
+  ~477 kB Firebase chunk never competes with first paint on pages that only need the baseline.
+
+Do not add a static `<meta>` or a second fetch path for this data; extend the provider instead.
+
+### Shared Firestore contract
+
+The document shapes this site reads are the ones `a2z-admin/server/lib/content.ts` writes:
+
+| Collection | Document | Read by |
+| --- | --- | --- |
+| `publicContent` | `hackathon` (`value` holds `HackathonContent`) | `Home`, `Hackathon`, `Register`, `TeamFormation`, `Guidelines`, `Contact` |
+| `publicContent` | `rounds` (array of `RoundInfo`) | `Rounds` |
+| `publicContent` | `guidelines` (`{ content }`, newline-separated) | `Guidelines` |
+| `publicContent` | `faq` (array of `{ question, answer }`) | `Faq` |
+| `publicContent` | `whatsapp` (`{ url }`) | every WhatsApp CTA |
+| `problemStatements` | one doc per statement, `status == "published"` | `ProblemStatements` |
+
+Field-name note: the admin panel calls the Round-3 venue **`venue`**; this site's
+`siteConfig.hackathonInfo` calls it **`round3Venue`**. The mapping lives in
+`overlayHackathonInfo` — if the admin schema is renamed, update it and
+`tests/portal-content.test.ts` together.
+
+Access rules are in `a2z-admin/deploy/firestore.rules` (deployed to the shared project): published
+`problemStatements` and `publicContent` are world-readable, everything else (registrations,
+members, `emailLogs`, `adminUsers`, `auditLogs`, `adminOtpChallenges`) is denied to clients. The
+admin panel is unaffected because the Admin SDK bypasses rules.
+
+`npm test` runs `tests/portal-content.test.ts`, which pins this contract — including that blank
+admin fields fall back to the baseline and that `venue` maps to `round3Venue`.
 

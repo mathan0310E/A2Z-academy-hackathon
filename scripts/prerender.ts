@@ -134,6 +134,11 @@ async function main() {
 
     const probe = await browser.newPage();
     await probe.setViewport({ width: 1280, height: 900 });
+    // The 404 page renders inside the same providers, so it needs the flag too —
+    // otherwise the portal opens a Firestore stream and networkidle0 never settles.
+    await probe.evaluateOnNewDocument(() => {
+      (window as unknown as { __A2Z_PRERENDER__?: boolean }).__A2Z_PRERENDER__ = true;
+    });
     await probe.goto(origin + NOT_FOUND_PROBE, { waitUntil: "networkidle0", timeout: 60000 });
     await new Promise((r) => setTimeout(r, 500));
     writeFileSync(path.join(DIST, "404.html"), await probe.content());

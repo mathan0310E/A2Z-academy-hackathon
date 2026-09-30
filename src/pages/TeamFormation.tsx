@@ -3,7 +3,7 @@ import { ArrowRight, Crown, Users, UserCheck, Users2 } from "lucide-react";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import ImportantNotice from "@/components/ImportantNotice";
-import { siteConfig } from "@/lib/content";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 import { TEAM_TYPES } from "@/types";
 import Seo from "@/components/Seo";
 
@@ -20,6 +20,8 @@ const TEAM_ROLE_NOTES: Record<string, string> = {
 };
 
 export default function TeamFormationPage() {
+  const { hackathonInfo } = usePortalContent();
+
   return (
     <>
       <Seo
@@ -31,7 +33,7 @@ export default function TeamFormationPage() {
         <SectionTitle
           as="h1"
           title="Team Formation"
-          subtitle={`Every team must have ${siteConfig.hackathonInfo.teamSize} and pick exactly one team type during registration. One registration per team.`}
+          subtitle={`Every team must have ${hackathonInfo.teamSize} and pick exactly one team type during registration. One registration per team.`}
         />
 
         <div className="mx-auto max-w-5xl">
@@ -151,7 +153,7 @@ export default function TeamFormationPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <p className="mt-3 text-xs text-brand-muted">
-              Team types: {siteConfig.hackathonInfo.teamTypes}
+              Team types: {hackathonInfo.teamTypes}
             </p>
           </div>
         </div>

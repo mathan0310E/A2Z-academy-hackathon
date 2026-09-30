@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Copy, CheckCircle2, MessageCircle } from "lucide-react";
 import { GlassCard } from "@/components/ui/Section";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 
 export interface RegistrationResult {
   registrationId: string;
@@ -14,7 +15,7 @@ export interface RegistrationResult {
 
 export default function SuccessPanel({ result }: { result: RegistrationResult }) {
   const [copied, setCopied] = useState(false);
-  const whatsAppUrl = import.meta.env.VITE_WHATSAPP_GROUP_URL || "";
+  const { whatsappUrl: whatsAppUrl } = usePortalContent();
 
   const copyId = async () => {
     try {

@@ -4,6 +4,12 @@ import type { Firestore } from "firebase/firestore";
 let firebaseApp: FirebaseApp | undefined;
 let db: Firestore | undefined;
 
+// `import.meta.env` only exists in the Vite client bundle; server-side scripts
+// fall back to `process.env`, mirroring `src/lib/site.ts`.
+const viteEnv = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
+const nodeEnv = typeof process !== "undefined" ? process.env : undefined;
+const readEnv = (key: string): string | undefined => viteEnv?.[key] || nodeEnv?.[key];
+
 /**
  * Firebase is very heavy (~200 kB), so the SDK is imported dynamically and only
  * when a caller actually needs it. That keeps Firestore and App Check out of
@@ -17,12 +23,12 @@ export async function getFirebaseApp(): Promise<FirebaseApp> {
   if (!firebaseApp) {
     const { initializeApp, getApps } = await loadSdk();
     const config = {
-      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-      appId: import.meta.env.VITE_FIREBASE_APP_ID,
+      apiKey: readEnv("VITE_FIREBASE_API_KEY"),
+      authDomain: readEnv("VITE_FIREBASE_AUTH_DOMAIN"),
+      projectId: readEnv("VITE_FIREBASE_PROJECT_ID"),
+      storageBucket: readEnv("VITE_FIREBASE_STORAGE_BUCKET"),
+      messagingSenderId: readEnv("VITE_FIREBASE_MESSAGING_SENDER_ID"),
+      appId: readEnv("VITE_FIREBASE_APP_ID"),
     };
     if (!config.apiKey) {
       throw new Error("Firebase API key is not configured");

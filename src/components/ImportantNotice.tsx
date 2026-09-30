@@ -1,10 +1,12 @@
 
+import { usePortalContent } from "@/contexts/PortalContentContext";
+
 /**
- * Site-wide notice band. Server Component — no animation runtime; the pulsing
- * icon and hover states are pure CSS.
+ * Site-wide notice band. The pulsing icon and hover states are pure CSS.
  */
 export default function ImportantNotice() {
-  const whatsAppUrl = import.meta.env.VITE_WHATSAPP_GROUP_URL || "#";
+  const { whatsappUrl } = usePortalContent();
+  const whatsAppUrl = whatsappUrl || "#";
 
   return (
     <section className="w-full border-y border-brand-green/25 bg-brand-green-soft py-6">

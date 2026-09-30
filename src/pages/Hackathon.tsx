@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { siteConfig } from "@/lib/content";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 import Seo from "@/components/Seo";
 
 const ROUNDS_SUMMARY = [
@@ -30,8 +30,9 @@ const ROUNDS_SUMMARY = [
 ];
 
 export default function HackathonPage() {
-  const info = siteConfig.hackathonInfo;
-  const whatsapp = import.meta.env.VITE_WHATSAPP_GROUP_URL || "#";
+  const content = usePortalContent();
+  const info = content.hackathonInfo;
+  const whatsapp = content.whatsappUrl || "#";
 
   const details = [
     { Icon: Building2, label: "Organizer", value: info.organizer },

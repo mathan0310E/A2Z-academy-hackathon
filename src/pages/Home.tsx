@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import ImportantNotice from "@/components/ImportantNotice";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 import { siteConfig } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { Award, Code, Globe, Laptop, Lightbulb, ShieldCheck, Trophy, Users } from "lucide-react";
@@ -37,7 +38,7 @@ function InfoItem({ label, value }: { label: string; value: string }) {
 
 
 export default function Home() {
-  const info = siteConfig.hackathonInfo;
+  const { hackathonInfo: info } = usePortalContent();
 
   return (
     <>

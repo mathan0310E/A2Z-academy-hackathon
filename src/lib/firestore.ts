@@ -53,20 +53,32 @@ export async function fetchProblemStatement(problemId: string): Promise<ProblemS
 
 export interface PublicContent {
   about?: { whoWeAre: string; mission: string; vision: string };
+  /** Mirrors `HackathonContent` in the admin panel. */
   hackathon?: {
     title: string;
+    tagline: string;
     description: string;
+    date: string;
+    dateStatus: string;
+    venue: string;
+    address: string;
+    contactNumber: string;
+    website: string;
     organizer: string;
     teamSize: string;
     teamTypes: string;
-    rounds: string;
-    round3Venue: string;
-    round3Fee: string;
+    benefits: string[];
+    prizeInfo: string;
+    certificateInfo: string;
+    foodInfo: string;
     whatsappUrl: string;
+    round3Fee: string;
+    shortlisting: string;
   };
-  rounds?: Array<{ title: string; format: string; shortlisting: string; description: string }>;
+  rounds?: Array<{ roundId?: string; title: string; format: string; shortlisting: string; description: string }>;
   guidelines?: { content: string };
   faq?: Array<{ question: string; answer: string }>;
+  whatsapp?: { url: string };
 }
 
 export async function fetchPublicContent(): Promise<PublicContent> {
@@ -87,27 +99,5 @@ export async function fetchPublicContent(): Promise<PublicContent> {
   } catch (error) {
     console.error("Error fetching public content:", error);
     return {};
-  }
-}
-
-export async function fetchFaqs(): Promise<Array<{ id: string; question: string; answer: string }>> {
-  try {
-    const [{ collection, query, where, getDocs }, { getDb }] = await Promise.all([
-      import("firebase/firestore"),
-      import("@/lib/firebase"),
-    ]);
-    const db = await getDb();
-    const q = query(
-      collection(db, PUBLIC_CONTENT_COLLECTION, "content", "faqs"),
-      where("published", "==", true)
-    );
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((docSnap) => ({
-      id: docSnap.id,
-      ...(docSnap.data() as { question: string; answer: string }),
-    }));
-  } catch (error) {
-    console.error("Error fetching FAQs:", error);
-    return [];
   }
 }

@@ -4,21 +4,23 @@ import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import FaqAccordion from "@/components/FaqAccordion";
 import ImportantNotice from "@/components/ImportantNotice";
-import { siteConfig } from "@/lib/content";
+import { usePortalContent } from "@/contexts/PortalContentContext";
 import Seo from "@/components/Seo";
 
-/** FAQPage structured data so search engines can surface the Q&A directly. */
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: siteConfig.faqs.map(({ question, answer }) => ({
-    "@type": "Question",
-    name: question,
-    acceptedAnswer: { "@type": "Answer", text: answer },
-  })),
-};
-
 export default function FaqPage() {
+  const { faqs } = usePortalContent();
+
+  /** FAQPage structured data so search engines can surface the Q&A directly. */
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  };
+
   return (
     <>
       <Seo
@@ -38,7 +40,7 @@ export default function FaqPage() {
         />
 
         <div className="mx-auto max-w-3xl">
-          <FaqAccordion items={siteConfig.faqs} />
+          <FaqAccordion items={faqs} />
         </div>
 
         <RevealGroup className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">

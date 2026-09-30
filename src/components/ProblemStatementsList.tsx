@@ -13,11 +13,22 @@ import type { ProblemStatement } from "@/types";
  * local development — every failure path resolves to an empty list, and this
  * component shows a friendly empty state rather than an error.
  */
+function isPrerendering(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    (window as { __A2Z_PRERENDER__?: boolean }).__A2Z_PRERENDER__ === true
+  );
+}
+
 export default function ProblemStatementsList() {
   const [problems, setProblems] = useState<ProblemStatement[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // During prerender we must not open a Firestore stream: it keeps the network
+    // busy, so "networkidle0" never settles and the snapshot stays in the loading
+    // state — which is exactly what the client renders first, so hydration matches.
+    if (isPrerendering()) return;
     let active = true;
 
     fetchPublishedProblemStatements()
