@@ -121,84 +121,53 @@ router.post(
       console.warn("ADMIN_EMAIL not configured — organizer notification skipped");
     }
 
+    // Email delivery is best-effort. A transport failure — and equally a failure
+    // while writing the audit log — must never turn an already-saved
+    // registration into a 500 response.
+    const deliver = async (
+      recipient: string,
+      type: string,
+      recipientType: "leader" | "member" | "organizer",
+      mail: { subject: string; html: string; text?: string }
+    ) => {
+      const result = await sendEmail({ to: recipient, ...mail });
+      emailResults.push({
+        recipient,
+        type,
+        status: result.success ? "sent" : "failed",
+        error: result.error,
+      });
+      try {
+        await saveEmailLog({
+          registrationId,
+          recipient,
+          recipientType,
+          emailType: type,
+          status: result.success ? "sent" : "failed",
+          errorMessage: result.error,
+          attemptedAt: now,
+          sentAt: result.success ? now : undefined,
+        });
+      } catch (logError) {
+        console.warn("Email log write failed:", logError);
+      }
+    };
+
     // a) Team leader email
     const leaderEmail = buildLeaderConfirmationEmail(emailData);
-    const leaderResult = await sendEmail({
-      to: leader.email,
-      subject: leaderEmail.subject,
-      html: leaderEmail.html,
-      text: leaderEmail.text,
-    });
-    emailResults.push({
-      recipient: leader.email,
-      type: "leader_confirmation",
-      status: leaderResult.success ? "sent" : "failed",
-      error: leaderResult.error,
-    });
-    await saveEmailLog({
-      registrationId,
-      recipient: leader.email,
-      recipientType: "leader",
-      emailType: "leader_confirmation",
-      status: leaderResult.success ? "sent" : "failed",
-      errorMessage: leaderResult.error,
-      attemptedAt: now,
-      sentAt: leaderResult.success ? now : undefined,
-    });
+    await deliver(leader.email, "leader_confirmation", "leader", leaderEmail);
 
     // b) Team member emails (excluding leader)
     for (const member of normalizedMembers) {
       if (member.email === leader.email) continue;
       const memberEmail = buildMemberConfirmationEmail({ ...emailData, memberName: member.name });
-      const memberResult = await sendEmail({
-        to: member.email,
-        subject: memberEmail.subject,
-        html: memberEmail.html,
-        text: memberEmail.text,
-      });
-      emailResults.push({
-        recipient: member.email,
-        type: "member_confirmation",
-        status: memberResult.success ? "sent" : "failed",
-        error: memberResult.error,
-      });
-      await saveEmailLog({
-        registrationId,
-        recipient: member.email,
-        recipientType: "member",
-        emailType: "member_confirmation",
-        status: memberResult.success ? "sent" : "failed",
-        errorMessage: memberResult.error,
-        attemptedAt: now,
-        sentAt: memberResult.success ? now : undefined,
-      });
+      await deliver(member.email, "member_confirmation", "member", memberEmail);
     }
 
     // c) Organizer notification
     if (adminEmail) {
       const orgEmail = buildOrganizerNotificationEmail(emailData);
-      const orgResult = await sendEmail({
-        to: adminEmail,
-        subject: orgEmail.subject,
-        html: orgEmail.html,
-        text: orgEmail.text,
-      });
-      emailResults.push({
-        recipient: adminEmail,
-        type: "organizer_notification",
-        status: orgResult.success ? "sent" : "failed",
-        error: orgResult.error,
-      });
-      await saveEmailLog({
-        registrationId,
-        recipient: adminEmail,
-        recipientType: "organizer",
-        emailType: "organizer_notification",
-        status: orgResult.success ? "sent" : "failed",
-        errorMessage: orgResult.error,
-        attemptedAt: now,
-        sentAt: orgResult.success ? now : undefined,
-      });
+      await deliver(adminEmail, "organizer_notification", "organizer", orgEmail);
     }
 
     // ---- 7. Return success (registration is successful regardless of email failures) ----
