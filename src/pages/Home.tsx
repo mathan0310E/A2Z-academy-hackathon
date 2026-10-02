@@ -6,7 +6,7 @@ import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { usePortalContent } from "@/contexts/PortalContentContext";
 import { siteConfig } from "@/lib/content";
 import { cn } from "@/lib/utils";
-import { Award, Code, Globe, Laptop, Lightbulb, ShieldCheck, Trophy, Users } from "lucide-react";
+import { Award, Code, Globe, Laptop, Lightbulb, ShieldCheck, Trophy, Users } from "../components/icons/Icons";
 import Seo from "@/components/Seo";
 
 const PROVIDE_ICONS: Record<string, any> = { Laptop, Code, Award, Lightbulb, Trophy, Globe };

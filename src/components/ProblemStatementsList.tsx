@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, FileText, Layers, Loader2, Sparkles } from "lucide-react";
+import { ArrowRight, FileText, Layers, Loader2, Sparkles } from "./icons/Icons";
 import { GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { fetchPublishedProblemStatements } from "@/lib/firestore";

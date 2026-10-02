@@ -8,10 +8,12 @@ import {
   MapPin,
   MessageCircle,
   Users,
-} from "lucide-react";
+} from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { Marquee } from "@/components/anim";
 import { usePortalContent } from "@/contexts/PortalContentContext";
+import { hackathonDomains } from "@/lib/content";
 import Seo from "@/components/Seo";
 
 const ROUNDS_SUMMARY = [
@@ -56,6 +58,21 @@ export default function HackathonPage() {
         as="h1"
         subtitle="Explore technology. Solve real-world problems. Build innovative solutions."
       />
+
+      {/* Scrolling track strip. The words are real text in the prerendered HTML,
+          so they remain indexable even though the strip is visually animated. */}
+      <div className="mx-auto mt-6 max-w-4xl">
+        <Marquee speed={34} className="py-2">
+          {hackathonDomains.map((domain) => (
+            <span
+              key={domain}
+              className="mr-3 inline-flex shrink-0 items-center rounded-full border border-brand-navy/10 bg-white px-4 py-2 text-sm font-semibold text-brand-ink shadow-card"
+            >
+              {domain}
+            </span>
+          ))}
+        </Marquee>
+      </div>
 
       <div className="mx-auto max-w-4xl space-y-8">
         <Reveal>

@@ -1,4 +1,4 @@
-import { CheckCircle2, Clock, Info, MapPin, MessageCircle, Users } from "lucide-react";
+import { CheckCircle2, Clock, Info, MapPin, MessageCircle, Users } from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import { usePortalContent } from "@/contexts/PortalContentContext";

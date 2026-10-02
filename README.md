@@ -20,7 +20,7 @@ confirmation emails, published problem statements, and a contact channel.
 | Styling | Tailwind CSS + component utilities in `src/globals.css` |
 | Animation | CSS keyframes + IntersectionObserver reveals (no animation runtime) |
 | Forms | react-hook-form + zod (`@hookform/resolvers/zod`) |
-| Icons | lucide-react |
+| Icons | Local SVG module (`src/components/icons`) |
 | Head/SEO | react-helmet-async + prerendered HTML |
 | Server | Express (static `dist/` + `/api/*`) |
 | Database | Firestore — client SDK for public reads, Admin SDK for writes |

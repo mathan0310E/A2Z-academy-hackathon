@@ -403,6 +403,134 @@
   );
 }
 
+/* ---- Animation kit ------------------------------------------------------- */
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+.reveal-in {
+  animation: reveal-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  /* The strip fades at both ends so words enter and leave softly. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll linear infinite;
+}
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.tilt,
+.magnetic {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+.typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: currentColor;
+  animation: caret-blink 1s steps(1, end) infinite;
+}
+
+@keyframes gradient-pan {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+.gradient-text {
+  /* Literal brand hexes: these tokens live in the Tailwind config, not as CSS
+     custom properties, so they are not available via var() here. */
+  background-image: linear-gradient(90deg, #417a1e, #1a335a, #417a1e);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 8s linear infinite;
+}
+
+@keyframes shimmer-sweep {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(220%);
+  }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  animation: shimmer-sweep 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-orbit {
+  animation: orbit-spin 22s linear infinite;
+  transform-origin: center;
+}
+.animate-orbit-reverse {
+  animation: orbit-spin 16s linear infinite reverse;
+  transform-origin: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .matrix-canvas {
     opacity: 0.6;
@@ -418,10 +546,28 @@
   .underline-draw,
   .consent-enter,
   .consent-leave,
-  .drawer-item {
+  .drawer-item,
+  .reveal-in,
+  .marquee-track,
+  .typewriter-caret,
+  .gradient-text,
+  .shimmer::after,
+  .animate-orbit,
+  .animate-orbit-reverse {
     animation: none;
   }
+  .reveal {
+    opacity: 1;
+  }
+  .gradient-text {
+    color: inherit;
+    background: none;
+  }
   .academy-nav-link::after {
+    transition: none;
+  }
+  .tilt,
+  .magnetic {
     transition: none;
   }
 }

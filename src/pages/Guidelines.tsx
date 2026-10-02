@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AlertTriangle, ArrowRight, CheckCircle2, ScrollText } from "lucide-react";
+import { AlertTriangle, ArrowRight, CheckCircle2, ScrollText } from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import ImportantNotice from "@/components/ImportantNotice";

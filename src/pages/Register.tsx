@@ -1,4 +1,4 @@
-import { Users, Trophy, MessageCircle } from "lucide-react";
+import { Users, Trophy, MessageCircle } from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import RegistrationForm from "@/components/register/RegistrationForm";
 import { usePortalContent } from "@/contexts/PortalContentContext";

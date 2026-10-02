@@ -1,4 +1,5 @@
-import { Eye, Target, TrendingUp } from "lucide-react";
+import { Eye, Target, TrendingUp } from "../components/icons/Icons";
+import { DotGridPattern } from "@/components/icons/Decor";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/content";
@@ -25,7 +26,12 @@ export default function AboutPage() {
   ];
 
   return (
-    <SectionWrapper id="about" className="pt-12 md:pt-16">
+    <SectionWrapper id="about" className="relative overflow-hidden pt-12 md:pt-16">
+      {/* Dot texture, kept well below body-copy contrast so it reads as paper. */}
+      <DotGridPattern
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-64 text-brand-navy/10"
+      />
       <Seo
         title="About"
         description="A2Z Academy empowers educational institutions with tech-based training, practical learning, project development, and innovation-driven hackathons."

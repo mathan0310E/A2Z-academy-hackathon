@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, CheckCircle2, Home, Loader2, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, Home, Loader2, Send } from "../icons/Icons";
 import { SelectField, TextField, TextareaField } from "@/components/ui/FormField";
 import { CONTACT_TOPICS, contactSchema, type ContactFormData } from "@/lib/validations";
 import { getRecaptchaToken } from "@/lib/recaptcha";

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown } from "./icons/Icons";
 import { cn } from "@/lib/utils";
 
 interface FaqItem {

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, FileText } from "./icons/Icons";
 import { SectionWrapper } from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import Seo from "@/components/Seo";

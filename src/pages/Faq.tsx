@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, MessageCircle } from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import FaqAccordion from "@/components/FaqAccordion";

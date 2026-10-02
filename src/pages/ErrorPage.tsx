@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AlertTriangle, Home, RotateCcw } from "lucide-react";
+import { AlertTriangle, Home, RotateCcw } from "../components/icons/Icons";
 import { SectionWrapper, GlassCard } from "@/components/ui/Section";
 
 /**

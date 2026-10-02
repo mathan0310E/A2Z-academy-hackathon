@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { InstagramIcon, LinkedinIcon, WhatsAppIcon } from "@/components/icons/Brand";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "./icons/Icons";
 import BrandLogo from "@/components/BrandLogo";
+import SocialLinks from "@/components/SocialLinks";
 import { siteConfig } from "@/lib/content";
 
 /**
@@ -59,35 +59,7 @@ export default function Footer() {
             <BrandLogo variant="footer" />
           </Link>
 
-          <div className="flex items-center gap-3" data-testid="footer-social-links">
-            <a
-              href="https://www.instagram.com/a2zacademy.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D0D0D0] text-[#222222] transition-colors hover:bg-brand-green"
-            >
-              <InstagramIcon className="h-4 w-4" />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/a2z-academy-in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D0D0D0] text-[#222222] transition-colors hover:bg-brand-green"
-            >
-              <LinkedinIcon className="h-4 w-4" />
-            </a>
-            <a
-              href={siteConfig.whatsappUrl || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D0D0D0] text-[#222222] transition-colors hover:bg-brand-green"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-            </a>
-          </div>
+          <SocialLinks />
         </div>
 
         <div className="mt-8 border-t border-white/15 pt-8">

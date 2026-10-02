@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Crown, Users, UserCheck, Users2 } from "lucide-react";
+import { ArrowRight, Crown, Users, UserCheck, Users2 } from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import ImportantNotice from "@/components/ImportantNotice";

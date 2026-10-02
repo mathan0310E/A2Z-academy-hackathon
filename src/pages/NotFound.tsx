@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Compass, Home, Trophy } from "lucide-react";
+import { ArrowRight, Compass, Home, Trophy } from "../components/icons/Icons";
 import { SectionWrapper, GlassCard } from "@/components/ui/Section";
 import Seo from "@/components/Seo";
 

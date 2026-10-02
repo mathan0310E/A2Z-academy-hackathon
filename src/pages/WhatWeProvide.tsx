@@ -1,4 +1,4 @@
-import { Award, Code, Globe, Laptop, Lightbulb, ShieldCheck, Trophy } from "lucide-react";
+import { Award, Code, Globe, Laptop, Lightbulb, ShieldCheck, Trophy } from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/content";

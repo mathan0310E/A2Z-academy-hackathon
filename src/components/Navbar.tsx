@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X } from "./icons/Icons";
 import { cn } from "@/lib/utils";
 import BrandLogo from "@/components/BrandLogo";
 import { Button } from "@/components/ui/Button";

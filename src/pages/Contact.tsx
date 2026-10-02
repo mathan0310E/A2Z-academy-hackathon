@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, Mail, MapPin, MessageCircle, Phone } from "../components/icons/Icons";
 import { SectionWrapper, SectionTitle, GlassCard } from "@/components/ui/Section";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import ContactForm from "@/components/contact/ContactForm";

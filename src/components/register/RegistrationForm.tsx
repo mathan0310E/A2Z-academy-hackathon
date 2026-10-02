@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { FormProvider, useForm, type Path } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, ArrowLeft, ArrowRight, Check, Loader2, Send } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, Check, Loader2, Send } from "../icons/Icons";
 import { registrationSchema, type RegistrationFormData } from "@/lib/validations";
 import { getRecaptchaToken } from "@/lib/recaptcha";
 import { getMemberCount } from "@/types";

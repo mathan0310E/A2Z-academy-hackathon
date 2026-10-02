@@ -1,6 +1,6 @@
 
 import { useFormContext } from "react-hook-form";
-import { Crown, Mail, Phone, School, User } from "lucide-react";
+import { Crown, Mail, Phone, School, User } from "../icons/Icons";
 import type { RegistrationFormData } from "@/lib/validations";
 import { getMemberCount, getTeamTypeLabel } from "@/types";
 import { GlassCard } from "@/components/ui/Section";

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Copy, CheckCircle2, MessageCircle } from "lucide-react";
+import { ArrowRight, Check, Copy, CheckCircle2, MessageCircle } from "../icons/Icons";
 import { GlassCard } from "@/components/ui/Section";
 import { usePortalContent } from "@/contexts/PortalContentContext";
 

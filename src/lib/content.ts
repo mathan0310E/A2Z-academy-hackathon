@@ -14,6 +14,12 @@ export const siteConfig = {
   description:
     "A2Z Academy empowers institutes with tech-based training. Join the A2Z Academy Tech-Based Hackathon to explore technology, solve real-world problems, and build innovative solutions.",
   whatsappUrl: viteEnv?.VITE_WHATSAPP_GROUP_URL || nodeEnv?.WHATSAPP_GROUP_URL || "",
+  /** Official channels. Only verified destinations are listed here. */
+  social: [
+    { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/a2zacademy.in/" },
+    { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/a2z-academy-in/" },
+    { platform: "whatsapp", label: "WhatsApp", href: "whatsapp" },
+  ],
   contact: {
     email: "hello@a2zacademy.co.in",
     phone: "+91 63798 69678",
@@ -95,4 +101,13 @@ export const siteConfig = {
     "For questions, contact hello@a2zacademy.co.in or use the Contact page.",
   ],
 };
+
+/** Technology tracks highlighted across the marketing pages. */
+export const hackathonDomains = [
+  "Cyber Security",
+  "Cloud Security",
+  "IoT Security",
+  "Full Stack",
+  "Ethical Hacking",
+];
 

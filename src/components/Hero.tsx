@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Trophy } from "lucide-react";
+import { ArrowRight, BookOpen, Trophy } from "./icons/Icons";
 import MatrixRain from "@/components/MatrixRain";
+import SpriteField from "@/components/SpriteField";
+import { hackathonDomains } from "@/lib/content";
 
 const STATS = [
   { value: "2–4", label: "Members per team" },
@@ -9,13 +11,7 @@ const STATS = [
   { value: "₹250", label: "Round 3 fee / head" },
 ];
 
-const DOMAINS = [
-  "Cyber Security",
-  "Cloud Security",
-  "IoT Security",
-  "Full Stack",
-  "Ethical Hacking",
-];
+const DOMAINS = hackathonDomains;
 
 /**
  * Hero. Composition mirrors the reference site: a two-column grid with the
@@ -45,10 +41,13 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute -right-8 bottom-20 h-56 w-56 animate-float rounded-full bg-brand-navy/5 blur-3xl"
       />
-      {/* Legibility veil. A falling glyph head passing behind a text glyph would
-          otherwise drop local contrast to ~1.9:1, so the copy side of the hero is
-          washed toward white while the right side stays clear for the rain. */}
+      {/* Legibility veil. The rain is painted at a uniform light opacity across
+          the full width and the glyphs carry a white halo (see MatrixRain), so
+          copy over it stays above the AA contrast floor. */}
       <div aria-hidden="true" className="hero-veil pointer-events-none absolute inset-0" />
+
+      {/* Drifting motif sprites, layered over the veil but under the content. */}
+      <SpriteField className="hidden md:block" />
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:py-20">
         <div className="hero-enter hero-copy space-y-6">

@@ -66,8 +66,9 @@ The official A2Z Academy logo and app icons are mirrored from the brand site and
 - `public/apple-touch-icon.png` — 180×180 iOS icon
 - `public/manifest.json` — web app manifest (`theme_color: #71BF43`)
 
-Icons throughout the UI come from `lucide-react` — the same set the reference site uses (arrow,
-chevron, check, plus/minus/circle for accordions and steppers).
+Icons come from a local module under `src/components/icons/`: `Icons.tsx` holds the shared 24×24
+outline set, `Brand.tsx` the social marks, and `Extra.tsx`/`Decor.tsx` the brand and decorative
+motifs. There is no icon runtime dependency (`lucide-react` was removed).
 
 ## Accessibility
 

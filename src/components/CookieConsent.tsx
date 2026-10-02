@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { X } from "lucide-react";
+import { X } from "./icons/Icons";
 import { Button } from "@/components/ui/Button";
 
 const STORAGE_KEY = "a2z-cookie-consent";
