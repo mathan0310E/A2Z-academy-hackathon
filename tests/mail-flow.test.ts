@@ -51,6 +51,18 @@ test("leader confirmation escapes user-supplied HTML", () => {
   assert.ok(text.length > 0, "a plain-text alternative must be provided");
 });
 
+test("emails carry the A2Z logo and the website brand theme", () => {
+  const { html } = buildLeaderConfirmationEmail(REG);
+
+  assert.ok(html.includes("logo.jpeg"), "the A2Z logo must be embedded");
+  assert.ok(html.includes("#71bf43"), "the brand green must be used");
+  assert.ok(html.includes("#0f2340"), "the brand navy must be used");
+  // The previous theme was dark navy/cyan Inter; none of it may survive.
+  assert.ok(!html.includes("#0a0f24"), "the old dark background must be gone");
+  assert.ok(!html.includes("#06b6d4"), "the old cyan accent must be gone");
+  assert.ok(!html.includes("Inter"), "the old Inter font must be gone");
+});
+
 test("sendEmail reports failure without throwing when SMTP is unreachable", async () => {
   process.env.SMTP_HOST = "127.0.0.1";
   process.env.SMTP_PORT = "1"; // closed port → immediate connection refusal
