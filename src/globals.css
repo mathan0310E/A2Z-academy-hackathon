@@ -172,6 +172,155 @@
   .text-brand-accent {
     color: #71bf43;
   }
+
+  /* -------------------------------------------------------------------------
+     Pill <select>: brand-styled dropdown for form fields and filter bars.
+
+     Two rendering paths. The plain path is what every engine gets: the OS
+     control is suppressed and a chevron is drawn as a background image. The
+     enhanced path — inside `@supports (appearance: base-select)` — is Chromium
+     only today and unlocks `::picker(select)`, `::picker-icon` and
+     `selectedcontent`, which style the popup itself. The legacy OS-rendered
+     list cannot be styled from author CSS at all, so on other engines the
+     closed control is branded and the open list keeps its native look.
+
+     Scoped to a class rather than the bare `select` tag so it cannot leak into
+     future or third-party markup, matching how `.btn-pill` and `.glass-card`
+     are scoped. The decorative hue-rotation custom-property animation from the
+     original snippet is intentionally omitted: it needs `@property`
+     registration and adds motion to a control users interact with constantly.
+     ------------------------------------------------------------------------- */
+  .select-pill {
+    appearance: none;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    /* Mirrors `inputClassName`: py-2.5 / px-3.5, `--input` hairline, `--radius`.
+       Extra right padding reserves room for the chevron drawn below. */
+    padding: 0.625rem 2.5rem 0.625rem 0.875rem;
+    border: 1px solid hsl(var(--input));
+    border-radius: var(--radius);
+    background-color: #ffffff;
+    color: #333333;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%23666666' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    background-size: 1.1rem 1.1rem;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .select-pill:hover {
+    border-color: rgba(113, 191, 67, 0.5);
+  }
+  .select-pill:focus-visible {
+    outline: none;
+    border-color: #71bf43;
+    box-shadow: 0 0 0 2px rgba(113, 191, 67, 0.3);
+  }
+  .select-pill:disabled {
+    cursor: not-allowed;
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    opacity: 0.7;
+  }
+
+  /* Compact variant for admin filter bars and inline role pickers. */
+  .select-pill-sm {
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    background-position: right 0.625rem center;
+    background-size: 1rem 1rem;
+  }
+
+  @supports (appearance: base-select) {
+    .select-pill,
+    .select-pill::picker(select) {
+      appearance: base-select;
+    }
+
+    .select-pill {
+      /* Flex layout belongs here, not in the base rule: on classic selects a
+         flex display can drop the selected value in Safari. The chevron also
+         moves into `::picker-icon`, which participates in flex flow, so the
+         space reserved for the background chevron is freed. */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-right: 0.875rem;
+      background-image: none;
+    }
+
+    .select-pill::picker-icon {
+      content: "";
+      width: 1.1rem;
+      height: 1.1rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%23666666' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
+      transition: rotate 0.2s ease-out;
+    }
+    .select-pill:open::picker-icon {
+      rotate: 180deg;
+    }
+
+    .select-pill::picker(select) {
+      padding: 0.25rem;
+      margin-top: 0.375rem;
+      border: 1px solid hsl(var(--input));
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 0 8px 28px rgba(15, 35, 64, 0.14);
+      opacity: 0;
+      height: 0;
+      overflow: clip;
+      transition:
+        height 0.28s ease-out,
+        opacity 0.28s ease-out,
+        overlay 0.28s,
+        display 0.28s;
+      transition-behavior: allow-discrete;
+      @starting-style {
+        opacity: 0;
+        height: 0;
+      }
+    }
+    .select-pill:open::picker(select) {
+      opacity: 1;
+      height: calc-size(auto, size);
+      overflow: auto;
+    }
+
+    .select-pill option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.625rem;
+      border-radius: calc(var(--radius) - 2px);
+      color: #333333;
+      cursor: pointer;
+    }
+    .select-pill option:where(:hover, :focus-visible) {
+      background: #eaf6e1; /* brand-green-soft */
+      color: #1a1a1a;
+    }
+    .select-pill option:checked {
+      background: #71bf43;
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+    .select-pill option::checkmark {
+      display: none;
+    }
+    .select-pill selectedcontent {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
 }
 
 /* Staggered grid reveals driven by `data-revealed` on the container.

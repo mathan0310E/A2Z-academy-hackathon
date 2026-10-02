@@ -141,9 +141,10 @@ export function SelectField({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${name}-error` : undefined}
         className={cn(
-          inputClassName,
-          "appearance-none bg-white",
-          error ? errorClassName : normalClassName
+          "select-pill focus:outline-none focus:ring-2",
+          error
+            ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+            : "focus:border-brand-green focus:ring-brand-green/30"
         )}
       >
         <option value="">{placeholder}</option>
