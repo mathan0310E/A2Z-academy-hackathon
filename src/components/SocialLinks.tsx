@@ -40,7 +40,7 @@ export default function SocialLinks({ className = "" }: { className?: string }) 
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D0D0D0] text-[#222222] transition-colors hover:bg-brand-green"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#D0D0D0] text-[#222222] transition-colors hover:bg-brand-green"
           >
             <Icon className="h-4 w-4" />
           </a>

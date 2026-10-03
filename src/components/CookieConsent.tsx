@@ -112,9 +112,9 @@ export default function CookieConsent() {
           type="button"
           aria-label="Close"
           onClick={() => decide("declined")}
-          className="absolute right-3 top-3 text-brand-muted transition-colors hover:text-brand-ink sm:hidden"
+          className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center rounded-full text-brand-muted transition-colors hover:text-brand-ink sm:hidden"
         >
-          <X className="h-4 w-4" />
+          <X className="h-5 w-5" />
         </button>
       </div>
     </div>

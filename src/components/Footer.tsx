@@ -70,7 +70,7 @@ export default function Footer() {
                   <li key={link.href + link.label}>
                     <Link
                       to={link.href}
-                      className="text-sm text-white transition-colors hover:text-brand-green"
+                      className="inline-flex min-h-[24px] items-center text-sm text-white transition-colors hover:text-brand-green"
                     >
                       {link.label}
                     </Link>
@@ -126,7 +126,7 @@ export default function Footer() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="text-sm text-white transition-colors hover:text-brand-green"
+                className="inline-flex min-h-[24px] items-center text-sm text-white transition-colors hover:text-brand-green"
               >
                 {link.label}
               </Link>
